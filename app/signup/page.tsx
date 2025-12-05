@@ -19,9 +19,12 @@ import toast from "react-hot-toast";
 import { doc, setDoc } from "firebase/firestore"; // For Firestore
 import { db } from "@/lib/firebase"; // Assuming Firestore instance is here
 
+import { useAuth } from "@/context/AuthContext";
+
 export default function SignupPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { signInWithGoogle } = useAuth();
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -143,7 +146,11 @@ export default function SignupPage() {
               </span>
             </div>
           </div>
-          <Button variant="outline" className="w-full">
+          <Button
+            onClick={() => signInWithGoogle()}
+            variant="outline"
+            className="w-full"
+          >
             Google
           </Button>
         </CardContent>

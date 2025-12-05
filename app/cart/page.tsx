@@ -12,83 +12,24 @@ import {
 } from "@/components/ui/Card";
 import { Separator } from "@/components/ui/Separator";
 import { Trash2, Plus, Minus, ArrowRight, Loader2 } from "lucide-react";
-import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
-import {
-  getCart,
-  removeFromCart,
-  updateCartQuantity,
-  CartItem,
-} from "@/lib/db/cart";
-import toast from "react-hot-toast";
+import { useCart } from "@/context/CartContext";
 
 export default function CartPage() {
   const { user, loading: authLoading } = useAuth();
-  const [items, setItems] = useState<CartItem[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchCart = async () => {
-      if (!user) return;
-      try {
-        const cartItems = await getCart(user.uid);
-        setItems(cartItems);
-      } catch (error) {
-        console.error(error);
-        toast.error("Failed to load cart");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (!authLoading) {
-      if (user) {
-        fetchCart();
-      } else {
-        setLoading(false);
-      }
-    }
-  }, [user, authLoading]);
+  const {
+    cart: items,
+    loading: cartLoading,
+    updateQuantity,
+    removeFromCart,
+  } = useCart();
 
   const handleUpdateQuantity = async (id: string, newQuantity: number) => {
-    if (!user) return;
-    // Optimistic update
-    const oldItems = [...items];
-    setItems(
-      items
-        .map((item) =>
-          item.id === id
-            ? { ...item, quantity: Math.max(0, newQuantity) }
-            : item
-        )
-        .filter((i) => i.quantity > 0)
-    );
-
-    try {
-      await updateCartQuantity(user.uid, id, newQuantity);
-      if (newQuantity <= 0) {
-        toast.success("Item removed");
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to update quantity");
-      setItems(oldItems); // Revert
-    }
+    await updateQuantity(id, newQuantity);
   };
 
   const handleRemove = async (id: string) => {
-    if (!user) return;
-    const oldItems = [...items];
-    setItems(items.filter((item) => item.id !== id));
-
-    try {
-      await removeFromCart(user.uid, id);
-      toast.success("Item removed");
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to remove item");
-      setItems(oldItems);
-    }
+    await removeFromCart(id);
   };
 
   const subtotal = items.reduce(
@@ -98,7 +39,7 @@ export default function CartPage() {
   const tax = subtotal * 0.08; // 8% tax
   const total = subtotal + tax;
 
-  if (authLoading || loading) {
+  if (authLoading || cartLoading) {
     return (
       <div className="flex h-[50vh] items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -234,11 +175,13 @@ export default function CartPage() {
               </div>
             </CardContent>
             <CardFooter className="flex flex-col gap-4">
-              <Button className="w-full" size="lg">
-                Checkout <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <Link href="/checkout" className="w-full">
+                <Button className="w-full" size="lg">
+                  Checkout <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
               <div className="text-xs text-center text-muted-foreground">
-                Secure Checkout powered by Stripe (Mock)
+                Secure Checkout powered by Razorpay
               </div>
             </CardFooter>
           </Card>

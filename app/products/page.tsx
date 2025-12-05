@@ -7,10 +7,16 @@ import { Badge } from "@/components/ui/Badge";
 import { Input } from "@/components/ui/Input";
 import { getProducts, getCategories, Category } from "@/lib/db/products";
 
+import { ProductFilters } from "@/components/product/ProductFilters";
+
 interface ProductsPageProps {
   searchParams: {
     category?: string;
     sort?: string;
+    search?: string;
+    page?: string;
+    minPrice?: string;
+    maxPrice?: string;
   };
 }
 
@@ -19,11 +25,40 @@ export default async function ProductsPage({
 }: ProductsPageProps) {
   const categoryFilter = searchParams.category;
   const sortOption = searchParams.sort;
+  const searchQuery = searchParams.search;
+  const currentPage = Number(searchParams.page) || 1;
+  const minPrice = searchParams.minPrice
+    ? Number(searchParams.minPrice)
+    : undefined;
+  const maxPrice = searchParams.maxPrice
+    ? Number(searchParams.maxPrice)
+    : undefined;
+  const LIMIT = 6;
 
   const products = await getProducts({
     category: categoryFilter,
     sort: sortOption,
+    search: searchQuery,
+    page: currentPage,
+    limit: LIMIT,
+    minPrice,
+    maxPrice,
   });
+
+  // Quick fetch to check if next page exists (naive approach)
+  const nextPageProducts = await getProducts({
+    category: categoryFilter,
+    sort: sortOption,
+    search: searchQuery,
+    page: currentPage + 1,
+    limit: LIMIT,
+    minPrice,
+    maxPrice,
+  });
+
+  const hasMore = nextPageProducts.length > 0;
+
+  // ... (categories fetch)
   const categories = await getCategories();
 
   return (
@@ -62,37 +97,38 @@ export default async function ProductsPage({
 
           <Separator />
 
-          <div>
-            <h3 className="font-semibold mb-4 text-lg">Price Range</h3>
-            <div className="grid grid-cols-2 gap-2">
-              <Input type="number" placeholder="Min" className="h-8" />
-              <Input type="number" placeholder="Max" className="h-8" />
-            </div>
-            <Button variant="secondary" size="sm" className="w-full mt-2">
-              Apply
-            </Button>
-          </div>
+          <ProductFilters />
         </div>
 
         {/* Product Grid */}
         <div className="flex-1">
+          {/* ... (Header) ... */}
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-3xl font-bold tracking-tight">
-              {categoryFilter
+              {searchQuery
+                ? `Search Results for "${searchQuery}"`
+                : categoryFilter
                 ? categories.find((c: Category) => c.slug === categoryFilter)
                     ?.name || "Products"
                 : "All Products"}
             </h1>
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">
-                {products.length} products
+                Page {currentPage}
               </span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((product) => (
-              <Card key={product.id} className="overflow-hidden group">
+              <Card key={product.id} className="overflow-hidden group relative">
+                {/* ... Existing Card Content ... */}
+                <Link
+                  href={`/products/${product.id}`}
+                  className="absolute inset-0 z-10"
+                >
+                  <span className="sr-only">View {product.name}</span>
+                </Link>
                 <div className="relative aspect-square overflow-hidden bg-muted">
                   <Image
                     src={product.image}
@@ -101,15 +137,13 @@ export default async function ProductsPage({
                     className="object-cover transition-transform group-hover:scale-105"
                   />
                   {product.isNew && (
-                    <Badge className="absolute top-2 left-2">New</Badge>
+                    <Badge className="absolute top-2 left-2 z-20">New</Badge>
                   )}
                 </div>
                 <CardContent className="p-4 pt-4">
-                  <Link href={`/products/${product.id}`}>
-                    <h3 className="font-semibold text-lg leading-tight hover:underline line-clamp-1">
-                      {product.name}
-                    </h3>
-                  </Link>
+                  <h3 className="font-semibold text-lg leading-tight group-hover:underline line-clamp-1">
+                    {product.name}
+                  </h3>
                   <p className="text-sm text-muted-foreground capitalize mt-1">
                     {product.category}
                   </p>
@@ -118,39 +152,56 @@ export default async function ProductsPage({
                   <span className="font-bold text-lg">
                     ${product.price.toFixed(2)}
                   </span>
-                  <Link href={`/products/${product.id}`}>
-                    <Button size="sm" variant="secondary">
-                      View Details
-                    </Button>
-                  </Link>
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    className="z-20 relative"
+                  >
+                    View Details
+                  </Button>
                 </CardFooter>
               </Card>
             ))}
             {products.length === 0 && (
               <div className="col-span-full text-center py-20">
                 <p className="text-muted-foreground text-lg">
-                  No products found in this category.
+                  No products found.
                 </p>
-                <Link href="/products">
-                  <Button variant="link" className="mt-2">
-                    Clear Filters
-                  </Button>
-                </Link>
+                {currentPage > 1 && (
+                  <Link href="/products">
+                    <Button variant="link" className="mt-2">
+                      Back to first page
+                    </Button>
+                  </Link>
+                )}
               </div>
             )}
           </div>
 
-          {/* Pagination Placeholder */}
-          {products.length > 0 && (
-            <div className="flex justify-center mt-12 space-x-2">
-              <Button variant="outline" disabled>
+          <div className="flex justify-center mt-12 space-x-2">
+            <Link
+              href={{
+                pathname: "/products",
+                query: { ...searchParams, page: currentPage - 1 },
+              }}
+              passHref
+            >
+              <Button variant="outline" disabled={currentPage <= 1}>
                 Previous
               </Button>
-              <Button variant="outline" disabled>
+            </Link>
+            <Link
+              href={{
+                pathname: "/products",
+                query: { ...searchParams, page: currentPage + 1 },
+              }}
+              passHref
+            >
+              <Button variant="outline" disabled={!hasMore}>
                 Next
               </Button>
-            </div>
-          )}
+            </Link>
+          </div>
         </div>
       </div>
     </div>

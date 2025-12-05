@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import AIAssistant from "@/components/layout/AIAssistant";
 import { AuthProvider } from "@/context/AuthContext";
+import { CartProvider } from "@/context/CartContext";
 import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({
@@ -30,17 +31,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark h-full">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-background text-foreground`}
       >
         <AuthProvider>
-          <TopBanner />
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <AIAssistant />
-          <Footer />
-          <Toaster position="bottom-right" />
+          <CartProvider>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <AIAssistant />
+            <Footer />
+            <Toaster position="bottom-right" />
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/context/AuthContext";
-import { addToCart } from "@/lib/db/cart";
+import { useCart } from "@/context/CartContext";
 import { Product } from "@/lib/db/products";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { Minus, Plus } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 
 interface AddToCartButtonProps {
   product: Product;
@@ -14,36 +14,52 @@ interface AddToCartButtonProps {
 
 export const AddToCartButton = ({ product }: AddToCartButtonProps) => {
   const { user } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const { cart, addToCart, updateQuantity, removeFromCart } = useCart();
   const router = useRouter();
+
+  const cartItem = cart.find((item) => item.id === product.id);
+  const quantity = cartItem ? cartItem.quantity : 0;
 
   const handleAddToCart = async () => {
     if (!user) {
       toast.error("Please login to add items to cart");
-      router.push("/login"); // Optional: redirect to login
+      router.push("/login");
       return;
     }
+    await addToCart(product);
+  };
 
-    setLoading(true);
-    try {
-      await addToCart(user.uid, product);
-      toast.success("Added to cart!");
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to add to cart");
-    } finally {
-      setLoading(false);
+  const increaseQuantity = async () => {
+    await updateQuantity(product.id, quantity + 1);
+  };
+
+  const decreaseQuantity = async () => {
+    if (quantity > 1) {
+      await updateQuantity(product.id, quantity - 1);
+    } else {
+      await removeFromCart(product.id);
     }
   };
 
+  if (quantity > 0) {
+    return (
+      <div className="flex items-center gap-3">
+        <Button size="icon" variant="outline" onClick={decreaseQuantity}>
+          <Minus className="h-4 w-4" />
+        </Button>
+        <span className="font-semibold text-lg w-8 text-center">
+          {quantity}
+        </span>
+        <Button size="icon" variant="outline" onClick={increaseQuantity}>
+          <Plus className="h-4 w-4" />
+        </Button>
+      </div>
+    );
+  }
+
   return (
-    <Button
-      size="lg"
-      className="flex-1"
-      onClick={handleAddToCart}
-      disabled={loading}
-    >
-      {loading ? "Adding..." : "Add to Cart"}
+    <Button size="lg" className="flex-1" onClick={handleAddToCart}>
+      Add to Cart
     </Button>
   );
 };

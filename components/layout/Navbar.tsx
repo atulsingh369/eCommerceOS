@@ -7,47 +7,48 @@ import { Input } from "@/components/ui/Input";
 import { useState } from "react";
 import { Badge } from "@/components/ui/Badge";
 import { useAuth } from "@/context/AuthContext"; // Added import for useAuth
+import { usePathname } from "next/navigation"; // Added import
+import { useCart } from "@/context/CartContext"; // Added import
 
 const Navbar = () => {
   const { user, signOut } = useAuth(); // Added useAuth hook
+  const { cartCount } = useCart(); // Use real cart count
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const cartCount = 0; // TODO: Fetch real cart count
+  const pathname = usePathname(); // Get current path
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+  const isActive = (path: string) => pathname === path;
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center space-x-2">
-              <span className="text-xl font-bold tracking-tight">E-Shop</span>
+              <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+                E-Shop
+              </span>
             </Link>
             <nav className="hidden md:flex gap-6 text-sm font-medium">
-              <Link
-                href="/"
-                className="transition-colors hover:text-foreground/80 text-foreground/60"
-              >
-                Home
-              </Link>
-              <Link
-                href="/products"
-                className="transition-colors hover:text-foreground/80 text-foreground/60"
-              >
-                Products
-              </Link>
-              <Link
-                href="/categories"
-                className="transition-colors hover:text-foreground/80 text-foreground/60"
-              >
-                Categories
-              </Link>
-              <Link
-                href="/about"
-                className="transition-colors hover:text-foreground/80 text-foreground/60"
-              >
-                About
-              </Link>
+              {[
+                { href: "/", label: "Home" },
+                { href: "/products", label: "Products" },
+                { href: "/categories", label: "Categories" },
+                { href: "/about", label: "About" },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`transition-colors hover:text-foreground/80 ${
+                    isActive(link.href)
+                      ? "text-primary font-bold"
+                      : "text-foreground/60"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </nav>
           </div>
 
@@ -58,6 +59,16 @@ const Navbar = () => {
                 type="search"
                 placeholder="Search products..."
                 className="pl-8 w-[200px] lg:w-[300px]"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    const target = e.target as HTMLInputElement;
+                    if (target.value.trim()) {
+                      window.location.href = `/products?search=${encodeURIComponent(
+                        target.value
+                      )}`;
+                    }
+                  }
+                }}
               />
             </div>
 
@@ -83,8 +94,10 @@ const Navbar = () => {
             <div className="hidden md:flex gap-2">
               {user ? (
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium hidden lg:inline-block">
-                    Hi, {user.displayName || user.email?.split("@")[0]}
+                  <span className="text-sm font-medium hidden lg:inline-block w-[100px]">
+                    Hi,{" "}
+                    {user.displayName?.split(" ")[0] ||
+                      user.email?.split("@")[0]}
                   </span>
                   <Button variant="outline" size="sm" onClick={() => signOut()}>
                     Sign Out
@@ -127,6 +140,17 @@ const Navbar = () => {
             type="search"
             placeholder="Search products..."
             className="w-full"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const target = e.target as HTMLInputElement;
+                if (target.value.trim()) {
+                  window.location.href = `/products?search=${encodeURIComponent(
+                    target.value
+                  )}`;
+                  setIsMenuOpen(false);
+                }
+              }
+            }}
           />
           <nav className="flex flex-col gap-4">
             <Link

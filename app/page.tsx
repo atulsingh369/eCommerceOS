@@ -40,12 +40,6 @@ export default async function Home() {
           </form>
         </div>
       </section>
-
-      {/* Admin Seed Button (Temporary) */}
-      <section className="container mx-auto px-4 py-8 text-center border-t">
-        <p className="text-xs text-muted-foreground mb-4">Admin Utility</p>
-        <SeedButton />
-      </section>
     </div>
   );
 }

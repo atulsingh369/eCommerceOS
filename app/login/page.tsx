@@ -17,9 +17,12 @@ import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
+import { useAuth } from "@/context/AuthContext";
+
 export default function LoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { signInWithGoogle } = useAuth();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -95,7 +98,11 @@ export default function LoginPage() {
               </span>
             </div>
           </div>
-          <Button variant="outline" className="w-full">
+          <Button
+            onClick={() => signInWithGoogle()}
+            variant="outline"
+            className="w-full"
+          >
             Google
           </Button>
         </CardContent>

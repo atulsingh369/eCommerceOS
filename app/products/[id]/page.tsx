@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/Badge";
 import { Star, Truck, ShieldCheck, ArrowLeft } from "lucide-react";
 import { getProductById, getProducts } from "@/lib/db/products";
 import { AddToCartButton } from "@/components/AddToCartButton";
+import { ProductImageGallery } from "@/components/product/ProductImageGallery";
+import { BuyNowButton } from "@/components/BuyNowButton";
 
 export default async function ProductDetailPage({
   params,
@@ -29,32 +31,10 @@ export default async function ProductDetailPage({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
         {/* Product Images */}
-        <div className="space-y-4">
-          <div className="aspect-square relative overflow-hidden rounded-lg bg-muted border">
-            <Image
-              src={product.image}
-              alt={product.name}
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-          <div className="grid grid-cols-4 gap-4">
-            {product.images.map((img, i) => (
-              <div
-                key={i}
-                className="aspect-square relative overflow-hidden rounded-md border cursor-pointer hover:opacity-75 transition-opacity"
-              >
-                <Image
-                  src={img}
-                  alt={`View ${i}`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        <ProductImageGallery
+          images={[product.image, ...product.images]}
+          name={product.name}
+        />
 
         {/* Product Info */}
         <div className="flex flex-col space-y-6">
@@ -81,13 +61,10 @@ export default async function ProductDetailPage({
               </span>
             </div>
           </div>
-
           <div className="text-2xl font-bold">${product.price.toFixed(2)}</div>
-
           <p className="text-muted-foreground leading-relaxed">
             {product.description}
           </p>
-
           <div className="space-y-4 pt-4 border-t">
             <h3 className="font-medium">Features:</h3>
             <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
@@ -96,14 +73,10 @@ export default async function ProductDetailPage({
               ))}
             </ul>
           </div>
-
           <div className="flex flex-col sm:flex-row gap-4 pt-6">
             <AddToCartButton product={product} />
-            <Button variant="secondary" size="lg">
-              Buy Now
-            </Button>
+            <BuyNowButton product={product} />
           </div>
-
           <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground pt-8">
             <div className="flex items-center gap-2">
               <Truck className="h-4 w-4" /> Free Shipping

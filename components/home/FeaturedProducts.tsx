@@ -45,7 +45,13 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
       >
         {products.map((product) => (
           <motion.div key={product.id} variants={item}>
-            <Card className="overflow-hidden group h-full flex flex-col">
+            <Card className="overflow-hidden group h-full flex flex-col relative">
+              <Link
+                href={`/products/${product.id}`}
+                className="absolute inset-0 z-10"
+              >
+                <span className="sr-only">View {product.name}</span>
+              </Link>
               <div className="relative aspect-square overflow-hidden bg-muted">
                 <Image
                   src={product.image}
@@ -54,15 +60,15 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 {product.isNew && (
-                  <Badge className="absolute top-2 left-2 shadow-sm">New</Badge>
+                  <Badge className="absolute top-2 left-2 shadow-sm z-20">
+                    New
+                  </Badge>
                 )}
               </div>
               <CardContent className="p-4 pt-4 flex-1">
-                <Link href={`/products/${product.id}`}>
-                  <h3 className="font-semibold text-lg leading-tight hover:underline line-clamp-1 transition-colors hover:text-primary">
-                    {product.name}
-                  </h3>
-                </Link>
+                <h3 className="font-semibold text-lg leading-tight group-hover:underline line-clamp-1 transition-colors group-hover:text-primary">
+                  {product.name}
+                </h3>
                 <p className="text-sm text-muted-foreground capitalize mt-1">
                   {product.category}
                 </p>
@@ -71,15 +77,13 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
                 <span className="font-bold text-lg">
                   ${product.price.toFixed(2)}
                 </span>
-                <Link href={`/products/${product.id}`}>
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    className="transition-transform active:scale-95"
-                  >
-                    View Details
-                  </Button>
-                </Link>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  className="transition-transform active:scale-95 z-20"
+                >
+                  View Details
+                </Button>
               </CardFooter>
             </Card>
           </motion.div>

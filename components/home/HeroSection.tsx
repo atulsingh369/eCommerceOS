@@ -7,7 +7,9 @@ import { motion } from "framer-motion";
 
 export function HeroSection() {
   return (
-    <section className="bg-muted px-4 py-16 md:py-24 lg:py-32 overflow-hidden">
+    <section className="relative px-4 py-16 md:py-24 lg:py-32 overflow-hidden">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
       <div className="container mx-auto flex flex-col items-center text-center space-y-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

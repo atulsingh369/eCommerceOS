@@ -34,7 +34,16 @@ export interface Product {
     isNew: boolean;
 }
 
-export const getProducts = async (userInfo?: { category?: string; sort?: string, featured?: boolean }) => {
+export const getProducts = async (userInfo?: {
+    category?: string;
+    sort?: string;
+    featured?: boolean;
+    search?: string;
+    page?: number;
+    limit?: number;
+    minPrice?: number;
+    maxPrice?: number;
+}) => {
     try {
         const q = collection(db, "products");
         const constraints: QueryConstraint[] = [];
@@ -48,7 +57,18 @@ export const getProducts = async (userInfo?: { category?: string; sort?: string,
             constraints.push(limit(3));
         }
 
-        // Simple sort mapping
+        if (userInfo?.minPrice !== undefined) {
+            constraints.push(where("price", ">=", Number(userInfo.minPrice)));
+        }
+
+        if (userInfo?.maxPrice !== undefined) {
+            constraints.push(where("price", "<=", Number(userInfo.maxPrice)));
+        }
+
+
+        // Simple sort mapping - Note: Firestore requires the field in equality filter (category) to be first in orderBy, or use composite index.
+        // For simplicity with multiple filters, we might do client side sorting/filtering if constraints conflict or need indexes.
+        // But price range + price sort works fine if price is the inequality field. 
         if (userInfo?.sort === 'price_asc') {
             constraints.push(orderBy("price", "asc"));
         } else if (userInfo?.sort === 'price_desc') {
@@ -58,7 +78,7 @@ export const getProducts = async (userInfo?: { category?: string; sort?: string,
         const finalQuery = query(q, ...constraints);
         const querySnapshot = await getDocs(finalQuery);
 
-        return querySnapshot.docs.map(doc => {
+        let results = querySnapshot.docs.map(doc => {
             const data = doc.data();
             return {
                 id: doc.id,
@@ -75,6 +95,27 @@ export const getProducts = async (userInfo?: { category?: string; sort?: string,
                 isNew: !!data.isNew,
             } as Product;
         });
+
+        if (userInfo?.search) {
+            const lowerQuery = userInfo.search.toLowerCase();
+            results = results.filter(product =>
+                product.name.toLowerCase().includes(lowerQuery) ||
+                product.description.toLowerCase().includes(lowerQuery) ||
+                product.category.toLowerCase().includes(lowerQuery)
+            );
+        }
+
+        // Manual Pagination (Client-side style since we don't have total count easily with constraints)
+        // ideally we would use limit/startAfter in firestore but for filter flexibility we do it here
+        const page = userInfo?.page || 1;
+        const limitCount = userInfo?.limit || 100; // Default showing many if not specified
+
+        if (userInfo?.limit) {
+            const start = (page - 1) * limitCount;
+            results = results.slice(start, start + limitCount);
+        }
+
+        return results;
     } catch (error) {
         console.error("Error fetching products:", error);
         return [];

@@ -114,10 +114,11 @@ const AIAssistant = () => {
                           Searching...
                         </div>
                       ) : (
-                        // @ts-expect-error react-markdown types
-                        <ReactMarkdown className="prose prose-sm dark:prose-invert">
-                          {(m as unknown as ExtendedMessage).content}
-                        </ReactMarkdown>
+                        <div className="prose prose-sm dark:prose-invert">
+                          <ReactMarkdown>
+                            {(m as unknown as ExtendedMessage).content}
+                          </ReactMarkdown>
+                        </div>
                       )}
                     </div>
                   </div>
