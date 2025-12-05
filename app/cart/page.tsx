@@ -11,37 +11,116 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { Separator } from "@/components/ui/Separator";
-import { products } from "@/lib/mockData"; // Mocking cart based on mockData
-import { Trash2, Plus, Minus, ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { Trash2, Plus, Minus, ArrowRight, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/context/AuthContext";
+import {
+  getCart,
+  removeFromCart,
+  updateCartQuantity,
+  CartItem,
+} from "@/lib/db/cart";
+import toast from "react-hot-toast";
 
 export default function CartPage() {
-  // Local state for quantity mainly for demo purposes
-  const [items, setItems] = useState([
-    { ...products[0], quantity: 1 },
-    { ...products[2], quantity: 2 },
-  ]);
+  const { user, loading: authLoading } = useAuth();
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const updateQuantity = (id: string, delta: number) => {
+  useEffect(() => {
+    const fetchCart = async () => {
+      if (!user) return;
+      try {
+        const cartItems = await getCart(user.uid);
+        setItems(cartItems);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to load cart");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!authLoading) {
+      if (user) {
+        fetchCart();
+      } else {
+        setLoading(false);
+      }
+    }
+  }, [user, authLoading]);
+
+  const handleUpdateQuantity = async (id: string, newQuantity: number) => {
+    if (!user) return;
+    // Optimistic update
+    const oldItems = [...items];
     setItems(
-      items.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-          : item
-      )
+      items
+        .map((item) =>
+          item.id === id
+            ? { ...item, quantity: Math.max(0, newQuantity) }
+            : item
+        )
+        .filter((i) => i.quantity > 0)
     );
+
+    try {
+      await updateCartQuantity(user.uid, id, newQuantity);
+      if (newQuantity <= 0) {
+        toast.success("Item removed");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update quantity");
+      setItems(oldItems); // Revert
+    }
   };
 
-  const removeItem = (id: string) => {
+  const handleRemove = async (id: string) => {
+    if (!user) return;
+    const oldItems = [...items];
     setItems(items.filter((item) => item.id !== id));
+
+    try {
+      await removeFromCart(user.uid, id);
+      toast.success("Item removed");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to remove item");
+      setItems(oldItems);
+    }
   };
 
   const subtotal = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-  const tax = subtotal * 0.08;
+  const tax = subtotal * 0.08; // 8% tax
   const total = subtotal + tax;
+
+  if (authLoading || loading) {
+    return (
+      <div className="flex h-[50vh] items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="container mx-auto px-4 py-20 text-center space-y-4">
+        <h1 className="text-2xl font-bold">Please Log In</h1>
+        <p className="text-muted-foreground">
+          You need to be logged in to view your cart.
+        </p>
+        <Link href="/login">
+          <Button size="lg" className="mt-4">
+            Log In
+          </Button>
+        </Link>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (
@@ -89,7 +168,7 @@ export default function CartPage() {
                     variant="ghost"
                     size="icon"
                     className="text-muted-foreground hover:text-destructive"
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => handleRemove(item.id)}
                   >
                     <Trash2 className="h-5 w-5" />
                   </Button>
@@ -100,7 +179,9 @@ export default function CartPage() {
                       variant="ghost"
                       size="icon"
                       className="h-8 w-8 rounded-none"
-                      onClick={() => updateQuantity(item.id, -1)}
+                      onClick={() =>
+                        handleUpdateQuantity(item.id, item.quantity - 1)
+                      }
                     >
                       <Minus className="h-3 w-3" />
                     </Button>
@@ -111,7 +192,9 @@ export default function CartPage() {
                       variant="ghost"
                       size="icon"
                       className="h-8 w-8 rounded-none"
-                      onClick={() => updateQuantity(item.id, 1)}
+                      onClick={() =>
+                        handleUpdateQuantity(item.id, item.quantity + 1)
+                      }
                     >
                       <Plus className="h-3 w-3" />
                     </Button>

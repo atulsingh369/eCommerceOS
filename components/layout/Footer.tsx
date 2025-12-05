@@ -67,9 +67,14 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} E-Shop. Built by DevStudios / Atul.
-          Prototype Only.
+        <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground flex flex-col gap-2">
+          <p>
+            &copy; {new Date().getFullYear()} DevStudios. All rights reserved.
+          </p>
+          <p className="text-xs opacity-75">
+            Owned and developed exclusively by DevStudios. Commercial use
+            prohibited without explicit written permission.
+          </p>
         </div>
       </div>
     </footer>

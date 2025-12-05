@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -9,8 +11,57 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
+import { useState } from "react";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { doc, setDoc } from "firebase/firestore"; // For Firestore
+import { db } from "@/lib/firebase"; // Assuming Firestore instance is here
 
 export default function SignupPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const formData = new FormData(e.currentTarget);
+    const firstName = formData.get("firstName") as string;
+    const lastName = formData.get("lastName") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      // Update profile name
+      await updateProfile(userCredential.user, {
+        displayName: `${firstName} ${lastName}`,
+      });
+      // Create user document in Firestore
+      await setDoc(doc(db, "users", userCredential.user.uid), {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        firstName: firstName,
+        lastName: lastName,
+        displayName: `${firstName} ${lastName}`,
+        createdAt: new Date().toISOString(),
+      });
+
+      toast.success("Account created successfully!");
+      router.push("/");
+    } catch (error) {
+      console.error(error);
+      toast.error((error as Error).message || "Failed to create account");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-140px)] px-4 py-10">
       <Card className="w-full max-w-sm">
@@ -23,42 +74,65 @@ export default function SignupPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label
-                htmlFor="first-name"
-                className="text-sm font-medium leading-none"
-              >
-                First name
-              </label>
-              <Input id="first-name" placeholder="John" />
+          <form className="space-y-4" onSubmit={handleSignup}>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label
+                  htmlFor="first-name"
+                  className="text-sm font-medium leading-none"
+                >
+                  First name
+                </label>
+                <Input
+                  id="first-name"
+                  name="firstName"
+                  placeholder="John"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <label
+                  htmlFor="last-name"
+                  className="text-sm font-medium leading-none"
+                >
+                  Last name
+                </label>
+                <Input
+                  id="last-name"
+                  name="lastName"
+                  placeholder="Doe"
+                  required
+                />
+              </div>
             </div>
             <div className="space-y-2">
               <label
-                htmlFor="last-name"
+                htmlFor="email"
                 className="text-sm font-medium leading-none"
               >
-                Last name
+                Email
               </label>
-              <Input id="last-name" placeholder="Doe" />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="m@example.com"
+                required
+              />
             </div>
-          </div>
-          <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium leading-none">
-              Email
-            </label>
-            <Input id="email" type="email" placeholder="m@example.com" />
-          </div>
-          <div className="space-y-2">
-            <label
-              htmlFor="password"
-              className="text-sm font-medium leading-none"
-            >
-              Password
-            </label>
-            <Input id="password" type="password" />
-          </div>
-          <Button className="w-full">Create account</Button>
+            <div className="space-y-2">
+              <label
+                htmlFor="password"
+                className="text-sm font-medium leading-none"
+              >
+                Password
+              </label>
+              <Input id="password" name="password" type="password" required />
+            </div>
+            <Button className="w-full" disabled={loading}>
+              {loading ? "Creating account..." : "Create account"}
+            </Button>
+          </form>
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />

@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -9,8 +11,34 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
+import { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      toast.success("Logged in successfully!");
+      router.push("/");
+    } catch (error) {
+      toast.error((error as Error).message || "Failed to login");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-140px)] px-4">
       <Card className="w-full max-w-sm">
@@ -20,32 +48,44 @@ export default function LoginPage() {
             Enter your email and password to access your account.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <label
-              htmlFor="email"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Email
-            </label>
-            <Input id="email" type="email" placeholder="m@example.com" />
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
+        <CardContent>
+          <form className="space-y-4" onSubmit={handleLogin}>
+            <div className="space-y-2">
               <label
-                htmlFor="password"
+                htmlFor="email"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Password
+                Email
               </label>
-              <Link href="#" className="text-sm text-primary hover:underline">
-                Forgot password?
-              </Link>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="m@example.com"
+                required
+              />
             </div>
-            <Input id="password" type="password" />
-          </div>
-          <Button className="w-full">Sign In</Button>
-          <div className="relative">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="password"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Password
+                </label>
+                <Link href="#" className="text-sm text-primary hover:underline">
+                  Forgot password?
+                </Link>
+              </div>
+              <Input id="password" name="password" type="password" required />
+            </div>
+            <Button className="w-full" disabled={loading}>
+              {loading ? "Signing in..." : "Sign In"}
+            </Button>
+          </form>
+          <div className="relative mt-6">
+            {" "}
+            {/* Added mt-6 for spacing */}
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
             </div>

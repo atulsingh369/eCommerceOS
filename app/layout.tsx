@@ -5,6 +5,8 @@ import TopBanner from "@/components/layout/TopBanner";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import AIAssistant from "@/components/layout/AIAssistant";
+import { AuthProvider } from "@/context/AuthContext";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,11 +34,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <TopBanner />
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <AIAssistant />
-        <Footer />
+        <AuthProvider>
+          <TopBanner />
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <AIAssistant />
+          <Footer />
+          <Toaster position="bottom-right" />
+        </AuthProvider>
       </body>
     </html>
   );

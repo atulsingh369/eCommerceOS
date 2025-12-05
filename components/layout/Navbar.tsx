@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { useState } from "react";
 import { Badge } from "@/components/ui/Badge";
-import { cartItems } from "@/lib/mockData";
+import { useAuth } from "@/context/AuthContext"; // Added import for useAuth
 
 const Navbar = () => {
+  const { user, signOut } = useAuth(); // Added useAuth hook
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const cartCount = 0; // TODO: Fetch real cart count
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -80,14 +81,27 @@ const Navbar = () => {
             </Link>
 
             <div className="hidden md:flex gap-2">
-              <Link href="/login">
-                <Button variant="ghost" size="sm">
-                  Log In
-                </Button>
-              </Link>
-              <Link href="/signup">
-                <Button size="sm">Sign Up</Button>
-              </Link>
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium hidden lg:inline-block">
+                    Hi, {user.displayName || user.email?.split("@")[0]}
+                  </span>
+                  <Button variant="outline" size="sm" onClick={() => signOut()}>
+                    Sign Out
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  <Link href="/login">
+                    <Button variant="ghost" size="sm">
+                      Log In
+                    </Button>
+                  </Link>
+                  <Link href="/signup">
+                    <Button size="sm">Sign Up</Button>
+                  </Link>
+                </>
+              )}
             </div>
 
             <Button
