@@ -1,0 +1,166 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/Button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/Card";
+import { Separator } from "@/components/ui/Separator";
+import { products } from "@/lib/mockData"; // Mocking cart based on mockData
+import { Trash2, Plus, Minus, ArrowRight } from "lucide-react";
+import { useState } from "react";
+
+export default function CartPage() {
+  // Local state for quantity mainly for demo purposes
+  const [items, setItems] = useState([
+    { ...products[0], quantity: 1 },
+    { ...products[2], quantity: 2 },
+  ]);
+
+  const updateQuantity = (id: string, delta: number) => {
+    setItems(
+      items.map((item) =>
+        item.id === id
+          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
+          : item
+      )
+    );
+  };
+
+  const removeItem = (id: string) => {
+    setItems(items.filter((item) => item.id !== id));
+  };
+
+  const subtotal = items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+  const tax = subtotal * 0.08;
+  const total = subtotal + tax;
+
+  if (items.length === 0) {
+    return (
+      <div className="container mx-auto px-4 py-20 text-center space-y-4">
+        <h1 className="text-2xl font-bold">Your cart is empty</h1>
+        <p className="text-muted-foreground">
+          Looks like you haven&apos;t added anything yet.
+        </p>
+        <Link href="/products">
+          <Button size="lg" className="mt-4">
+            Start Shopping
+          </Button>
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mx-auto px-4 md:px-6 py-10">
+      <h1 className="text-3xl font-bold mb-8">Shopping Cart</h1>
+      <div className="flex flex-col lg:flex-row gap-10">
+        {/* Cart Items */}
+        <div className="flex-1 space-y-6">
+          {items.map((item) => (
+            <div key={item.id} className="flex gap-4 sm:gap-6 py-6 border-b">
+              <div className="relative h-24 w-24 sm:h-32 sm:w-32 flex-shrink-0 overflow-hidden rounded-md border bg-muted">
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-1 flex-col justify-between">
+                <div className="flex justify-between">
+                  <div>
+                    <h3 className="font-medium text-lg leading-tight">
+                      {item.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mt-1 capitalize">
+                      {item.category}
+                    </p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-muted-foreground hover:text-destructive"
+                    onClick={() => removeItem(item.id)}
+                  >
+                    <Trash2 className="h-5 w-5" />
+                  </Button>
+                </div>
+                <div className="flex items-center justify-between mt-4">
+                  <div className="flex items-center border rounded-md">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 rounded-none"
+                      onClick={() => updateQuantity(item.id, -1)}
+                    >
+                      <Minus className="h-3 w-3" />
+                    </Button>
+                    <span className="w-10 text-center text-sm">
+                      {item.quantity}
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 rounded-none"
+                      onClick={() => updateQuantity(item.id, 1)}
+                    >
+                      <Plus className="h-3 w-3" />
+                    </Button>
+                  </div>
+                  <p className="font-bold text-lg">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Summary */}
+        <div className="lg:w-96">
+          <Card>
+            <CardHeader>
+              <CardTitle>Order Summary</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Subtotal</span>
+                <span className="font-medium">${subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Taxes (Est.)</span>
+                <span className="font-medium">${tax.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Shipping</span>
+                <span className="font-medium text-green-600">Free</span>
+              </div>
+              <Separator />
+              <div className="flex justify-between text-lg font-bold">
+                <span>Total</span>
+                <span>${total.toFixed(2)}</span>
+              </div>
+            </CardContent>
+            <CardFooter className="flex flex-col gap-4">
+              <Button className="w-full" size="lg">
+                Checkout <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <div className="text-xs text-center text-muted-foreground">
+                Secure Checkout powered by Stripe (Mock)
+              </div>
+            </CardFooter>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}

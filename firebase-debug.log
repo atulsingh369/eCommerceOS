@@ -1,0 +1,309 @@
+[debug] [2025-12-05T16:09:35.386Z] ----------------------------------------------------------------------
+[debug] [2025-12-05T16:09:35.387Z] Command:       /Users/atulsmacmini/.nvm/versions/node/v24.11.1/bin/node /Users/atulsmacmini/.nvm/versions/node/v24.11.1/bin/firebase init
+[debug] [2025-12-05T16:09:35.387Z] CLI Version:   14.27.0
+[debug] [2025-12-05T16:09:35.387Z] Platform:      darwin
+[debug] [2025-12-05T16:09:35.387Z] Node Version:  v24.11.1
+[debug] [2025-12-05T16:09:35.387Z] Time:          Fri Dec 05 2025 21:39:35 GMT+0530 (India Standard Time)
+[debug] [2025-12-05T16:09:35.387Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-12-05T16:09:35.387Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/atulsmacmini/Documents/top_repos/ecom-web
+
+[debug] [2025-12-05T16:09:36.049Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2025-12-05T16:09:36.050Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2025-12-05T16:10:53.863Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-05T16:10:53.864Z] > authorizing via signed-in user (atulsingh.0369@gmail.com)
+[debug] [2025-12-05T16:10:53.865Z] Checked if tokens are valid: false, expires at: 1763992844408
+[debug] [2025-12-05T16:10:53.865Z] Checked if tokens are valid: false, expires at: 1763992844408
+[debug] [2025-12-05T16:10:53.866Z] > refreshing access token with scopes: []
+[debug] [2025-12-05T16:10:53.868Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-12-05T16:10:53.868Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-12-05T16:10:54.023Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-12-05T16:10:54.023Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-12-05T16:10:54.037Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-12-05T16:10:56.321Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-12-05T16:10:56.321Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] 
+=== Dataconnect Setup
+[info] i  dataconnect: ensuring required API firebasedataconnect.googleapis.com is enabled... 
+[debug] [2025-12-05T16:10:59.023Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:10:59.023Z] Checked if tokens are valid: true, expires at: 1764954653023
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[debug] [2025-12-05T16:10:59.023Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:10:59.023Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:10:59.023Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firebasedataconnect.googleapis.com [none]
+[debug] [2025-12-05T16:10:59.023Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firebasedataconnect.googleapis.com x-goog-quota-user=projects/ecom-web-25008
+[debug] [2025-12-05T16:10:59.025Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/sqladmin.googleapis.com [none]
+[debug] [2025-12-05T16:10:59.025Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/sqladmin.googleapis.com x-goog-quota-user=projects/ecom-web-25008
+[debug] [2025-12-05T16:11:00.847Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firebasedataconnect.googleapis.com 200
+[debug] [2025-12-05T16:11:00.847Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firebasedataconnect.googleapis.com [omitted]
+[warn] ⚠  dataconnect: missing required API firebasedataconnect.googleapis.com. Enabling now... 
+[debug] [2025-12-05T16:11:00.848Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:11:00.848Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:11:00.848Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firebasedataconnect.googleapis.com:enable [none]
+[debug] [2025-12-05T16:11:00.848Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firebasedataconnect.googleapis.com:enable x-goog-quota-user=projects/ecom-web-25008
+[debug] [2025-12-05T16:11:00.869Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/sqladmin.googleapis.com 200
+[debug] [2025-12-05T16:11:00.869Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/sqladmin.googleapis.com [omitted]
+[warn] ⚠  dataconnect: missing required API sqladmin.googleapis.com. Enabling now... 
+[debug] [2025-12-05T16:11:00.869Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:11:00.870Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:11:00.870Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/sqladmin.googleapis.com:enable [none]
+[debug] [2025-12-05T16:11:00.870Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/sqladmin.googleapis.com:enable x-goog-quota-user=projects/ecom-web-25008
+[debug] [2025-12-05T16:11:02.630Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/sqladmin.googleapis.com:enable 200
+[debug] [2025-12-05T16:11:02.630Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/sqladmin.googleapis.com:enable [omitted]
+[debug] [2025-12-05T16:11:02.653Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firebasedataconnect.googleapis.com:enable 200
+[debug] [2025-12-05T16:11:02.653Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firebasedataconnect.googleapis.com:enable [omitted]
+[debug] [2025-12-05T16:11:12.665Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:11:12.667Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:11:12.667Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/-/services [none]
+[debug] [2025-12-05T16:11:14.727Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/-/services 200
+[debug] [2025-12-05T16:11:14.727Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/-/services {}
+[info] i  Learn more about Gemini in Firebase and how it uses your data: https://firebase.google.com/docs/gemini-in-firebase#how-gemini-in-firebase-uses-your-data 
+[info] i  : ensuring required API cloudaicompanion.googleapis.com is enabled... 
+[debug] [2025-12-05T16:11:46.406Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:11:46.406Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:11:46.406Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/cloudaicompanion.googleapis.com [none]
+[debug] [2025-12-05T16:11:46.406Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/cloudaicompanion.googleapis.com x-goog-quota-user=projects/ecom-web-25008
+[debug] [2025-12-05T16:11:48.176Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/cloudaicompanion.googleapis.com 200
+[debug] [2025-12-05T16:11:48.176Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/cloudaicompanion.googleapis.com [omitted]
+[info] ✔  : required API cloudaicompanion.googleapis.com is enabled 
+[debug] [2025-12-05T16:12:47.201Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:47.202Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:47.202Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/ecom-web-25008/billingInfo [none]
+[debug] [2025-12-05T16:12:47.589Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/ecom-web-25008/billingInfo 200
+[debug] [2025-12-05T16:12:47.590Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/ecom-web-25008/billingInfo {"name":"projects/ecom-web-25008/billingInfo","projectId":"ecom-web-25008","billingAccountName":"","billingEnabled":false}
+[debug] [2025-12-05T16:12:47.591Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:47.591Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:47.592Z] >>> [apiv2][query] GET https://monitoring.googleapis.com/v3/projects/ecom-web-25008/timeSeries/ filter=metric.type%3D%22serviceruntime.googleapis.com%2Fquota%2Fallocation%2Fusage%22+AND+metric.label.quota_metric+%3D+%22sqladmin.googleapis.com%2Ffdc_lifetime_free_trial_per_project%22&interval.endTime=2025-12-05T16%3A12%3A47.591Z&interval.startTime=2025-11-28T16%3A12%3A47.590Z
+[debug] [2025-12-05T16:12:48.448Z] <<< [apiv2][status] GET https://monitoring.googleapis.com/v3/projects/ecom-web-25008/timeSeries/ 200
+[debug] [2025-12-05T16:12:48.449Z] <<< [apiv2][body] GET https://monitoring.googleapis.com/v3/projects/ecom-web-25008/timeSeries/ {"unit":"1"}
+[info] ✔  dataconnect: Detected existing apps . (web) 
+[debug] [2025-12-05T16:12:48.482Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:48.482Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:48.483Z] >>> [apiv2][query] POST https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/services service_id=ecom-web
+[debug] [2025-12-05T16:12:48.483Z] >>> [apiv2][body] POST https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/services {"name":"projects/ecom-web-25008/locations/us-east4/services/ecom-web"}
+[debug] [2025-12-05T16:12:53.589Z] <<< [apiv2][status] POST https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/services 200
+[debug] [2025-12-05T16:12:53.590Z] <<< [apiv2][body] POST https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/services {"name":"projects/ecom-web-25008/locations/us-east4/operations/operation-1764951170208-64536b78bd47c-a831987e-00b33ba0","metadata":{"@type":"type.googleapis.com/google.firebase.dataconnect.v1.OperationMetadata","createTime":"2025-12-05T16:12:53.426810752Z","target":"projects/ecom-web-25008/locations/us-east4/services/ecom-web","verb":"create","requestedCancellation":false,"apiVersion":"v1"},"done":false}
+[debug] [2025-12-05T16:12:53.592Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:53.592Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:53.593Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/operations/operation-1764951170208-64536b78bd47c-a831987e-00b33ba0 [none]
+[debug] [2025-12-05T16:12:53.957Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/operations/operation-1764951170208-64536b78bd47c-a831987e-00b33ba0 200
+[debug] [2025-12-05T16:12:53.958Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/operations/operation-1764951170208-64536b78bd47c-a831987e-00b33ba0 {"name":"projects/ecom-web-25008/locations/us-east4/operations/operation-1764951170208-64536b78bd47c-a831987e-00b33ba0","metadata":{"@type":"type.googleapis.com/google.firebase.dataconnect.v1.OperationMetadata","createTime":"2025-12-05T16:12:53.426810752Z","target":"projects/ecom-web-25008/locations/us-east4/services/ecom-web","verb":"create","requestedCancellation":false,"apiVersion":"v1"},"done":false}
+[debug] [2025-12-05T16:12:54.459Z] [LRO Poller] Retrying task index 0
+[debug] [2025-12-05T16:12:54.459Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:54.459Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:54.459Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/operations/operation-1764951170208-64536b78bd47c-a831987e-00b33ba0 [none]
+[debug] [2025-12-05T16:12:54.798Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/operations/operation-1764951170208-64536b78bd47c-a831987e-00b33ba0 200
+[debug] [2025-12-05T16:12:54.799Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/operations/operation-1764951170208-64536b78bd47c-a831987e-00b33ba0 {"name":"projects/ecom-web-25008/locations/us-east4/operations/operation-1764951170208-64536b78bd47c-a831987e-00b33ba0","metadata":{"@type":"type.googleapis.com/google.firebase.dataconnect.v1.OperationMetadata","createTime":"2025-12-05T16:12:53.426810752Z","target":"projects/ecom-web-25008/locations/us-east4/services/ecom-web","verb":"create","requestedCancellation":false,"apiVersion":"v1"},"done":false}
+[debug] [2025-12-05T16:12:55.800Z] [LRO Poller] Retrying task index 0
+[debug] [2025-12-05T16:12:55.800Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:55.800Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:55.800Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/operations/operation-1764951170208-64536b78bd47c-a831987e-00b33ba0 [none]
+[debug] [2025-12-05T16:12:56.159Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/operations/operation-1764951170208-64536b78bd47c-a831987e-00b33ba0 200
+[debug] [2025-12-05T16:12:56.159Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/operations/operation-1764951170208-64536b78bd47c-a831987e-00b33ba0 {"name":"projects/ecom-web-25008/locations/us-east4/operations/operation-1764951170208-64536b78bd47c-a831987e-00b33ba0","metadata":{"@type":"type.googleapis.com/google.firebase.dataconnect.v1.OperationMetadata","createTime":"2025-12-05T16:12:53.426810752Z","endTime":"2025-12-05T16:12:54.733703751Z","target":"projects/ecom-web-25008/locations/us-east4/services/ecom-web","verb":"create","requestedCancellation":false,"apiVersion":"v1"},"done":true,"response":{"@type":"type.googleapis.com/google.firebase.dataconnect.v1.Service","name":"projects/ecom-web-25008/locations/us-east4/services/ecom-web","createTime":"2025-12-05T16:12:53.421507962Z","updateTime":"2025-12-05T16:12:53.421507962Z","uid":"b8d8cd9a-b8c1-4ebd-841e-366ebb2f7680","reconciling":false,"etag":"lIAz2Y0mD9pvAJUGoUne99ol1LzCZcrZ4e_D4Xvp_Yc"}}
+[debug] [2025-12-05T16:12:56.163Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:56.163Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:12:56.163Z] >>> [apiv2][query] POST https://cloudaicompanion.googleapis.com/v1beta/projects/ecom-web-25008/locations/global/instances/default:completeTask [none]
+[debug] [2025-12-05T16:12:56.163Z] >>> [apiv2][body] POST https://cloudaicompanion.googleapis.com/v1beta/projects/ecom-web-25008/locations/global/instances/default:completeTask {"input":{"messages":[{"content":"an ecom website which lists all pructs according to their category. User can browse any poructa nd category and can buy it via adding to cart and later checking out with a payment integration of Razorpay","author":"USER"}]},"experienceContext":{"experience":"/appeco/firebase/fdc-schema-generator"}}
+[debug] [2025-12-05T16:13:03.375Z] <<< [apiv2][status] POST https://cloudaicompanion.googleapis.com/v1beta/projects/ecom-web-25008/locations/global/instances/default:completeTask 200
+[debug] [2025-12-05T16:13:03.376Z] <<< [apiv2][body] POST https://cloudaicompanion.googleapis.com/v1beta/projects/ecom-web-25008/locations/global/instances/default:completeTask {"output":{"messages":[{"content":"```graphql\ntype User @table {\n  email: String!\n  passwordHash: String!\n  createdAt: Timestamp!\n  firstName: String\n  lastName: String\n  shippingAddress: String\n  phoneNumber: String\n}\n\ntype Category @table {\n  name: String!\n  description: String\n}\n\ntype Product @table {\n  name: String!\n  price: Float!\n  description: String!\n  createdAt: Timestamp!\n  category: Category\n  imageUrl: String\n  stockQuantity: Int\n}\n\ntype Cart @table {\n  user: User\n  createdAt: Timestamp!\n  lastModifiedAt: Timestamp\n}\n\ntype CartItem @table(key: [\"cart\", \"product\"]) {\n  cart: Cart!\n  product: Product!\n  quantity: Int!\n  priceAtTimeOfAdding: Float!\n}\n\ntype Order @table {\n  user: User\n  orderDate: Timestamp!\n  totalAmount: Float!\n  paymentStatus: String!\n  shippingAddress: String!\n  razorpayOrderId: String\n  trackingNumber: String\n}\n```\n"}]},"displayContext":{"additionalContext":{"@type":"type.googleapis.com/google.cloud.cloudaicompanion.v1main.FirebaseChatDisplayContext","firebaseFdcDisplayContext":{"schemaSyntaxError":""}}}}
+[debug] [2025-12-05T16:13:03.379Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:03.379Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:03.379Z] >>> [apiv2][query] PATCH https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/services/ecom-web/schemas/main allowMissing=true&validateOnly=false
+[debug] [2025-12-05T16:13:03.379Z] >>> [apiv2][body] PATCH https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/services/ecom-web/schemas/main {"name":"projects/ecom-web-25008/locations/us-east4/services/ecom-web/schemas/main","datasources":[{"postgresql":{}}],"source":{"files":[{"path":"schema.gql","content":"type User @table {\n  email: String!\n  passwordHash: String!\n  createdAt: Timestamp!\n  firstName: String\n  lastName: String\n  shippingAddress: String\n  phoneNumber: String\n}\n\ntype Category @table {\n  name: String!\n  description: String\n}\n\ntype Product @table {\n  name: String!\n  price: Float!\n  description: String!\n  createdAt: Timestamp!\n  category: Category\n  imageUrl: String\n  stockQuantity: Int\n}\n\ntype Cart @table {\n  user: User\n  createdAt: Timestamp!\n  lastModifiedAt: Timestamp\n}\n\ntype CartItem @table(key: [\"cart\", \"product\"]) {\n  cart: Cart!\n  product: Product!\n  quantity: Int!\n  priceAtTimeOfAdding: Float!\n}\n\ntype Order @table {\n  user: User\n  orderDate: Timestamp!\n  totalAmount: Float!\n  paymentStatus: String!\n  shippingAddress: String!\n  razorpayOrderId: String\n  trackingNumber: String\n}"}]}}
+[debug] [2025-12-05T16:13:05.286Z] <<< [apiv2][status] PATCH https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/services/ecom-web/schemas/main 200
+[debug] [2025-12-05T16:13:05.287Z] <<< [apiv2][body] PATCH https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/services/ecom-web/schemas/main {"name":"projects/ecom-web-25008/locations/us-east4/operations/operation-1764951185064-64536b86e81c0-55daaade-2c098b5a","metadata":{"@type":"type.googleapis.com/google.firebase.dataconnect.v1.OperationMetadata","createTime":"2025-12-05T16:13:05.135016338Z","target":"projects/ecom-web-25008/locations/us-east4/services/ecom-web/schemas/main","verb":"update","requestedCancellation":false,"apiVersion":"v1"},"done":false}
+[debug] [2025-12-05T16:13:05.287Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:05.287Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:05.287Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/operations/operation-1764951185064-64536b86e81c0-55daaade-2c098b5a [none]
+[debug] [2025-12-05T16:13:05.640Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/operations/operation-1764951185064-64536b86e81c0-55daaade-2c098b5a 200
+[debug] [2025-12-05T16:13:05.640Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/ecom-web-25008/locations/us-east4/operations/operation-1764951185064-64536b86e81c0-55daaade-2c098b5a {"name":"projects/ecom-web-25008/locations/us-east4/operations/operation-1764951185064-64536b86e81c0-55daaade-2c098b5a","metadata":{"@type":"type.googleapis.com/google.firebase.dataconnect.v1.OperationMetadata","createTime":"2025-12-05T16:13:05.135016338Z","endTime":"2025-12-05T16:13:05.381843392Z","target":"projects/ecom-web-25008/locations/us-east4/services/ecom-web/schemas/main","verb":"update","requestedCancellation":false,"apiVersion":"v1"},"done":true}
+[debug] [2025-12-05T16:13:05.641Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:05.641Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:05.642Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:05.642Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:05.642Z] >>> [apiv2][query] POST https://cloudaicompanion.googleapis.com/v1beta/projects/ecom-web-25008/locations/global/instances/default:completeTask [none]
+[debug] [2025-12-05T16:13:05.642Z] >>> [apiv2][body] POST https://cloudaicompanion.googleapis.com/v1beta/projects/ecom-web-25008/locations/global/instances/default:completeTask {"input":{"messages":[{"content":"Create 4 operations for an app using the instance schema with proper authentication.","author":"USER"}]},"experienceContext":{"experience":"/appeco/firebase/fdc-query-generator"},"clientContext":{"additionalContext":{"@type":"type.googleapis.com/google.cloud.cloudaicompanion.v1main.FirebaseChatRequestContext","fdcInfo":{"fdcServiceName":"projects/ecom-web-25008/locations/us-east4/services/ecom-web","requiresQuery":true}}}}
+[debug] [2025-12-05T16:13:05.643Z] >>> [apiv2][query] POST https://cloudaicompanion.googleapis.com/v1beta/projects/ecom-web-25008/locations/global/instances/default:completeTask [none]
+[debug] [2025-12-05T16:13:05.643Z] >>> [apiv2][body] POST https://cloudaicompanion.googleapis.com/v1beta/projects/ecom-web-25008/locations/global/instances/default:completeTask {"input":{"messages":[{"content":"Create a mutation to populate the database with some seed data.","author":"USER"}]},"experienceContext":{"experience":"/appeco/firebase/fdc-query-generator"},"clientContext":{"additionalContext":{"@type":"type.googleapis.com/google.cloud.cloudaicompanion.v1main.FirebaseChatRequestContext","fdcInfo":{"fdcServiceName":"projects/ecom-web-25008/locations/us-east4/services/ecom-web","requiresQuery":true}}}}
+[debug] [2025-12-05T16:13:09.070Z] <<< [apiv2][status] POST https://cloudaicompanion.googleapis.com/v1beta/projects/ecom-web-25008/locations/global/instances/default:completeTask 200
+[debug] [2025-12-05T16:13:09.070Z] <<< [apiv2][body] POST https://cloudaicompanion.googleapis.com/v1beta/projects/ecom-web-25008/locations/global/instances/default:completeTask {"output":{"messages":[{"content":"```graphql\nmutation CreateCategory @auth(level: USER) {\n  category_insert(data: {\n    name: \"New Category\"\n    description: \"A brand new category\"\n  })\n}\n\nquery ListProductsByCategory($categoryId: UUID!) @auth(level: PUBLIC, insecureReason: \"This operation is safe to expose to the public\") {\n  products(where: {categoryId: {eq: $categoryId}}) {\n    id\n    name\n    price\n  }\n}\n\nmutation UpdateProductPrice($id: UUID!, $price: Float!) @auth(level: USER) {\n  product_update(key: {id: $id}, data: {price: $price})\n}\n\nquery GetUserOrders($userId: UUID!) @auth(level: USER) {\n  orders(where: {userId: {eq: $userId}}) {\n    id\n    orderDate\n    totalAmount\n  }\n}\n```\n","author":"model"}]},"outputDataContext":{"additionalContext":{"@type":"type.googleapis.com/google.cloud.cloudaicompanion.v1main.ChatOutputDataContext","relatedContent":{}}},"attributionContext":{"citationMetadata":{}}}
+[debug] [2025-12-05T16:13:10.495Z] <<< [apiv2][status] POST https://cloudaicompanion.googleapis.com/v1beta/projects/ecom-web-25008/locations/global/instances/default:completeTask 200
+[debug] [2025-12-05T16:13:10.495Z] <<< [apiv2][body] POST https://cloudaicompanion.googleapis.com/v1beta/projects/ecom-web-25008/locations/global/instances/default:completeTask {"output":{"messages":[{"content":"```graphql\nmutation CreateSeedData @auth(level: PUBLIC, insecureReason: \"This mutation is used to seed the database with public data.\") @transaction {\n  category_insertMany(data: [\n    {\n      id: \"11111111-1111-1111-1111-111111111111\",\n      name: \"Electronics\",\n      description: \"Electronic gadgets and accessories\"\n    },\n    {\n      id: \"22222222-2222-2222-2222-222222222222\",\n      name: \"Clothing\",\n      description: \"Apparel for men, women, and children\"\n    }\n  ])\n  product_insertMany(data: [\n    {\n      id: \"33333333-3333-3333-3333-333333333333\",\n      categoryId: \"11111111-1111-1111-1111-111111111111\",\n      name: \"Smartphone\",\n      description: \"A powerful mobile phone\",\n      price: 999.99,\n      stockQuantity: 100\n    },\n    {\n      id: \"44444444-4444-4444-4444-444444444444\",\n      categoryId: \"22222222-2222-2222-2222-222222222222\",\n      name: \"T-Shirt\",\n      description: \"A comfortable cotton t-shirt\",\n      price: 19.99,\n      stockQuantity: 500\n    }\n  ])\n}\n```","author":"model"}]},"outputDataContext":{"additionalContext":{"@type":"type.googleapis.com/google.cloud.cloudaicompanion.v1main.ChatOutputDataContext","relatedContent":{}}},"attributionContext":{"citationMetadata":{}}}
+[info] ✔  Wrote dataconnect/dataconnect.yaml 
+[info] ✔  Wrote dataconnect/seed_data.gql 
+[info] ✔  Wrote dataconnect/schema/schema.gql 
+[info] ✔  Wrote dataconnect/example/connector.yaml 
+[info] ✔  Wrote dataconnect/example/queries.gql 
+[info] ✔  Wrote dataconnect/example/connector.yaml 
+[info] i  dataconnect: Installing the generated SDKs ... 
+[info] i  dataconnect: downloading dataconnect-emulator-2.17.3... {"metadata":{"emulator":{"name":"dataconnect"},"message":"downloading dataconnect-emulator-2.17.3..."}}
+[debug] [2025-12-05T16:13:10.547Z] >>> [apiv2][query] GET https://storage.googleapis.com/firemat-preview-drop/emulator/dataconnect-emulator-macos-arm64-v2.17.3 
+[debug] [2025-12-05T16:13:11.073Z] <<< [apiv2][status] GET https://storage.googleapis.com/firemat-preview-drop/emulator/dataconnect-emulator-macos-arm64-v2.17.3 200
+[debug] [2025-12-05T16:13:11.073Z] <<< [apiv2][body] GET https://storage.googleapis.com/firemat-preview-drop/emulator/dataconnect-emulator-macos-arm64-v2.17.3 [stream]
+[debug] [2025-12-05T16:13:20.123Z] defaultcredentials: writing to file /Users/atulsmacmini/.config/firebase/atulsingh_0369_gmail.com_application_default_credentials.json
+[info] ✔  dataconnect: Installed generated SDKs for . (web) 
+[info] i  Visit https://firebase.google.com/docs/data-connect/web-sdk#react for more information on how to set up React Generated SDKs for Firebase Data Connect 
+[info] 
+=== Firestore Setup
+[info] i  firestore: ensuring required API firestore.googleapis.com is enabled... 
+[debug] [2025-12-05T16:13:25.537Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:25.537Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:25.537Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firestore.googleapis.com [none]
+[debug] [2025-12-05T16:13:25.537Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firestore.googleapis.com x-goog-quota-user=projects/ecom-web-25008
+[debug] [2025-12-05T16:13:27.323Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firestore.googleapis.com 200
+[debug] [2025-12-05T16:13:27.324Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firestore.googleapis.com [omitted]
+[warn] ⚠  firestore: missing required API firestore.googleapis.com. Enabling now... 
+[debug] [2025-12-05T16:13:27.324Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:27.324Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:27.324Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firestore.googleapis.com:enable [none]
+[debug] [2025-12-05T16:13:27.324Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firestore.googleapis.com:enable x-goog-quota-user=projects/ecom-web-25008
+[debug] [2025-12-05T16:13:27.775Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firestore.googleapis.com:enable 200
+[debug] [2025-12-05T16:13:27.775Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/firestore.googleapis.com:enable [omitted]
+[debug] [2025-12-05T16:13:37.787Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:37.788Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:37.788Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/ecom-web-25008/databases [none]
+[debug] [2025-12-05T16:13:38.462Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/ecom-web-25008/databases 200
+[debug] [2025-12-05T16:13:38.462Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/ecom-web-25008/databases {}
+[debug] [2025-12-05T16:13:38.463Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:38.463Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:13:38.463Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/ecom-web-25008/locations [none]
+[debug] [2025-12-05T16:13:38.602Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/ecom-web-25008/locations 200
+[debug] [2025-12-05T16:13:38.603Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/ecom-web-25008/locations {"locations":[{"name":"projects/ecom-web-25008/locations/eur3","labels":{"appengine.googleapis.com/geo":"europe-west","cloud.googleapis.com/location":"eur3","cloud.googleapis.com/geo":"eur3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"eur3","displayName":"Europe"},{"name":"projects/ecom-web-25008/locations/nam5","labels":{"appengine.googleapis.com/geo":"us-central","cloud.googleapis.com/location":"nam5","cloud.googleapis.com/geo":"nam5"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"nam5","displayName":"United States"},{"name":"projects/ecom-web-25008/locations/nam7","labels":{"cloud.googleapis.com/location":"nam7","cloud.googleapis.com/geo":"nam7"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"nam7","displayName":"United States"},{"name":"projects/ecom-web-25008/locations/africa-south1","labels":{"cloud.googleapis.com/location":"africa-south1","cloud.googleapis.com/region":"africa-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"africa-south1","displayName":"Johannesburg"},{"name":"projects/ecom-web-25008/locations/asia-east1","labels":{"appengine.googleapis.com/region":"asia-east1","cloud.googleapis.com/location":"asia-east1","cloud.googleapis.com/region":"asia-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-east1","displayName":"Taiwan"},{"name":"projects/ecom-web-25008/locations/asia-east2","labels":{"appengine.googleapis.com/region":"asia-east2","cloud.googleapis.com/location":"asia-east2","cloud.googleapis.com/region":"asia-east2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-east2","displayName":"Hong Kong"},{"name":"projects/ecom-web-25008/locations/asia-northeast1","labels":{"appengine.googleapis.com/region":"asia-northeast1","cloud.googleapis.com/location":"asia-northeast1","cloud.googleapis.com/region":"asia-northeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast1","displayName":"Tokyo"},{"name":"projects/ecom-web-25008/locations/asia-northeast2","labels":{"appengine.googleapis.com/region":"asia-northeast2","cloud.googleapis.com/location":"asia-northeast2","cloud.googleapis.com/region":"asia-northeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast2","displayName":"Osaka"},{"name":"projects/ecom-web-25008/locations/asia-northeast3","labels":{"appengine.googleapis.com/region":"asia-northeast3","cloud.googleapis.com/location":"asia-northeast3","cloud.googleapis.com/region":"asia-northeast3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-northeast3","displayName":"Seoul"},{"name":"projects/ecom-web-25008/locations/asia-south1","labels":{"appengine.googleapis.com/region":"asia-south1","cloud.googleapis.com/location":"asia-south1","cloud.googleapis.com/region":"asia-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-south1","displayName":"Mumbai"},{"name":"projects/ecom-web-25008/locations/asia-south2","labels":{"cloud.googleapis.com/location":"asia-south2","cloud.googleapis.com/region":"asia-south2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-south2","displayName":"Delhi"},{"name":"projects/ecom-web-25008/locations/asia-southeast1","labels":{"appengine.googleapis.com/region":"asia-southeast1","cloud.googleapis.com/location":"asia-southeast1","cloud.googleapis.com/region":"asia-southeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-southeast1","displayName":"Singapore"},{"name":"projects/ecom-web-25008/locations/asia-southeast2","labels":{"appengine.googleapis.com/region":"asia-southeast2","cloud.googleapis.com/location":"asia-southeast2","cloud.googleapis.com/region":"asia-southeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"asia-southeast2","displayName":"Jakarta"},{"name":"projects/ecom-web-25008/locations/australia-southeast1","labels":{"appengine.googleapis.com/region":"australia-southeast1","cloud.googleapis.com/location":"australia-southeast1","cloud.googleapis.com/region":"australia-southeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"australia-southeast1","displayName":"Sydney"},{"name":"projects/ecom-web-25008/locations/australia-southeast2","labels":{"cloud.googleapis.com/location":"australia-southeast2","cloud.googleapis.com/region":"australia-southeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"australia-southeast2","displayName":"Melbourne"},{"name":"projects/ecom-web-25008/locations/europe-central2","labels":{"appengine.googleapis.com/region":"europe-central2","cloud.googleapis.com/location":"europe-central2","cloud.googleapis.com/region":"europe-central2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-central2","displayName":"Warsaw"},{"name":"projects/ecom-web-25008/locations/europe-north1","labels":{"cloud.googleapis.com/location":"europe-north1","cloud.googleapis.com/region":"europe-north1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-north1","displayName":"Finland"},{"name":"projects/ecom-web-25008/locations/europe-north2","labels":{"cloud.googleapis.com/location":"europe-north2","cloud.googleapis.com/region":"europe-north2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-north2","displayName":"Stockholm"},{"name":"projects/ecom-web-25008/locations/europe-southwest1","labels":{"cloud.googleapis.com/location":"europe-southwest1","cloud.googleapis.com/region":"europe-southwest1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-southwest1","displayName":"Madrid"},{"name":"projects/ecom-web-25008/locations/europe-west1","labels":{"cloud.googleapis.com/location":"europe-west1","cloud.googleapis.com/region":"europe-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west1","displayName":"Belgium"},{"name":"projects/ecom-web-25008/locations/europe-west10","labels":{"cloud.googleapis.com/location":"europe-west10","cloud.googleapis.com/region":"europe-west10"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west10","displayName":"Berlin"},{"name":"projects/ecom-web-25008/locations/europe-west12","labels":{"cloud.googleapis.com/location":"europe-west12","cloud.googleapis.com/region":"europe-west12"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west12","displayName":"Turin"},{"name":"projects/ecom-web-25008/locations/europe-west2","labels":{"appengine.googleapis.com/region":"europe-west2","cloud.googleapis.com/location":"europe-west2","cloud.googleapis.com/region":"europe-west2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west2","displayName":"London"},{"name":"projects/ecom-web-25008/locations/europe-west3","labels":{"appengine.googleapis.com/region":"europe-west3","cloud.googleapis.com/location":"europe-west3","cloud.googleapis.com/region":"europe-west3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west3","displayName":"Frankfurt"},{"name":"projects/ecom-web-25008/locations/europe-west4","labels":{"cloud.googleapis.com/location":"europe-west4","cloud.googleapis.com/region":"europe-west4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west4","displayName":"Netherlands"},{"name":"projects/ecom-web-25008/locations/europe-west6","labels":{"appengine.googleapis.com/region":"europe-west6","cloud.googleapis.com/location":"europe-west6","cloud.googleapis.com/region":"europe-west6"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west6","displayName":"Zurich"},{"name":"projects/ecom-web-25008/locations/europe-west8","labels":{"cloud.googleapis.com/location":"europe-west8","cloud.googleapis.com/region":"europe-west8"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west8","displayName":"Milan"},{"name":"projects/ecom-web-25008/locations/europe-west9","labels":{"cloud.googleapis.com/location":"europe-west9","cloud.googleapis.com/region":"europe-west9"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"europe-west9","displayName":"Paris"},{"name":"projects/ecom-web-25008/locations/me-central1","labels":{"cloud.googleapis.com/location":"me-central1","cloud.googleapis.com/region":"me-central1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-central1","displayName":"Doha"},{"name":"projects/ecom-web-25008/locations/me-central2","labels":{"cloud.googleapis.com/location":"me-central2","cloud.googleapis.com/region":"me-central2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-central2","displayName":"Dammam"},{"name":"projects/ecom-web-25008/locations/me-west1","labels":{"cloud.googleapis.com/location":"me-west1","cloud.googleapis.com/region":"me-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"me-west1","displayName":"Tel Aviv"},{"name":"projects/ecom-web-25008/locations/northamerica-northeast1","labels":{"appengine.googleapis.com/region":"northamerica-northeast1","cloud.googleapis.com/location":"northamerica-northeast1","cloud.googleapis.com/region":"northamerica-northeast1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-northeast1","displayName":"Montréal"},{"name":"projects/ecom-web-25008/locations/northamerica-northeast2","labels":{"cloud.googleapis.com/location":"northamerica-northeast2","cloud.googleapis.com/region":"northamerica-northeast2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-northeast2","displayName":"Toronto"},{"name":"projects/ecom-web-25008/locations/northamerica-south1","labels":{"cloud.googleapis.com/location":"northamerica-south1","cloud.googleapis.com/region":"northamerica-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"northamerica-south1","displayName":"Mexico"},{"name":"projects/ecom-web-25008/locations/southamerica-east1","labels":{"appengine.googleapis.com/region":"southamerica-east1","cloud.googleapis.com/location":"southamerica-east1","cloud.googleapis.com/region":"southamerica-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"southamerica-east1","displayName":"São Paulo"},{"name":"projects/ecom-web-25008/locations/southamerica-west1","labels":{"cloud.googleapis.com/location":"southamerica-west1","cloud.googleapis.com/region":"southamerica-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"southamerica-west1","displayName":"Santiago"},{"name":"projects/ecom-web-25008/locations/us-central1","labels":{"cloud.googleapis.com/location":"us-central1","cloud.googleapis.com/region":"us-central1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-central1","displayName":"Iowa"},{"name":"projects/ecom-web-25008/locations/us-east1","labels":{"appengine.googleapis.com/region":"us-east1","cloud.googleapis.com/location":"us-east1","cloud.googleapis.com/region":"us-east1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east1","displayName":"South Carolina"},{"name":"projects/ecom-web-25008/locations/us-east4","labels":{"appengine.googleapis.com/region":"us-east4","cloud.googleapis.com/location":"us-east4","cloud.googleapis.com/region":"us-east4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east4","displayName":"Northern Virginia"},{"name":"projects/ecom-web-25008/locations/us-east5","labels":{"cloud.googleapis.com/location":"us-east5","cloud.googleapis.com/region":"us-east5"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-east5","displayName":"Columbus"},{"name":"projects/ecom-web-25008/locations/us-south1","labels":{"cloud.googleapis.com/location":"us-south1","cloud.googleapis.com/region":"us-south1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-south1","displayName":"Dallas"},{"name":"projects/ecom-web-25008/locations/us-west1","labels":{"appengine.googleapis.com/region":"us-west1","cloud.googleapis.com/location":"us-west1","cloud.googleapis.com/region":"us-west1"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west1","displayName":"Oregon"},{"name":"projects/ecom-web-25008/locations/us-west2","labels":{"appengine.googleapis.com/region":"us-west2","cloud.googleapis.com/location":"us-west2","cloud.googleapis.com/region":"us-west2"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west2","displayName":"Los Angeles"},{"name":"projects/ecom-web-25008/locations/us-west3","labels":{"appengine.googleapis.com/region":"us-west3","cloud.googleapis.com/location":"us-west3","cloud.googleapis.com/region":"us-west3"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west3","displayName":"Salt Lake City"},{"name":"projects/ecom-web-25008/locations/us-west4","labels":{"appengine.googleapis.com/region":"us-west4","cloud.googleapis.com/location":"us-west4","cloud.googleapis.com/region":"us-west4"},"metadata":{"@type":"type.googleapis.com/google.firestore.admin.v1.LocationMetadata"},"locationId":"us-west4","displayName":"Las Vegas"}]}
+[info] 
+[info] Firestore Security Rules allow you to define how and when to allow
+[info] requests. You can keep these rules in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2025-12-05T16:16:03.108Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:03.108Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:03.109Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/ecom-web-25008/releases pageSize=10&pageToken=
+[debug] [2025-12-05T16:16:04.515Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/ecom-web-25008/releases 200
+[debug] [2025-12-05T16:16:04.515Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/ecom-web-25008/releases {}
+[info] 
+[info] Firestore indexes allow you to perform complex queries while
+[info] maintaining performance that scales with the size of the result
+[info] set. You can keep index definitions in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2025-12-05T16:16:06.758Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:06.758Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:06.759Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:06.759Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:06.759Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/ecom-web-25008/databases/(default)/collectionGroups/-/indexes [none]
+[debug] [2025-12-05T16:16:06.761Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/ecom-web-25008/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* [none]
+[debug] [2025-12-05T16:16:06.938Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/ecom-web-25008/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* 404
+[debug] [2025-12-05T16:16:06.939Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/ecom-web-25008/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* {"error":{"code":404,"message":"Project 'ecom-web-25008' or database '(default)' does not exist.","status":"NOT_FOUND"}}
+[info] ✔  Wrote firestore.rules 
+[info] ✔  Wrote firestore.indexes.json 
+[info] 
+=== Genkit Setup
+[debug] [2025-12-05T16:16:06.952Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/ecom-web-25008/databases/(default)/collectionGroups/-/indexes 404
+[debug] [2025-12-05T16:16:06.952Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/ecom-web-25008/databases/(default)/collectionGroups/-/indexes {"error":{"code":404,"message":"Project 'ecom-web-25008' or database '(default)' does not exist.","status":"NOT_FOUND"}}
+[debug] [2025-12-05T16:16:30.984Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-05T16:16:30.990Z] > authorizing via signed-in user (atulsingh.0369@gmail.com)
+[debug] [2025-12-05T16:16:30.991Z] [iam] checking project ecom-web-25008 for permissions ["firebase.projects.get"]
+[debug] [2025-12-05T16:16:30.994Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:30.994Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:30.994Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/ecom-web-25008:testIamPermissions [none]
+[debug] [2025-12-05T16:16:30.994Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/ecom-web-25008:testIamPermissions x-goog-quota-user=projects/ecom-web-25008
+[debug] [2025-12-05T16:16:30.994Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/ecom-web-25008:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-12-05T16:16:32.373Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/ecom-web-25008:testIamPermissions 200
+[debug] [2025-12-05T16:16:32.374Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/ecom-web-25008:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-12-05T16:16:32.376Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:32.376Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:32.377Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:32.377Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:32.377Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-12-05T16:16:32.377Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/ecom-web-25008
+[debug] [2025-12-05T16:16:32.379Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-12-05T16:16:32.379Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/ecom-web-25008
+[debug] [2025-12-05T16:16:34.290Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/runtimeconfig.googleapis.com 200
+[debug] [2025-12-05T16:16:34.290Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-12-05T16:16:34.310Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/cloudfunctions.googleapis.com 200
+[debug] [2025-12-05T16:16:34.310Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/cloudfunctions.googleapis.com [omitted]
+[debug] [2025-12-05T16:16:34.311Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:34.311Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:16:34.311Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/cloudfunctions.googleapis.com:enable [none]
+[debug] [2025-12-05T16:16:34.311Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/cloudfunctions.googleapis.com:enable x-goog-quota-user=projects/ecom-web-25008
+[debug] [2025-12-05T16:16:36.137Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/cloudfunctions.googleapis.com:enable 200
+[debug] [2025-12-05T16:16:36.137Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/ecom-web-25008/services/cloudfunctions.googleapis.com:enable [omitted]
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[info] ✔  Wrote functions/package.json 
+[info] ✔  Wrote functions/.eslintrc.js 
+[info] ✔  Wrote functions/tsconfig.dev.json 
+[info] ✔  Wrote functions/tsconfig.json 
+[info] ✔  Wrote functions/src/index.ts 
+[info] ✔  Wrote functions/.gitignore 
+[info] 
+[info] i  genkit: Installing Genkit CLI version 1.25.0
+ 
+[info] i  genkit: Installing NPM packages for genkit 
+[info] ✔  genkit: Successfully installed NPM packages 
+[info] i  genkit: Updating tsconfig.json 
+[info] ✔  genkit: Successfully updated tsconfig.json 
+[info] i  genkit: Updating package.json 
+[info] ✔  genkit: Successfully updated package.json 
+[info] Telemetry data can be used to monitor and gain insights into your AI features. There may be a cost associated with using this feature. See https://firebase.google.com/docs/genkit/observability/telemetry-collection.
+[info] i  genkit: Generating sample file 
+[info] ✔  genkit: Successfully generated sample file (src/genkit-sample.ts) 
+[info] 
+[info] 
+Login to Google Cloud using:
+[info]     gcloud auth application-default login --project ecom-web-25008
+
+[info] Then start the Genkit developer experience by running:
+[info]     cd functions && npm run genkit:start
+[info] 
+=== Hosting Setup
+[debug] [2025-12-05T16:23:26.613Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:23:26.614Z] Checked if tokens are valid: true, expires at: 1764954653023
+[debug] [2025-12-05T16:23:26.615Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/ecom-web-25008 [none]
+[debug] [2025-12-05T16:23:27.162Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/ecom-web-25008 200
+[debug] [2025-12-05T16:23:27.162Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/ecom-web-25008 {"projectId":"ecom-web-25008","projectNumber":"501798015178","displayName":"ecom-web","name":"projects/ecom-web-25008","resources":{"hostingSite":"ecom-web-25008"},"state":"ACTIVE","etag":"1_acc890f2-670d-41ad-b51d-bdded6ea2e4a"}
+[info] 
+[info] Your public directory is the folder (relative to your project directory) that
+[info] will contain Hosting assets to be uploaded with firebase deploy. If you
+[info] have a build process for your assets, use your build's output directory.
+[info] 
+[info] 
+[info] i  Detected a .git folder at /Users/atulsmacmini/Documents/top_repos/ecom-web 
+[info] i  Authorizing with GitHub to upload your service account to a GitHub repository's secrets store. 
+[info] 
+[info] Visit this URL on this device to log in:
+[info] https://github.com/login/oauth/authorize?client_id=89cf50f02ac6aaed3484&state=341582426&redirect_uri=http%3A%2F%2Flocalhost%3A9005&scope=read%3Auser%20repo%20public_repo
+[info] 
+[info] Waiting for authentication...
+[debug] [2025-12-05T16:23:55.333Z] >>> [apiv2][query] POST https://github.com/login/oauth/access_token [none]
+[debug] [2025-12-05T16:23:55.333Z] >>> [apiv2][body] POST https://github.com/login/oauth/access_token [stream]
+[debug] [2025-12-05T16:23:55.774Z] <<< [apiv2][status] POST https://github.com/login/oauth/access_token 200
+[debug] [2025-12-05T16:23:55.774Z] <<< [apiv2][body] POST https://github.com/login/oauth/access_token {"access_token":"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","token_type":"bearer","scope":"read:user,repo"}
+[debug] [2025-12-05T16:23:55.778Z] >>> [apiv2][query] GET https://api.github.com/user [none]
+[debug] [2025-12-05T16:23:56.219Z] <<< [apiv2][status] GET https://api.github.com/user 200
+[debug] [2025-12-05T16:23:56.220Z] <<< [apiv2][body] GET https://api.github.com/user {"login":"atulsingh369","id":105437509,"node_id":"U_kgDOBkjZRQ","avatar_url":"https://avatars.githubusercontent.com/u/105437509?v=4","gravatar_id":"","url":"https://api.github.com/users/atulsingh369","html_url":"https://github.com/atulsingh369","followers_url":"https://api.github.com/users/atulsingh369/followers","following_url":"https://api.github.com/users/atulsingh369/following{/other_user}","gists_url":"https://api.github.com/users/atulsingh369/gists{/gist_id}","starred_url":"https://api.github.com/users/atulsingh369/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/atulsingh369/subscriptions","organizations_url":"https://api.github.com/users/atulsingh369/orgs","repos_url":"https://api.github.com/users/atulsingh369/repos","events_url":"https://api.github.com/users/atulsingh369/events{/privacy}","received_events_url":"https://api.github.com/users/atulsingh369/received_events","type":"User","user_view_type":"private","site_admin":false,"name":"Atul Singh","company":"ArcReactor - Engineering AI Automation Systems","blog":"https://linktr.ee/atulsingh369","location":"Lucknow, India","email":"atulsingh.0369@gmail.com","hireable":null,"bio":"Full-Stack Engineer & AI Automation Architect, building autonomous AI systems, workflow automation, and scalable backend infrastructure. From idea → production","twitter_username":"atulsingh369","notification_email":"atulsingh.0369@gmail.com","public_repos":28,"public_gists":0,"followers":5,"following":5,"created_at":"2022-05-12T13:31:59Z","updated_at":"2025-12-02T11:33:00Z","private_gists":0,"total_private_repos":17,"owned_private_repos":17,"disk_usage":97633,"collaborators":1,"two_factor_authentication":true,"plan":{"name":"free","space":976562499,"collaborators":0,"private_repos":10000}}
+[info] 
+[info] ✔  Success! Logged into GitHub as atulsingh369 
+[info] 

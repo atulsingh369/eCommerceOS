@@ -1,101 +1,155 @@
+"use client"
+
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/Button";
+import { Card, CardContent, CardFooter } from "@/components/ui/Card";
+import { Badge } from "@/components/ui/Badge";
+import { ArrowRight } from "lucide-react";
+import { products, categories } from "@/lib/mockData";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const featuredProducts = products.filter((p) => p.isNew).slice(0, 3);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <div className="flex flex-col gap-12 pb-10">
+      {/* Hero Section */}
+      <section className="bg-muted px-4 py-16 md:py-24 lg:py-32">
+        <div className="container mx-auto flex flex-col items-center text-center space-y-4">
+          <Badge className="mb-2" variant="secondary">
+            New Collection Arrived
+          </Badge>
+          <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+            Elevate Your Lifestyle
+          </h1>
+          <p className="max-w-[700px] text-muted-foreground md:text-xl">
+            Discover our curated selection of premium electronics, fashion, and
+            home essentials. Designed for the modern aesthetic.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 mt-6">
+            <Link href="/products">
+              <Button size="lg" className="px-8">
+                Shop Now
+              </Button>
+            </Link>
+            <Link href="/categories">
+              <Button variant="outline" size="lg" className="px-8">
+                Browse Categories
+              </Button>
+            </Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Featured Products */}
+      <section className="container mx-auto px-4 md:px-6">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-3xl font-bold tracking-tight">
+            Featured Products
+          </h2>
+          <Link
+            href="/products"
+            className="text-primary hover:underline flex items-center gap-1"
+          >
+            View All <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredProducts.map((product) => (
+            <Card key={product.id} className="overflow-hidden group">
+              <div className="relative aspect-square overflow-hidden bg-muted">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  className="object-cover transition-transform group-hover:scale-105"
+                />
+                {product.isNew && (
+                  <Badge className="absolute top-2 left-2">New</Badge>
+                )}
+              </div>
+              <CardContent className="p-4 pt-4">
+                <Link href={`/products/${product.id}`}>
+                  <h3 className="font-semibold text-lg leading-tight hover:underline line-clamp-1">
+                    {product.name}
+                  </h3>
+                </Link>
+                <p className="text-sm text-muted-foreground capitalize mt-1">
+                  {product.category}
+                </p>
+              </CardContent>
+              <CardFooter className="p-4 pt-0 flex items-center justify-between">
+                <span className="font-bold text-lg">
+                  ${product.price.toFixed(2)}
+                </span>
+                <Link href={`/products/${product.id}`}>
+                  <Button size="sm" variant="secondary">
+                    View Details
+                  </Button>
+                </Link>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Categories */}
+      <section className="bg-slate-50 dark:bg-slate-900/50 py-16">
+        <div className="container mx-auto px-4 md:px-6">
+          <h2 className="text-3xl font-bold tracking-tight mb-8 text-center">
+            Shop by Category
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {categories.map((category) => (
+              <Link
+                href={`/products?category=${category.slug}`}
+                key={category.id}
+                className="group relative overflow-hidden rounded-lg"
+              >
+                <div className="relative aspect-[4/5] sm:aspect-[3/4]">
+                  <Image
+                    src={category.image}
+                    alt={category.name}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-4 text-center">
+                    <h3 className="text-2xl font-bold mb-2">{category.name}</h3>
+                    <span className="hidden group-hover:inline-block px-4 py-2 border border-white rounded-full text-sm font-medium transition-opacity">
+                      Explore
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter CTA */}
+      <section className="container mx-auto px-4 py-16">
+        <div className="bg-primary rounded-2xl p-8 md:p-16 text-center text-primary-foreground">
+          <h2 className="text-3xl font-bold mb-4">Stay in the loop</h2>
+          <p className="mb-8 max-w-lg mx-auto text-primary-foreground/80">
+            Subscribe to our newsletter for exclusive offers, new arrivals, and
+            design inspiration.
+          </p>
+          <form
+            className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 h-11 px-4 rounded-md text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-white"
+            />
+            <Button variant="secondary" size="lg" type="submit">
+              Subscribe
+            </Button>
+          </form>
+        </div>
+      </section>
     </div>
   );
 }
