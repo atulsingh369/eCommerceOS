@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardFooter } from "@/components/ui/Card";
 import { Separator } from "@/components/ui/Separator";
 import { Badge } from "@/components/ui/Badge";
-import { Input } from "@/components/ui/Input";
+
 import { getProducts, getCategories, Category } from "@/lib/db/products";
 
 import { ProductFilters } from "@/components/product/ProductFilters";

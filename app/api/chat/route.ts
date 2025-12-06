@@ -1,7 +1,7 @@
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { convertToModelMessages, streamText, tool } from 'ai';
 import { z } from 'zod';
-import { getProductById, Product, searchProducts } from '@/lib/db/products';
+import { Product, searchProducts } from '@/lib/db/products';
 
 const google = createGoogleGenerativeAI({
     apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY!,
@@ -67,6 +67,7 @@ Do NOT answer with product lists yourself — only send the tool call when neede
                         message: `Found ${result.length} result(s).`
                     };
                 },
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } as any),
 
             // similarProducts: tool({

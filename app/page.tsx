@@ -1,5 +1,4 @@
 import { getProducts, getCategories } from "@/lib/db/products";
-import { SeedButton } from "@/components/SeedButton";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
 import { CategoryGrid } from "@/components/home/CategoryGrid";

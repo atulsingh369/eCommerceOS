@@ -17,10 +17,38 @@ import { Separator } from "@/components/ui/Separator";
 import { Loader2, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 
+interface RazorpayOptions {
+  key: string | undefined;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string;
+  handler: (response: RazorpayResponse) => void;
+  prefill: {
+    name: string;
+    email: string | null | undefined;
+    contact: string;
+  };
+  theme: {
+    color: string;
+  };
+}
+
 declare global {
   interface Window {
-    Razorpay: any;
+    Razorpay: new (options: RazorpayOptions) => RazorpayInstance;
   }
+}
+
+interface RazorpayInstance {
+  open: () => void;
+}
+
+interface RazorpayResponse {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
 }
 
 export default function CheckoutPage() {
@@ -84,12 +112,12 @@ export default function CheckoutPage() {
       return;
     }
 
-    if(address.phone.length !== 10) {
+    if (address.phone.length !== 10) {
       toast.error("Phone number must be 10 digits");
       return;
     }
 
-    if(address.zip.length !== 6) {
+    if (address.zip.length !== 6) {
       toast.error("Zip code must be 6 digits");
       return;
     }
@@ -118,7 +146,7 @@ export default function CheckoutPage() {
         name: "E-Shop Premium",
         description: "Order Payment",
         order_id: order.id,
-        handler: async function (response: any) {
+        handler: async function (response: RazorpayResponse) {
           // Payment Success
           toast.success("Payment Successful!");
           console.log(response);

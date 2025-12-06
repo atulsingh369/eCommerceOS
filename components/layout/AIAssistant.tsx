@@ -1,5 +1,7 @@
 "use client";
 
+import { Product } from "@/lib/db/products";
+
 import { useState, useRef, useEffect } from "react";
 import { MessageSquare, X, Send, Loader2, Bot } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -19,6 +21,16 @@ import { useChat } from "@ai-sdk/react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 
+interface ChatPart {
+  type: string;
+  text?: string;
+  state?: string;
+  output?: {
+    products?: Product[];
+    message?: string;
+  };
+}
+
 const AIAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -30,7 +42,7 @@ const AIAssistant = () => {
   });
 
   const renderers = {
-    a: ({ href, children }: any) => {
+    a: ({ href, children }: { href?: string; children?: React.ReactNode }) => {
       if (href?.startsWith("/")) {
         return (
           <Link href={href} className="text-blue-400 underline">
@@ -133,7 +145,8 @@ const AIAssistant = () => {
                       : "bg-muted"
                   }`}
                 >
-                  {m.parts.map((part: any, idx: number) => {
+                  {m.parts.map((_part, idx) => {
+                    const part = _part as ChatPart;
                     // 1) Normal assistant / user text
                     if (part.type === "text") {
                       return (
@@ -169,7 +182,7 @@ const AIAssistant = () => {
 
                       if (state === "output-available") {
                         const output = part.output as {
-                          products?: any[];
+                          products?: Product[];
                           message?: string;
                         };
 

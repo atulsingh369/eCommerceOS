@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
+
 import { notFound } from "next/navigation";
-import { Button } from "@/components/ui/Button";
+
 import { Badge } from "@/components/ui/Badge";
 import { Star, Truck, ShieldCheck, ArrowLeft } from "lucide-react";
 import { getProductById, getProducts } from "@/lib/db/products";
