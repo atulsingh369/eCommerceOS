@@ -173,32 +173,52 @@ export const getCategories = async () => {
 export const searchProducts = async (queryText: string) => {
     try {
         const querySnapshot = await getDocs(collection(db, "products"));
+
         const allProducts = querySnapshot.docs.map(doc => {
             const data = doc.data();
             return {
                 id: doc.id,
-                name: data.name,
-                slug: data.slug,
-                price: Number(data.price),
-                category: data.category,
-                rating: Number(data.rating),
-                reviews: Number(data.reviews),
-                image: data.image,
-                images: data.images || [],
-                description: data.description,
-                features: data.features || [],
+                name: data.name ?? "",
+                slug: data.slug ?? "",
+                price: Number(data.price ?? 0),
+                category: data.category ?? "",
+                rating: Number(data.rating ?? 0),
+                reviews: Number(data.reviews ?? 0),
+                image: data.image ?? "",
+                images: data.images ?? [],
+                description: data.description ?? "",
+                features: data.features ?? [],
                 isNew: !!data.isNew,
             } as Product;
         });
 
-        const lowerQuery = queryText.toLowerCase();
-        return allProducts.filter(product =>
-            product.name.toLowerCase().includes(lowerQuery) ||
-            product.description.toLowerCase().includes(lowerQuery) ||
-            product.category.toLowerCase().includes(lowerQuery)
-        ).slice(0, 5); // Limit relative results
+        const lowerQuery = (queryText ?? "").toLowerCase();
+
+        const filtered = allProducts.filter(product => {
+            return (
+                product.name.toLowerCase().includes(lowerQuery) ||
+                product.category.toLowerCase().includes(lowerQuery)
+            );
+        });
+
+        const ranked = filtered.sort((a, b) => {
+            const aScore =
+                (a.name.toLowerCase().startsWith(lowerQuery) ? 3 : 0) +
+                (a.name.toLowerCase().includes(lowerQuery) ? 2 : 0) +
+                (a.category.toLowerCase().includes(lowerQuery) ? 1 : 0);
+
+            const bScore =
+                (b.name.toLowerCase().startsWith(lowerQuery) ? 3 : 0) +
+                (b.name.toLowerCase().includes(lowerQuery) ? 2 : 0) +
+                (b.category.toLowerCase().includes(lowerQuery) ? 1 : 0);
+
+            return bScore - aScore;
+        });
+
+        console.log("RANKED", ranked);
+        return ranked.slice(0, 8);
     } catch (error) {
         console.error("Error searching products:", error);
         return [];
     }
-}
+};

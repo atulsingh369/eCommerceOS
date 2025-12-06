@@ -5,6 +5,10 @@ import { MessageSquare, X, Send, Loader2, Bot } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import {
+  DefaultChatTransport,
+  lastAssistantMessageIsCompleteWithToolCalls,
+} from "ai";
+import {
   Card,
   CardHeader,
   CardTitle,
@@ -12,22 +16,40 @@ import {
   CardFooter,
 } from "@/components/ui/Card";
 import { useChat } from "@ai-sdk/react";
+import Link from "next/link";
 import ReactMarkdown from "react-markdown";
-
-interface ExtendedMessage {
-  toolInvocations?: unknown[];
-  content: string;
-}
 
 const AIAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
-  // @ts-expect-error useChat type mismatch in v5
-  const { messages, append, status, sendMessage } = useChat({
-    // @ts-expect-error api option might be missing in types but needed
-    api: "/api/chat",
-    maxSteps: 5,
+  const { messages, status, sendMessage } = useChat({
+    transport: new DefaultChatTransport({
+      api: "/api/chat",
+    }),
+    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
   });
+
+  const renderers = {
+    a: ({ href, children }: any) => {
+      if (href?.startsWith("/")) {
+        return (
+          <Link href={href} className="text-blue-400 underline">
+            {children}
+          </Link>
+        );
+      }
+      return (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 underline"
+        >
+          {children}
+        </a>
+      );
+    },
+  };
 
   const isLoading = status === "streaming" || status === "submitted";
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -38,6 +60,17 @@ const AIAssistant = () => {
     }
   }, [messages]);
 
+  useEffect(() => {
+    if (isOpen && scrollRef.current) {
+      setTimeout(() => {
+        scrollRef.current?.scrollTo({
+          top: scrollRef.current.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 150);
+    }
+  }, [isOpen]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
@@ -45,13 +78,7 @@ const AIAssistant = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
-    // Handle sendMessage or append based on availability
-    if (append) {
-      await append({ role: "user", content: input });
-    } else if (sendMessage) {
-      // @ts-expect-error sendMessage signature mismatch
-      await sendMessage({ role: "user", content: input });
-    }
+    await sendMessage({ text: input });
     setInput("");
   };
 
@@ -92,38 +119,140 @@ const AIAssistant = () => {
               </div>
             )}
 
-            {messages.map(
-              (m) =>
-                m.role !== "system" && (
-                  <div
-                    key={m.id}
-                    className={`flex ${
-                      m.role === "user" ? "justify-end" : "justify-start"
-                    }`}
-                  >
-                    <div
-                      className={`p-3 rounded-lg text-sm max-w-[85%] ${
-                        m.role === "user"
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-muted"
-                      }`}
-                    >
-                      {(m as unknown as ExtendedMessage).toolInvocations ? (
-                        <div className="text-xs italic text-muted-foreground flex items-center gap-1">
-                          <Loader2 className="h-3 w-3 animate-spin" />{" "}
-                          Searching...
-                        </div>
-                      ) : (
-                        <div className="prose prose-sm dark:prose-invert">
-                          <ReactMarkdown>
-                            {(m as unknown as ExtendedMessage).content}
+            {messages.map((m) => (
+              <div
+                key={m.id}
+                className={`flex ${
+                  m.role === "user" ? "justify-end" : "justify-start"
+                }`}
+              >
+                <div
+                  className={`p-3 rounded-lg text-sm max-w-[85%] ${
+                    m.role === "user"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted"
+                  }`}
+                >
+                  {m.parts.map((part: any, idx: number) => {
+                    // 1) Normal assistant / user text
+                    if (part.type === "text") {
+                      return (
+                        <div
+                          key={idx}
+                          className="prose prose-sm dark:prose-invert"
+                        >
+                          <ReactMarkdown components={renderers}>
+                            {part.text}
                           </ReactMarkdown>
                         </div>
-                      )}
-                    </div>
-                  </div>
-                )
-            )}
+                      );
+                    }
+
+                    // 2) Tool results: searchProducts
+                    if (part.type === "tool-searchProducts") {
+                      const state = part.state;
+
+                      if (
+                        state === "input-streaming" ||
+                        state === "input-available"
+                      ) {
+                        return (
+                          <div
+                            key={idx}
+                            className="text-xs italic flex items-center gap-1"
+                          >
+                            <Loader2 className="h-3 w-3 animate-spin" />
+                            Searching...
+                          </div>
+                        );
+                      }
+
+                      if (state === "output-available") {
+                        const output = part.output as {
+                          products?: any[];
+                          message?: string;
+                        };
+
+                        if (!output?.products || output.products.length === 0) {
+                          return (
+                            <div
+                              key={idx}
+                              className="text-xs text-muted-foreground"
+                            >
+                              {output?.message ?? "No matching products found."}
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <div key={idx} className="space-y-3">
+                            {output.products.map((p) => (
+                              <>
+                                <div
+                                  key={p.id}
+                                  className="rounded-lg bg-background shadow-sm border p-3 flex gap-3"
+                                >
+                                  {/* image */}
+                                  <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0 bg-black/10">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                      src={p.image}
+                                      alt={p.name}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  </div>
+
+                                  {/* text */}
+                                  <div className="flex flex-col gap-1">
+                                    <div className="font-semibold text-sm">
+                                      {p.name}
+                                    </div>
+                                    <div className="text-xs text-muted-foreground">
+                                      ${p.price} · ⭐ {p.rating} · {p.category}
+                                    </div>
+                                    <div className="text-xs line-clamp-2">
+                                      {p.description}
+                                    </div>
+                                    <Link
+                                      href={`/products/${p.id}`}
+                                      onClick={() => setIsOpen(false)}
+                                      className="text-xs text-blue-400 underline mt-1"
+                                    >
+                                      View product →
+                                    </Link>
+                                  </div>
+                                </div>
+
+                                <button
+                                  className="text-xs text-blue-400 underline mt-1"
+                                  onClick={() =>
+                                    sendMessage({
+                                      text: `show similar to ${p.name}`,
+                                    })
+                                  }
+                                >
+                                  Show more like this →
+                                </button>
+                              </>
+                            ))}
+                          </div>
+                        );
+                      }
+
+                      if (state === "output-error") {
+                        return (
+                          <div key={idx} className="text-xs text-red-400">
+                            Something went wrong while searching.
+                          </div>
+                        );
+                      }
+                    }
+
+                    return null;
+                  })}
+                </div>
+              </div>
+            ))}
 
             {isLoading && messages[messages.length - 1]?.role === "user" && (
               <div className="flex justify-start">
