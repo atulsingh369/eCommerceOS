@@ -8,10 +8,12 @@ import {
     AuthError,
     EmailAuthProvider,
     linkWithCredential,
-    fetchSignInMethodsForEmail
+    fetchSignInMethodsForEmail,
+    sendPasswordResetEmail
 } from "firebase/auth";
 import { auth, googleProvider } from "./config";
 import { createOrUpdateUserDocument } from "./firestore";
+import { logAndGetFriendlyError } from "./errors";
 
 /**
  * Result type for signup operations that may involve account linking
@@ -56,8 +58,8 @@ async function linkEmailPasswordToGoogle(email: string, password: string, name: 
             wasLinked: true
         };
     } catch (error) {
-        console.error("Error linking email/password to Google account:", error);
-        throw error;
+        const friendlyMessage = logAndGetFriendlyError(error, "Account Linking");
+        throw new Error(friendlyMessage);
     }
 }
 
@@ -118,9 +120,9 @@ export async function signupWithEmailPassword(
             }
         }
 
-        // For other errors, throw as-is
-        console.error("Error signing up with email and password", error);
-        throw error;
+        // For other errors, convert to friendly message
+        const friendlyMessage = logAndGetFriendlyError(error, "Signup");
+        throw new Error(friendlyMessage);
     }
 }
 
@@ -134,8 +136,8 @@ export async function loginWithEmailPassword(email: string, password: string): P
         await createOrUpdateUserDocument(userCredential.user);
         return userCredential.user;
     } catch (error) {
-        console.error("Error logging in with email and password", error);
-        throw error;
+        const friendlyMessage = logAndGetFriendlyError(error, "Login");
+        throw new Error(friendlyMessage);
     }
 }
 
@@ -149,8 +151,33 @@ export async function loginWithGoogle(): Promise<User> {
         await createOrUpdateUserDocument(userCredential.user);
         return userCredential.user;
     } catch (error) {
-        console.error("Error logging in with Google", error);
-        throw error;
+        const friendlyMessage = logAndGetFriendlyError(error, "Google Login");
+        throw new Error(friendlyMessage);
+    }
+}
+
+/**
+ * Send password reset email
+ *
+ * @param email - The email address to send the reset link to
+ * @throws Error with user-friendly message if operation fails
+ *
+ * @example
+ * ```typescript
+ * try {
+ *   await resetPassword('user@example.com');
+ *   toast.success('Password reset email sent!');
+ * } catch (error) {
+ *   toast.error((error as Error).message);
+ * }
+ * ```
+ */
+export async function resetPassword(email: string): Promise<void> {
+    try {
+        await sendPasswordResetEmail(auth, email);
+    } catch (error) {
+        const friendlyMessage = logAndGetFriendlyError(error, "Password Reset");
+        throw new Error(friendlyMessage);
     }
 }
 
@@ -161,7 +188,7 @@ export async function logout(): Promise<void> {
     try {
         await signOut(auth);
     } catch (error) {
-        console.error("Error logging out", error);
-        throw error;
+        const friendlyMessage = logAndGetFriendlyError(error, "Logout");
+        throw new Error(friendlyMessage);
     }
 }

@@ -16,9 +16,16 @@ export {
   loginWithEmailPassword,
   loginWithGoogle,
   logout,
+  resetPassword,
   type SignupResult
 } from './firebase/auth';
 export {
   createOrUpdateUserDocument,
   type UserData
 } from './firebase/firestore';
+export {
+  getFriendlyErrorMessage,
+  logAndGetFriendlyError,
+  isAuthError,
+  isFirestoreError
+} from './firebase/errors';

@@ -56,8 +56,10 @@ export default function AuthExample() {
       // Redirect after successful auth
       setTimeout(() => router.push("/"), 1500);
     } catch (err: unknown) {
+      // Error messages are already user-friendly from getFriendlyErrorMessage
+      const errorMessage = (err as Error).message || "Authentication failed";
       console.error("Auth error:", err);
-      setError((err as Error).message || "Authentication failed");
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
