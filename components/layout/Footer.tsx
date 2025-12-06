@@ -1,84 +1,71 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer className="border-t bg-background">
-      <div className="container px-4 md:px-6 py-12 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold">E-Shop</h3>
-            <p className="text-sm text-muted-foreground">
-              Modern e-commerce for quality products.
-            </p>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Shop</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <Link href="/products" className="hover:text-primary">
-                  All Products
-                </Link>
-              </li>
-              <li>
-                <Link href="/categories" className="hover:text-primary">
-                  Categories
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?sort=new" className="hover:text-primary">
-                  New Arrivals
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Support</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <Link href="/contact" className="hover:text-primary">
-                  Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="hover:text-primary">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-primary">
-                  FAQ
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Legal</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <Link href="#" className="hover:text-primary">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-primary">
-                  Terms of Service
-                </Link>
-              </li>
-            </ul>
-          </div>
+    <footer className="w-full border-t bg-background mt-10 pb-12">
+      <div className="container mx-auto px-6 py-4 pt-8 flex justify-between items-center flex-col md:flex-row gap-6">
+        <Link
+          href="https://atulsingh369.netlify.app/"
+          target="_blank"
+          rel="noreferrer"
+          className="flex order-2 md:order-1 items-center gap-3 text-2xl font-bold font-sans tracking-tighter group"
+        >
+          <motion.div
+            initial={{
+              filter:
+                "brightness(100%) drop-shadow(0 0 0px rgba(61,255,157,0))",
+              scale: 1,
+            }}
+            animate={{
+              filter: [
+                "brightness(100%) drop-shadow(0 0 0px rgba(61,255,157,0))",
+                "brightness(130%) drop-shadow(0 0 10px rgba(61,255,157,0.6))",
+                "brightness(100%) drop-shadow(0 0 0px rgba(61,255,157,0))",
+              ],
+              scale: [1, 1.035, 1], // Micro pulse
+            }}
+            transition={{
+              duration: 1.2,
+              ease: "easeOut",
+              repeat: Infinity,
+              repeatDelay: 5,
+              repeatType: "loop",
+            }}
+            className="flex flex-col items-center text-2xl font-bold font-sans tracking-tighter group"
+          >
+            <img
+              src="/devstudios-logo.png"
+              alt="DevStudios Logo"
+              className="2xl:h-24 2xl:w-24 lg:h-24 lg:w-24 h-28 w-28 transition-all duration-300 group-hover:brightness-125 group-hover:drop-shadow-[0_0_6px_rgba(61,255,157,0.6)]"
+            />
+          </motion.div>
+        </Link>
+
+        <div className="order-1 md:order-2 flex gap-6 text-sm text-muted-foreground flex-wrap justify-start">
+          <Link href="/" className="hover:text-foreground transition">
+            Home
+          </Link>
+          <Link href="/products" className="hover:text-foreground transition">
+            Products
+          </Link>
+          <Link href="/about" className="hover:text-foreground transition">
+            About
+          </Link>
+          <Link href="/contact" className="hover:text-foreground transition">
+            Contact
+          </Link>
         </div>
-        <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground flex flex-col gap-2">
-          <p>
-            &copy; {new Date().getFullYear()} DevStudios. All rights reserved.
-          </p>
-          <p className="text-xs opacity-75">
-            Owned and developed exclusively by DevStudios. Commercial use
-            prohibited without explicit written permission.
-          </p>
-        </div>
+      </div>
+      <div className="text-xs text-center text-muted-foreground">
+        © {new Date().getFullYear()} DevStudios. All rights reserved.
+        <br />
+        This ecommerce platform is owned and operated by DevStudios.
+        Unauthorized use, reproduction, or distribution is strictly prohibited.
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}
