@@ -31,9 +31,9 @@ export default async function Home() {
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 h-11 px-4 rounded-md text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-white"
+              className="flex-1 text-black px-4 rounded-md text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-white"
             />
-            <Button variant="secondary" size="lg" type="submit">
+            <Button variant="secondary" size="lg" type="submit" className="text-base">
               Subscribe
             </Button>
           </form>
