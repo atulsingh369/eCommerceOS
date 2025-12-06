@@ -5,9 +5,8 @@ import {
   User,
   onAuthStateChanged,
   signOut as firebaseSignOut,
-  signInWithPopup,
 } from "firebase/auth";
-import { auth, googleProvider } from "@/lib/firebase";
+import { auth, loginWithGoogle } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -41,7 +40,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signInWithGoogle = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      await loginWithGoogle(); // This now automatically creates/updates Firestore user document
       toast.success("Signed in with Google!");
       router.push("/");
     } catch (error) {

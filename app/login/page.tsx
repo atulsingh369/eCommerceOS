@@ -12,17 +12,14 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { loginWithEmailPassword } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-
-import { useAuth } from "@/context/AuthContext";
+import GoogleSignInButton from "@/components/GoogleSignInButton";
 
 export default function LoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { signInWithGoogle } = useAuth();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,7 +29,7 @@ export default function LoginPage() {
     const password = formData.get("password") as string;
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await loginWithEmailPassword(email, password); // Now automatically creates/updates Firestore user document
       toast.success("Logged in successfully!");
       router.push("/");
     } catch (error) {
@@ -86,9 +83,7 @@ export default function LoginPage() {
               {loading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
-          <div className="relative mt-6">
-            {" "}
-            {/* Added mt-6 for spacing */}
+          <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
             </div>
@@ -98,13 +93,7 @@ export default function LoginPage() {
               </span>
             </div>
           </div>
-          <Button
-            onClick={() => signInWithGoogle()}
-            variant="outline"
-            className="w-full"
-          >
-            Google
-          </Button>
+          <GoogleSignInButton />
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-muted-foreground">

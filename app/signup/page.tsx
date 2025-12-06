@@ -12,19 +12,14 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { useState } from "react";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { signupWithEmailPassword } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { doc, setDoc } from "firebase/firestore"; // For Firestore
-import { db } from "@/lib/firebase"; // Assuming Firestore instance is here
-
-import { useAuth } from "@/context/AuthContext";
+import GoogleSignInButton from "@/components/GoogleSignInButton";
 
 export default function SignupPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { signInWithGoogle } = useAuth();
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,26 +31,20 @@ export default function SignupPage() {
     const password = formData.get("password") as string;
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
+      // Our new function handles profile update, Firestore document creation, AND account linking
+      const result = await signupWithEmailPassword(
         email,
-        password
+        password,
+        `${firstName} ${lastName}`
       );
-      // Update profile name
-      await updateProfile(userCredential.user, {
-        displayName: `${firstName} ${lastName}`,
-      });
-      // Create user document in Firestore
-      await setDoc(doc(db, "users", userCredential.user.uid), {
-        uid: userCredential.user.uid,
-        email: userCredential.user.email,
-        firstName: firstName,
-        lastName: lastName,
-        displayName: `${firstName} ${lastName}`,
-        createdAt: new Date().toISOString(),
-      });
 
-      toast.success("Account created successfully!");
+      // Display appropriate message based on whether account was linked
+      if (result.wasLinked) {
+        toast.success(result.message || "Successfully linked your accounts!");
+      } else {
+        toast.success(result.message || "Account created successfully!");
+      }
+
       router.push("/");
     } catch (error) {
       console.error(error);
@@ -146,13 +135,7 @@ export default function SignupPage() {
               </span>
             </div>
           </div>
-          <Button
-            onClick={() => signInWithGoogle()}
-            variant="outline"
-            className="w-full"
-          >
-            Google
-          </Button>
+          <GoogleSignInButton />
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-muted-foreground">
