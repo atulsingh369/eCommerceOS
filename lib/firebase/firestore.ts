@@ -6,13 +6,14 @@ import {
     collection,
     query,
     where,
-    getDocs
+    getDocs,
+    deleteDoc
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 
 export interface UserData {
     uid: string;
-    name: string;
+    displayName: string;
     email: string;
     provider: string;
     photoURL?: string | null;
@@ -75,7 +76,7 @@ export async function createOrUpdateUserDocument(user: User): Promise<void> {
 
             // Update the existing document with latest info
             await setDoc(userDocRef, {
-                name: userName,
+                displayName: userName,
                 email: userEmail,
                 provider: user.providerData[0]?.providerId || 'password',
                 photoURL: user.photoURL || null,
@@ -89,7 +90,7 @@ export async function createOrUpdateUserDocument(user: User): Promise<void> {
 
             const userData: UserData = {
                 uid: user.uid,
-                name: userName,
+                displayName: userName,
                 email: userEmail,
                 provider: user.providerData[0]?.providerId || 'password',
                 photoURL: user.photoURL || null,
@@ -125,12 +126,16 @@ async function initializeUserSubcollections(uid: string): Promise<void> {
             createdAt: serverTimestamp()
         });
 
+        await deleteDoc(cartRef);
+
         // Create a placeholder document in orders subcollection
         const ordersRef = doc(collection(db, `users/${uid}/orders`), '_placeholder');
         await setDoc(ordersRef, {
             _placeholder: true,
             createdAt: serverTimestamp()
         });
+
+        await deleteDoc(ordersRef);
 
         console.log(`Initialized subcollections for user: ${uid}`);
     } catch (error) {

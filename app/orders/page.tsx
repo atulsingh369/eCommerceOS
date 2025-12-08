@@ -143,33 +143,41 @@ export default function OrdersPage() {
 
             return (
               <Link key={order.orderId} href={`/orders/${order.orderId}`}>
-                <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer h-full">
-                  <div className="relative aspect-square bg-muted">
+                <Card className="group overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 cursor-pointer flex flex-row md:flex-col border-2 hover:border-primary/50">
+                  {/* Image Container */}
+                  <div className="relative h-[140px] w-[140px] md:aspect-square md:w-full md:h-auto bg-gradient-to-br from-muted to-muted/50 flex-shrink-0">
                     {firstItem?.image ? (
-                      <Image
-                        src={firstItem.image}
-                        alt={firstItem.name || "Product"}
-                        fill
-                        className="object-cover"
-                      />
+                      <>
+                        <Image
+                          src={firstItem.image}
+                          alt={firstItem.name || "Product"}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-300"
+                          sizes="(max-width: 768px) 140px, (max-width: 1200px) 50vw, 33vw"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </>
                     ) : (
                       <div className="flex items-center justify-center h-full">
-                        <Package className="h-16 w-16 text-muted-foreground" />
+                        <Package className="h-12 w-12 md:h-16 md:w-16 text-muted-foreground" />
                       </div>
                     )}
                     {order.items.length > 1 && (
-                      <div className="absolute top-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded-full">
+                      <div className="absolute top-2 right-2 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground text-xs font-semibold px-2.5 py-1 rounded-full shadow-lg">
                         +{order.items.length - 1} more
                       </div>
                     )}
                   </div>
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between mb-2">
+
+                  {/* Content */}
+                  <CardContent className="p-4 md:p-5 flex-1 flex flex-col">
+                    <div className="flex items-start justify-between mb-3 gap-2">
                       <div className="flex-1 min-w-0">
-                        <p className="font-mono text-xs text-muted-foreground mb-1">
+                        <p className="font-mono text-[10px] md:text-xs text-muted-foreground mb-1 truncate">
                           {order.orderId}
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-xs md:text-sm text-muted-foreground flex items-center gap-1">
+                          <span className="hidden md:inline">Ordered on</span>
                           {orderDate.toLocaleDateString("en-US", {
                             month: "short",
                             day: "numeric",
@@ -180,25 +188,30 @@ export default function OrdersPage() {
                       {order.status && (
                         <OrderStatusBadge
                           status={order.status}
-                          className="text-xs"
+                          className="text-[10px] md:text-xs flex-shrink-0"
                         />
                       )}
                     </div>
 
-                    <h3 className="font-semibold line-clamp-1 mb-1">
+                    <h3 className="font-bold text-sm md:text-base line-clamp-2 mb-2 md:mb-3 group-hover:text-primary transition-colors">
                       {firstItem?.name || "Product"}
                       {order.items.length > 1 &&
                         ` & ${order.items.length - 1} more`}
                     </h3>
 
-                    <div className="flex items-center justify-between mt-3">
-                      <span className="text-lg font-bold">
-                        {formatPrice(order.priceBreakdown?.total || 0)}
-                      </span>
+                    <div className="flex items-center justify-between mt-auto pt-3 border-t border-border/50">
+                      <div>
+                        <p className="text-xs text-muted-foreground mb-0.5">
+                          Total Amount
+                        </p>
+                        <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                          {formatPrice(order.priceBreakdown?.total || 0)}
+                        </span>
+                      </div>
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="text-primary"
+                        className="text-primary hover:text-primary hover:bg-primary/10 hidden md:flex"
                       >
                         View Details →
                       </Button>

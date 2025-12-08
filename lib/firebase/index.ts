@@ -33,3 +33,10 @@ export {
     type PriceBreakdown,
     type RazorpayDetails
 } from './orders';
+export {
+    getUserProfile,
+    updateUserProfile,
+    subscribeToUserProfile,
+    createUserProfile,
+    type UserProfile
+} from './user';
