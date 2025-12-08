@@ -19,10 +19,9 @@ interface ProductsPageProps {
   };
 }
 
-export default async function ProductsPage({
-  searchParams,
-}: ProductsPageProps) {
-  const categoryFilter = searchParams.category;
+export default async function ProductsPage(props: ProductsPageProps) {
+  const searchParams = await props.searchParams;
+  const categoryFilter = searchParams?.category;
   const sortOption = searchParams.sort;
   const searchQuery = searchParams.search;
   const currentPage = Number(searchParams.page) || 1;

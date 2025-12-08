@@ -8,7 +8,9 @@ import {
     where,
     orderBy,
     limit,
-    QueryConstraint
+    QueryConstraint,
+    onSnapshot,
+    Unsubscribe
 } from "firebase/firestore";
 
 export interface Category {
@@ -222,3 +224,184 @@ export const searchProducts = async (queryText: string) => {
         return [];
     }
 };
+
+/**
+ * Subscribe to real-time updates for all products
+ * 
+ * @param callback - Callback function called with products array on updates
+ * @param filters - Optional filters (category, featured, minPrice, maxPrice)
+ * @returns Unsubscribe function to stop listening
+ * 
+ * @example
+ * ```typescript
+ * const unsubscribe = subscribeToProducts((products) => {
+ *   setProducts(products); // Auto-updates when products change
+ * }, { category: 'electronics' });
+ * 
+ * // Cleanup
+ * return () => unsubscribe();
+ * ```
+ */
+export function subscribeToProducts(
+    callback: (products: Product[]) => void,
+    filters?: {
+        category?: string;
+        featured?: boolean;
+        minPrice?: number;
+        maxPrice?: number;
+    }
+): Unsubscribe {
+    const q = collection(db, "products");
+    const constraints: QueryConstraint[] = [];
+
+    if (filters?.category) {
+        constraints.push(where("category", "==", filters.category));
+    }
+
+    if (filters?.featured) {
+        constraints.push(where("isNew", "==", true));
+        constraints.push(limit(3));
+    }
+
+    if (filters?.minPrice !== undefined) {
+        constraints.push(where("price", ">=", Number(filters.minPrice)));
+    }
+
+    if (filters?.maxPrice !== undefined) {
+        constraints.push(where("price", "<=", Number(filters.maxPrice)));
+    }
+
+    const finalQuery = constraints.length > 0 ? query(q, ...constraints) : q;
+
+    const unsubscribe = onSnapshot(
+        finalQuery,
+        (snapshot) => {
+            const results = snapshot.docs.map(doc => {
+                const data = doc.data();
+                return {
+                    id: doc.id,
+                    name: data.name,
+                    slug: data.slug,
+                    price: Number(data.price),
+                    category: data.category,
+                    rating: Number(data.rating),
+                    reviews: Number(data.reviews),
+                    image: data.image,
+                    images: data.images || [],
+                    description: data.description,
+                    features: data.features || [],
+                    isNew: !!data.isNew,
+                } as Product;
+            });
+            console.log(`Real-time update: ${results.length} products`);
+            callback(results);
+        },
+        (error) => {
+            console.error("Error in products subscription:", error);
+            callback([]);
+        }
+    );
+
+    return unsubscribe;
+}
+
+/**
+ * Subscribe to real-time updates for a single product
+ * 
+ * @param productId - The product ID
+ * @param callback - Callback function called with product data on updates
+ * @returns Unsubscribe function to stop listening
+ * 
+ * @example
+ * ```typescript
+ * const unsubscribe = subscribeToProduct(productId, (product) => {
+ *   if (product) {
+ *     setProduct(product); // Auto-updates when product changes
+ *   }
+ * });
+ * 
+ * // Cleanup
+ * return () => unsubscribe();
+ * ```
+ */
+export function subscribeToProduct(
+    productId: string,
+    callback: (product: Product | null) => void
+): Unsubscribe {
+    const docRef = doc(db, "products", productId);
+
+    const unsubscribe = onSnapshot(
+        docRef,
+        (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.data();
+                callback({
+                    id: snapshot.id,
+                    name: data.name,
+                    slug: data.slug,
+                    price: Number(data.price),
+                    category: data.category,
+                    rating: Number(data.rating),
+                    reviews: Number(data.reviews),
+                    image: data.image,
+                    images: data.images || [],
+                    description: data.description,
+                    features: data.features || [],
+                    isNew: !!data.isNew,
+                } as Product);
+            } else {
+                callback(null);
+            }
+        },
+        (error) => {
+            console.error("Error in product subscription:", error);
+            callback(null);
+        }
+    );
+
+    return unsubscribe;
+}
+
+/**
+ * Subscribe to real-time updates for all categories
+ * 
+ * @param callback - Callback function called with categories array on updates
+ * @returns Unsubscribe function to stop listening
+ * 
+ * @example
+ * ```typescript
+ * const unsubscribe = subscribeToCategories((categories) => {
+ *   setCategories(categories); // Auto-updates when categories change
+ * });
+ * 
+ * // Cleanup
+ * return () => unsubscribe();
+ * ```
+ */
+export function subscribeToCategories(
+    callback: (categories: Category[]) => void
+): Unsubscribe {
+    const unsubscribe = onSnapshot(
+        collection(db, "categories"),
+        (snapshot) => {
+            const results = snapshot.docs.map(doc => {
+                const data = doc.data();
+                return {
+                    id: doc.id,
+                    name: data.name,
+                    slug: data.slug,
+                    image: data.image,
+                    description: data.description,
+                } as Category;
+            });
+            console.log(`Real-time update: ${results.length} categories`);
+            callback(results);
+        },
+        (error) => {
+            console.error("Error in categories subscription:", error);
+            callback([]);
+        }
+    );
+
+    return unsubscribe;
+}

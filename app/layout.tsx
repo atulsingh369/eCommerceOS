@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import AIAssistant from "@/components/layout/AIAssistant";
@@ -42,6 +42,7 @@ export default function RootLayout({
           <CartProvider>
             <Navbar />
             <main className="flex-1">{children}</main>
+            <SpeedInsights />
             <AIAssistant />
             <Footer />
             <Toaster position="bottom-right" />

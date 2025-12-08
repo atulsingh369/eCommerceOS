@@ -10,11 +10,11 @@ import { ProductImageGallery } from "@/components/product/ProductImageGallery";
 import { BuyNowButton } from "@/components/BuyNowButton";
 import { formatPrice } from "@/lib/utils";
 
-export default async function ProductDetailPage({
-  params,
-}: {
-  params: { id: string };
+export default async function ProductDetailPage(props: {
+  params: Promise<{ id: string }>;
 }) {
+  const params = await props.params;
+
   const product = await getProductById(params.id);
 
   if (!product) {

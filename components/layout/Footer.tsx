@@ -51,11 +51,11 @@ export default function Footer() {
           <Link href="/products" className="hover:text-foreground transition">
             Products
           </Link>
+          <Link href="/orders" className="hover:text-foreground transition">
+            Orders
+          </Link>
           <Link href="/about" className="hover:text-foreground transition">
             About
-          </Link>
-          <Link href="/contact" className="hover:text-foreground transition">
-            Contact
           </Link>
         </div>
       </div>

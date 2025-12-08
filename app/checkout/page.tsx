@@ -17,6 +17,7 @@ import { Separator } from "@/components/ui/Separator";
 import { Loader2, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 import { formatPrice } from "@/lib/utils";
+import { createOrder } from "@/lib/firebase/orders";
 
 interface RazorpayOptions {
   key: string | undefined;
@@ -50,6 +51,7 @@ interface RazorpayResponse {
   razorpay_payment_id: string;
   razorpay_order_id: string;
   razorpay_signature: string;
+  method: string;
 }
 
 export default function CheckoutPage() {
@@ -60,6 +62,7 @@ export default function CheckoutPage() {
   const [address, setAddress] = useState({
     name: "",
     street: "",
+    addressLine2: "",
     city: "",
     state: "",
     zip: "",
@@ -72,7 +75,8 @@ export default function CheckoutPage() {
     0
   );
   const tax = subtotal * 0.08;
-  const total = subtotal + tax;
+  const shipping = 0; // Free shipping
+  const total = subtotal + tax + shipping;
 
   useEffect(() => {
     // Load Razorpay Script
@@ -130,7 +134,7 @@ export default function CheckoutPage() {
       const res = await fetch("/api/razorpay", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: total }),
+        body: JSON.stringify({ amount: Math.round(total * 100) }),
       });
 
       const order = await res.json();
@@ -148,12 +152,58 @@ export default function CheckoutPage() {
         description: "Order Payment",
         order_id: order.id,
         handler: async function (response: RazorpayResponse) {
-          // Payment Success
-          toast.success("Payment Successful!");
-          console.log(response);
-          // 3. Clear Cart and Redirect
-          await clearCart();
-          router.push("/products"); // Or success page
+          try {
+            // Payment Success - Create order in Firestore
+            toast.loading("Creating your order...");
+
+            const firestoreOrder = await createOrder(user.uid, {
+              items: cart.map((item) => ({
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity,
+                image: item.image,
+                category: item.category,
+              })),
+              deliveryAddress: {
+                fullName: address.name,
+                phone: address.phone,
+                addressLine1: address.street,
+                addressLine2: address.addressLine2,
+                city: address.city,
+                state: address.state,
+                pincode: address.zip,
+                country: "India",
+              },
+              priceBreakdown: {
+                subtotal,
+                tax,
+                shipping,
+                total,
+              },
+              paymentMethod: response.method,
+              razorpayDetails: {
+                paymentId: response.razorpay_payment_id,
+                orderId: response.razorpay_order_id,
+                signature: response.razorpay_signature,
+                method: response.method,
+                amount: total,
+              },
+              status: "booked",
+            });
+
+            toast.dismiss();
+            toast.success("Order placed successfully!");
+
+            // Clear cart
+            await clearCart();
+
+            // Redirect to order confirmation page
+            router.push(`/order-confirmed/${firestoreOrder.orderId}`);
+          } catch (error) {
+            console.error("Error creating order:", error);
+            toast.error("Failed to create order. Please contact support.");
+          }
         },
         prefill: {
           name: address.name,

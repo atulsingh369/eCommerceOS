@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, Search, Menu, X } from "lucide-react";
+import { ShoppingCart, Search, Menu, X, Package } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { useState } from "react";
@@ -49,6 +49,19 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
+              {user && (
+                <Link
+                  href="/orders"
+                  className={`transition-colors hover:text-foreground/80 flex items-center gap-1.5 ${
+                    isActive("/orders")
+                      ? "text-primary font-bold"
+                      : "text-foreground/60"
+                  }`}
+                >
+                  <Package className="h-4 w-4" />
+                  Orders
+                </Link>
+              )}
             </nav>
           </div>
 
@@ -181,6 +194,16 @@ const Navbar = () => {
             >
               About
             </Link>
+            {user && (
+              <Link
+                href="/orders"
+                className="text-sm font-medium transition-colors hover:text-primary flex items-center gap-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Package className="h-4 w-4" />
+                My Orders
+              </Link>
+            )}
             {user ? (
               <Link
                 href="/profile"
