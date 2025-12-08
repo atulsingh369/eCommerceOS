@@ -4,10 +4,9 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardFooter } from "@/components/ui/Card";
 import { Separator } from "@/components/ui/Separator";
 import { Badge } from "@/components/ui/Badge";
-
 import { getProducts, getCategories, Category } from "@/lib/db/products";
-
 import { ProductFilters } from "@/components/product/ProductFilters";
+import { formatPrice } from "@/lib/utils";
 
 interface ProductsPageProps {
   searchParams: {
@@ -68,13 +67,13 @@ export default async function ProductsPage({
         <div className="w-full md:w-64 space-y-8 flex-shrink-0">
           <div>
             <h3 className="font-semibold mb-4 text-lg">Categories</h3>
-            <div className="space-y-2">
+            <div className="flex flex-row no-scrollbar md:flex-col gap-2 overflow-x-auto">
               <Link
                 href="/products"
-                className={`block text-sm ${
+                className={`block text-sm md:border-0 whitespace-nowrap border rounded-full px-4 py-2 w-auto md:rounded-none ${
                   !categoryFilter
-                    ? "font-bold text-primary"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "font-bold text-primary border-primary"
+                    : "text-muted-foreground hover:text-foreground border-muted"
                 }`}
               >
                 All Categories
@@ -83,10 +82,10 @@ export default async function ProductsPage({
                 <Link
                   key={category.id}
                   href={`/products?category=${category.slug}`}
-                  className={`block text-sm ${
+                  className={`block text-sm md:border-0 whitespace-nowrap border rounded-full px-4 py-2 w-auto md:rounded-none ${
                     categoryFilter === category.slug
-                      ? "font-bold text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "font-bold text-primary border-primary"
+                      : "text-muted-foreground hover:text-foreground border-muted"
                   }`}
                 >
                   {category.name}
@@ -96,8 +95,8 @@ export default async function ProductsPage({
           </div>
 
           <Separator />
-
           <ProductFilters />
+          <Separator />
         </div>
 
         {/* Product Grid */}
@@ -150,7 +149,7 @@ export default async function ProductsPage({
                 </CardContent>
                 <CardFooter className="p-4 pt-0 flex items-center justify-between">
                   <span className="font-bold text-lg">
-                    ${product.price.toFixed(2)}
+                    {formatPrice(product.price)}
                   </span>
                   <Button
                     size="sm"

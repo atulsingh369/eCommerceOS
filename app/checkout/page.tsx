@@ -16,6 +16,7 @@ import {
 import { Separator } from "@/components/ui/Separator";
 import { Loader2, Lock } from "lucide-react";
 import toast from "react-hot-toast";
+import { formatPrice } from "@/lib/utils";
 
 interface RazorpayOptions {
   key: string | undefined;
@@ -262,23 +263,23 @@ export default function CheckoutPage() {
                   <span>
                     {item.name} x {item.quantity}
                   </span>
-                  <span>${(item.price * item.quantity).toFixed(2)}</span>
+                  <span>{formatPrice(item.price * item.quantity)}</span>
                 </div>
               ))}
               <Separator className="my-2" />
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>{formatPrice(subtotal)}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Tax</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>{formatPrice(tax)}</span>
               </div>
             </CardContent>
             <CardFooter className="flex flex-col gap-4">
               <div className="flex justify-between w-full text-xl font-bold">
                 <span>Total</span>
-                <span>${total.toFixed(2)}</span>
+                <span>{formatPrice(total)}</span>
               </div>
               <Button
                 size="lg"
@@ -291,7 +292,7 @@ export default function CheckoutPage() {
                 ) : (
                   <Lock className="mr-2 h-4 w-4" />
                 )}
-                Pay ${total.toFixed(2)}
+                Pay {formatPrice(total)}
               </Button>
             </CardFooter>
           </Card>

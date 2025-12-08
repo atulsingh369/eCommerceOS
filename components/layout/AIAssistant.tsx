@@ -20,6 +20,7 @@ import {
 import { useChat } from "@ai-sdk/react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+import { formatPrice } from "@/lib/utils";
 
 interface ChatPart {
   type: string;
@@ -221,7 +222,8 @@ const AIAssistant = () => {
                                       {p.name}
                                     </div>
                                     <div className="text-xs text-muted-foreground">
-                                      ${p.price} · ⭐ {p.rating} · {p.category}
+                                      {formatPrice(p.price)} · ⭐ {p.rating} ·{" "}
+                                      {p.category}
                                     </div>
                                     <div className="text-xs line-clamp-2">
                                       {p.description}
@@ -236,7 +238,7 @@ const AIAssistant = () => {
                                   </div>
                                 </div>
 
-                                <button
+                                {/* <button
                                   className="text-xs text-blue-400 underline mt-1"
                                   onClick={() =>
                                     sendMessage({
@@ -245,7 +247,7 @@ const AIAssistant = () => {
                                   }
                                 >
                                   Show more like this →
-                                </button>
+                                </button> */}
                               </>
                             ))}
                           </div>

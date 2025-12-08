@@ -181,16 +181,26 @@ const Navbar = () => {
             >
               About
             </Link>
-            <div className="flex flex-col gap-2 pt-4 border-t">
-              <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                <Button variant="outline" className="w-full">
-                  Log In
-                </Button>
+            {user ? (
+              <Link
+                href="/profile"
+                className="text-sm font-medium transition-colors hover:text-primary"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Profile
               </Link>
-              <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
-                <Button className="w-full">Sign Up</Button>
-              </Link>
-            </div>
+            ) : (
+              <div className="flex flex-col gap-2 pt-4 border-t">
+                <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="outline" className="w-full">
+                    Log In
+                  </Button>
+                </Link>
+                <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
+                  <Button className="w-full">Sign Up</Button>
+                </Link>
+              </div>
+            )}
           </nav>
         </div>
       )}

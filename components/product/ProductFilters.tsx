@@ -2,21 +2,35 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Slider } from "@/components/ui/Slider";
-import { Button } from "@/components/ui/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { formatPrice } from "@/lib/utils";
 
 export function ProductFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [priceRange, setPriceRange] = useState([0, 1800]); // Default range
+  const [priceRange, setPriceRange] = useState([0, 14000]); // Default range
+  const [loading, setLoading] = useState(false);
 
-  const handleApply = () => {
+  const handleApply = (value: number[]) => {
+    setLoading(true);
+    setPriceRange(value);
     const params = new URLSearchParams(searchParams.toString());
-    params.set("minPrice", priceRange[0].toString());
-    params.set("maxPrice", priceRange[1].toString());
+    params.set("minPrice", value[0].toString());
+    params.set("maxPrice", value[1].toString());
     params.set("page", "1"); // Reset to page 1 on filter change
     router.push(`/products?${params.toString()}`);
+    setLoading(false);
   };
+
+  useEffect(() => {
+    const minPrice = searchParams.get("minPrice");
+    const maxPrice = searchParams.get("maxPrice");
+    if (minPrice && maxPrice) {
+      setPriceRange([Number(minPrice), Number(maxPrice)]);
+    } else {
+      setPriceRange([0, 14000]);
+    }
+  }, [searchParams]);
 
   return (
     <div>
@@ -24,25 +38,17 @@ export function ProductFilters() {
       <div className="px-2">
         <Slider
           defaultValue={priceRange}
-          max={2000}
-          step={10}
+          max={20000}
+          step={20}
           value={priceRange}
-          onValueChange={setPriceRange}
+          onValueChange={handleApply}
           className="mb-4"
         />
         <div className="flex justify-between text-sm text-muted-foreground mb-4">
-          <span>${priceRange[0]}</span>
-          <span>${priceRange[1]}</span>
+          <span>{formatPrice(priceRange[0])}</span>
+          <span>{formatPrice(priceRange[1])}</span>
         </div>
       </div>
-      <Button
-        variant="secondary"
-        size="sm"
-        className="w-full mt-2"
-        onClick={handleApply}
-      >
-        Apply
-      </Button>
     </div>
   );
 }

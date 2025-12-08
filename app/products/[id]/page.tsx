@@ -8,6 +8,7 @@ import { getProductById, getProducts } from "@/lib/db/products";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { ProductImageGallery } from "@/components/product/ProductImageGallery";
 import { BuyNowButton } from "@/components/BuyNowButton";
+import { formatPrice } from "@/lib/utils";
 
 export default async function ProductDetailPage({
   params,
@@ -61,7 +62,7 @@ export default async function ProductDetailPage({
               </span>
             </div>
           </div>
-          <div className="text-2xl font-bold">${product.price.toFixed(2)}</div>
+          <div className="text-2xl font-bold">{formatPrice(product.price)}</div>
           <p className="text-muted-foreground leading-relaxed">
             {product.description}
           </p>
