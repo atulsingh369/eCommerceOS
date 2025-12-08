@@ -97,10 +97,15 @@ export default function CheckoutPage() {
   }, []);
 
   useEffect(() => {
+    if (!authLoading && !user) {
+      router.replace("/login");
+    }
+  }, [authLoading, user, router]);
+
+  useEffect(() => {
     if (authLoading) return;
 
     if (!user) {
-      router.push("/login");
       return;
     }
 
@@ -108,7 +113,6 @@ export default function CheckoutPage() {
     const fetchProfile = async () => {
       try {
         const profileData = await getUserProfile(user.uid);
-        console.log(profileData);
         if (profileData) {
           setAddress({ ...address, ...profileData.address, ...profileData });
         }
@@ -135,7 +139,12 @@ export default function CheckoutPage() {
     if (!user) return;
 
     // Simple validation
-    if (!address.displayName || !address.line1 || !address.city || !address.pincode) {
+    if (
+      !address.displayName ||
+      !address.line1 ||
+      !address.city ||
+      !address.pincode
+    ) {
       toast.error("Please fill in shipping address");
       return;
     }
