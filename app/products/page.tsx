@@ -101,7 +101,7 @@ export default async function ProductsPage({
 
         {/* Product Grid */}
         <div className="flex-1">
-          {/* ... (Header) ... */}
+          {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-3xl font-bold tracking-tight">
               {searchQuery
@@ -111,11 +111,14 @@ export default async function ProductsPage({
                     ?.name || "Products"
                 : "All Products"}
             </h1>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">
-                Page {currentPage}
-              </span>
-            </div>
+            {/* Only show page number if there are multiple pages (more than 6 products) */}
+            {(currentPage > 1 || hasMore) && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">
+                  Page {currentPage}
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -177,30 +180,33 @@ export default async function ProductsPage({
             )}
           </div>
 
-          <div className="flex justify-center mt-12 space-x-2">
-            <Link
-              href={{
-                pathname: "/products",
-                query: { ...searchParams, page: currentPage - 1 },
-              }}
-              passHref
-            >
-              <Button variant="outline" disabled={currentPage <= 1}>
-                Previous
-              </Button>
-            </Link>
-            <Link
-              href={{
-                pathname: "/products",
-                query: { ...searchParams, page: currentPage + 1 },
-              }}
-              passHref
-            >
-              <Button variant="outline" disabled={!hasMore}>
-                Next
-              </Button>
-            </Link>
-          </div>
+          {/* Pagination - Only show if there are multiple pages */}
+          {(currentPage > 1 || hasMore) && (
+            <div className="flex justify-center mt-12 space-x-2">
+              <Link
+                href={{
+                  pathname: "/products",
+                  query: { ...searchParams, page: currentPage - 1 },
+                }}
+                passHref
+              >
+                <Button variant="outline" disabled={currentPage <= 1}>
+                  Previous
+                </Button>
+              </Link>
+              <Link
+                href={{
+                  pathname: "/products",
+                  query: { ...searchParams, page: currentPage + 1 },
+                }}
+                passHref
+              >
+                <Button variant="outline" disabled={!hasMore}>
+                  Next
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>
