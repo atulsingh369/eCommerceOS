@@ -7,7 +7,9 @@ import {
     deleteDoc,
     updateDoc,
     increment,
-    getDoc
+    getDoc,
+    onSnapshot,
+    Unsubscribe
 } from "firebase/firestore";
 import { Product } from "./products";
 
@@ -25,6 +27,48 @@ export const getCart = async (userId: string): Promise<CartItem[]> => {
         return [];
     }
 };
+
+/**
+ * Subscribe to real-time cart updates
+ * 
+ * @param userId - The user's UID
+ * @param callback - Callback function called with cart items on updates
+ * @returns Unsubscribe function to stop listening
+ * 
+ * @example
+ * ```typescript
+ * const unsubscribe = subscribeToCart(userId, (cartItems) => {
+ *   setCart(cartItems); // Auto-updates when cart changes!
+ * });
+ * 
+ * // Cleanup
+ * return () => unsubscribe();
+ * ```
+ */
+export function subscribeToCart(
+    userId: string,
+    callback: (cartItems: CartItem[]) => void
+): Unsubscribe {
+    const cartRef = collection(db, "users", userId, "cart");
+
+    const unsubscribe = onSnapshot(
+        cartRef,
+        (snapshot) => {
+            const items = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            } as CartItem));
+            console.log(`Real-time update: ${items.length} cart items`);
+            callback(items);
+        },
+        (error) => {
+            console.error("Error in cart subscription:", error);
+            callback([]);
+        }
+    );
+
+    return unsubscribe;
+}
 
 export const addToCart = async (userId: string, product: Product) => {
     try {
