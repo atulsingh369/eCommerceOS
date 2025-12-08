@@ -5,6 +5,11 @@ import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
+import {
+  getUserProfile,
+  updateUserProfile,
+  UserProfile,
+} from "@/lib/firebase/index";
 import { Input } from "@/components/ui/Input";
 import {
   Card,
@@ -60,13 +65,14 @@ export default function CheckoutPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState({
-    name: "",
-    street: "",
-    addressLine2: "",
+    displayName: "",
+    line1: "",
+    line2: "",
     city: "",
     state: "",
-    zip: "",
-    phone: "",
+    pincode: "",
+    phoneNumber: "",
+    country: "",
   });
 
   // Calculate totals
@@ -90,6 +96,33 @@ export default function CheckoutPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (authLoading) return;
+
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+
+    // Fetch user profile
+    const fetchProfile = async () => {
+      try {
+        const profileData = await getUserProfile(user.uid);
+        console.log(profileData);
+        if (profileData) {
+          setAddress({ ...address, ...profileData.address, ...profileData });
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        toast.error("Failed to load profile");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [user, authLoading, router]);
+
   function containsOnlyDigits(str: string): boolean {
     return /^\d+$/.test(str);
   }
@@ -102,28 +135,28 @@ export default function CheckoutPage() {
     if (!user) return;
 
     // Simple validation
-    if (!address.name || !address.street || !address.city || !address.zip) {
+    if (!address.displayName || !address.line1 || !address.city || !address.pincode) {
       toast.error("Please fill in shipping address");
       return;
     }
 
-    if (!containsOnlyDigits(address.phone)) {
+    if (!containsOnlyDigits(address.phoneNumber)) {
       toast.error("Phone number must contain only digits");
       return;
     }
 
-    if (!containsOnlyDigits(address.zip)) {
-      toast.error("Zip code must contain only digits");
+    if (!containsOnlyDigits(address.pincode)) {
+      toast.error("Pincode must contain only digits");
       return;
     }
 
-    if (address.phone.length !== 10) {
+    if (address.phoneNumber.length !== 10) {
       toast.error("Phone number must be 10 digits");
       return;
     }
 
-    if (address.zip.length !== 6) {
-      toast.error("Zip code must be 6 digits");
+    if (address.pincode.length !== 6) {
+      toast.error("Pincode must be 6 digits");
       return;
     }
 
@@ -166,14 +199,14 @@ export default function CheckoutPage() {
                 category: item.category,
               })),
               deliveryAddress: {
-                fullName: address.name,
-                phone: address.phone,
-                addressLine1: address.street,
-                addressLine2: address.addressLine2,
+                fullName: address.displayName,
+                phone: address.phoneNumber,
+                addressLine1: address.line1,
+                addressLine2: address.line2,
                 city: address.city,
                 state: address.state,
-                pincode: address.zip,
-                country: "India",
+                pincode: address.pincode,
+                country: address.country,
               },
               priceBreakdown: {
                 subtotal,
@@ -206,9 +239,9 @@ export default function CheckoutPage() {
           }
         },
         prefill: {
-          name: address.name,
+          name: address.displayName,
           email: user.email,
-          contact: address.phone,
+          contact: address.phoneNumber,
         },
         theme: {
           color: "#7e22ce", // Primary Purple
@@ -260,13 +293,13 @@ export default function CheckoutPage() {
               <Input
                 name="name"
                 placeholder="Full Name"
-                value={address.name}
+                value={address.displayName}
                 onChange={handleInputChange}
               />
               <Input
                 name="street"
                 placeholder="Street Address"
-                value={address.street}
+                value={address.line1}
                 onChange={handleInputChange}
               />
               <div className="grid grid-cols-2 gap-4">
@@ -287,13 +320,13 @@ export default function CheckoutPage() {
                 <Input
                   name="zip"
                   placeholder="ZIP Code"
-                  value={address.zip}
+                  value={address.pincode}
                   onChange={handleInputChange}
                 />
                 <Input
                   name="phone"
                   placeholder="Phone Number"
-                  value={address.phone}
+                  value={address.phoneNumber}
                   onChange={handleInputChange}
                 />
               </div>
