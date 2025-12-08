@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
@@ -43,7 +43,7 @@ export const AddToCartButton = ({ product }: AddToCartButtonProps) => {
 
   if (quantity > 0) {
     return (
-      <div className="flex items-center gap-3">
+      <div className="flex items-center justify-center w-full md:w-auto md:justify-start gap-3">
         <Button size="icon" variant="outline" onClick={decreaseQuantity}>
           <Minus className="h-4 w-4" />
         </Button>
@@ -58,7 +58,7 @@ export const AddToCartButton = ({ product }: AddToCartButtonProps) => {
   }
 
   return (
-    <Button size="lg" className="flex-1" onClick={handleAddToCart}>
+    <Button size="lg" onClick={handleAddToCart}>
       Add to Cart
     </Button>
   );

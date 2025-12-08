@@ -74,7 +74,7 @@ export default async function ProductDetailPage(props: {
               ))}
             </ul>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 pt-6">
+          <div className="flex flex-col sm:flex-row gap-4 pt-6 disabled:opacity-50">
             <AddToCartButton product={product} />
             <BuyNowButton product={product} />
           </div>

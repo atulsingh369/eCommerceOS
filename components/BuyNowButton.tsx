@@ -13,8 +13,11 @@ interface BuyNowButtonProps {
 
 export const BuyNowButton = ({ product }: BuyNowButtonProps) => {
   const { user } = useAuth();
-  const { addToCart } = useCart();
+  const { cart, addToCart } = useCart();
   const router = useRouter();
+
+  const cartItem = cart.find((item) => item.id === product.id);
+  const quantity = cartItem ? cartItem.quantity : 0;
 
   const handleBuyNow = async () => {
     if (!user) {
@@ -28,7 +31,7 @@ export const BuyNowButton = ({ product }: BuyNowButtonProps) => {
   };
 
   return (
-    <Button variant="secondary" size="lg" onClick={handleBuyNow}>
+    <Button variant="secondary" size="lg" onClick={handleBuyNow} disabled={quantity > 0}>
       Buy Now
     </Button>
   );
