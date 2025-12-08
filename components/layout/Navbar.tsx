@@ -292,6 +292,19 @@ const Navbar = () => {
             >
               About Us
             </Link>
+
+            <div className="border-t border-border" />
+            {user && (
+              <button
+                onClick={() => {
+                  setIsProfileOpen(false);
+                  signOut();
+                }}
+                className="text-sm hover:bg-muted transition-colors w-full text-left text-destructive"
+              >
+                Sign Out
+              </button>
+            )}
           </nav>
         </div>
       )}
