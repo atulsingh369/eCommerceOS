@@ -14,6 +14,7 @@ import {
   Info,
   Package,
   LogOut,
+  MessagesSquare,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -54,6 +55,7 @@ const Navbar = () => {
     { href: "/products", label: "Products", icon: ShoppingBag },
     { href: "/categories", label: "Categories", icon: LayoutGrid },
     { href: "/about", label: "About Us", icon: Info },
+    { href: "/contact", label: "Contact Us", icon: MessagesSquare },
   ];
 
   return (
@@ -67,49 +69,39 @@ const Navbar = () => {
                 CommerceOS
               </span>
             </Link>
-            <nav className="hidden md:flex gap-6 text-sm font-medium">
+            <nav className="hidden md:flex gap-6 text-sm font-medium items-center">
               {[
                 { href: "/", label: "Home" },
                 { href: "/products", label: "Products" },
                 { href: "/categories", label: "Categories" },
                 { href: "/about", label: "About Us" },
+                { href: "/contact", label: "Contact Us" },
               ].map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`transition-colors hover:text-foreground/80 ${
+                  className={`transition-colors hover:text-foreground/80 hover:underline underline-offset-4 ${
                     isActive(link.href)
-                      ? "text-primary font-bold"
+                      ? "text-primary font-bold underline"
                       : "text-foreground/60"
-                  }`}
+                  } ${link.label === "Home" ? "sm:hidden lg:block" : ""}
+                   ${link.label === "Contact Us" ? "sm:hidden lg:block" : ""}`}
                 >
                   {link.label}
                 </Link>
               ))}
-              {user && (
-                <Link
-                  href="/orders"
-                  className={`transition-colors hover:text-foreground/80 flex items-center gap-1.5 ${
-                    isActive("/orders")
-                      ? "text-primary font-bold"
-                      : "text-foreground/60"
-                  }`}
-                >
-                  Orders
-                </Link>
-              )}
             </nav>
           </div>
 
           {/* Right: Search + Cart + Profile/Auth + Mobile Menu Button */}
           <div className="flex items-center gap-4">
             {/* Desktop Search */}
-            <div className="hidden md:flex relative w-full max-w-sm items-center">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <div className="hidden md:flex md:justify-center relative w-full max-w-sm items-center">
+              <Search className="absolute left-2.5 top-[13px] h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
                 placeholder="Search products..."
-                className="pl-8 w-[200px] lg:w-[300px]"
+                className="pl-8 w-[100px] xs:w-[100px] sm:w-[160px] lg:w-[300px]"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     const target = e.target as HTMLInputElement;

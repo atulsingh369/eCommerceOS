@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t bg-background mt-10 pb-12">
+    <footer className="w-full border-t bg-background pb-6">
       <div className="container mx-auto px-6 py-4 pt-8 flex justify-between items-center flex-col md:flex-row gap-6">
         <Link
           href="https://atulsingh369.netlify.app/"
@@ -44,7 +44,7 @@ export default function Footer() {
           </motion.div>
         </Link>
 
-        <div className="order-1 md:order-2 flex gap-6 text-sm text-muted-foreground flex-wrap justify-start">
+        <div className="order-1 md:order-2 flex gap-6 text-sm text-muted-foreground flex-wrap justify-center md:justify-start">
           <Link href="/" className="hover:text-foreground transition">
             Home
           </Link>
@@ -55,17 +55,15 @@ export default function Footer() {
             Orders
           </Link>
           <Link href="/about" className="hover:text-foreground transition">
-            About
+            About Us
+          </Link>
+          <Link href="/contact" className="hover:text-foreground transition">
+            Contact Us
           </Link>
         </div>
       </div>
       <div className="text-xs text-center text-muted-foreground">
         © {new Date().getFullYear()} DevStudios. All rights reserved.
-        <br />
-        This e-commerce platform is owned & operated by DevStudios.
-        <br />
-        Unauthorized reproduction or distribution or commercial deployment
-        without written permission is strictly prohibited.
       </div>
     </footer>
   );
