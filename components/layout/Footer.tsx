@@ -62,8 +62,10 @@ export default function Footer() {
       <div className="text-xs text-center text-muted-foreground">
         © {new Date().getFullYear()} DevStudios. All rights reserved.
         <br />
-        This ecommerce platform is owned and operated by DevStudios.
-        Unauthorized use, reproduction, or distribution is strictly prohibited.
+        This e-commerce platform is owned & operated by DevStudios.
+        <br />
+        Unauthorized reproduction or distribution or commercial deployment
+        without written permission is strictly prohibited.
       </div>
     </footer>
   );

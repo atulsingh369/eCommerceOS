@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-4 md:px-6 py-16 max-w-3xl text-center">
+    <div className="container mx-auto px-6 py-16 max-w-3xl text-center">
       <h1 className="text-4xl font-bold tracking-tight mb-6">About DevStudios</h1>
 
       <p className="text-xl text-muted-foreground mb-8 text-left md:text-center leading-relaxed">
@@ -32,12 +32,12 @@ export default function AboutPage() {
         develop it end-to-end. We specialize in scalable architecture, AI automation, and pixel-perfect UX.
       </p>
 
-      <div className="flex justify-center gap-4">
+      <div className="flex md:flex-row flex-col md:justify-center gap-4">
         <Link href="/contact">
-          <Button size="lg">Build Your Store With Us</Button>
+          <Button size="full">Build Your Store With Us</Button>
         </Link>
         <Link href="/">
-          <Button size="lg" variant="outline">
+          <Button size="full" variant="outline">
             Back to Home
           </Button>
         </Link>
@@ -46,8 +46,8 @@ export default function AboutPage() {
       <p className="mt-12 text-sm text-muted-foreground">
         © {new Date().getFullYear()} DevStudios. All rights reserved.
         <br />
-        This platform is owned by DevStudios. Unauthorized reproduction or 
-        commercial deployment without written permission is strictly prohibited.
+        <br />
+        This e-commerce platform is owned & operated by DevStudios. Unauthorized reproduction or distribution or commercial deployment without written permission is strictly prohibited.
       </p>
     </div>
   );
