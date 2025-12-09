@@ -275,7 +275,6 @@ export function subscribeToUserOrders(
             snapshot.forEach((doc) => {
                 orders.push(doc.data() as Order);
             });
-            console.log(`Real-time update: ${orders.length} orders for user: ${userId}`);
             callback(orders);
         },
         (error) => {

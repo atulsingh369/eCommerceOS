@@ -293,7 +293,6 @@ export function subscribeToProducts(
                     isNew: !!data.isNew,
                 } as Product;
             });
-            console.log(`Real-time update: ${results.length} products`);
             callback(results);
         },
         (error) => {
@@ -394,7 +393,6 @@ export function subscribeToCategories(
                     description: data.description,
                 } as Category;
             });
-            console.log(`Real-time update: ${results.length} categories`);
             callback(results);
         },
         (error) => {

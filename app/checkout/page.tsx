@@ -23,6 +23,7 @@ import { Loader2, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 import { formatPrice } from "@/lib/utils";
 import { createOrder } from "@/lib/firebase/orders";
+import { metadata } from "../layout";
 
 interface RazorpayOptions {
   key: string | undefined;
@@ -56,7 +57,6 @@ interface RazorpayResponse {
   razorpay_payment_id: string;
   razorpay_order_id: string;
   razorpay_signature: string;
-  method: string;
 }
 
 export default function CheckoutPage() {
@@ -190,14 +190,34 @@ export default function CheckoutPage() {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
-        name: "CommerceOS Premium",
+        image: "https://i.ibb.co/7NQm7JLG/Dev-Studios.png",
+        name: "CommerceOS",
         description: "Order Payment",
         order_id: order.id,
         handler: async function (response: RazorpayResponse) {
           try {
-            // Payment Success - Create order in Firestore
-            toast.loading("Creating your order...");
+            toast.loading("Verifying payment...");
 
+            const verifyPaymentRes = await fetch("/api/verify-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                paymentId: response.razorpay_payment_id,
+                orderId: response.razorpay_order_id,
+                signature: response.razorpay_signature,
+              }),
+            });
+
+            const verifyPaymentData = await verifyPaymentRes.json();
+
+            toast.dismiss();
+
+            if (!verifyPaymentData.success) {
+              toast.error("Payment verification failed!");
+              return;
+            }
+
+            toast.loading("Placing order...");
             const firestoreOrder = await createOrder(user.uid, {
               items: cart.map((item) => ({
                 id: item.id,
@@ -223,22 +243,25 @@ export default function CheckoutPage() {
                 shipping,
                 total,
               },
-              paymentMethod: response.method,
+              paymentMethod:
+                verifyPaymentData.payment.method?.toUpperCase() || "RAZORPAY",
               razorpayDetails: {
-                paymentId: response.razorpay_payment_id,
-                orderId: response.razorpay_order_id,
+                paymentId: verifyPaymentData.payment.id,
+                orderId: verifyPaymentData.payment.order_id,
                 signature: response.razorpay_signature,
-                method: response.method,
+                method:
+                  verifyPaymentData.payment.method?.toUpperCase() || "RAZORPAY",
                 amount: total,
               },
               status: "booked",
             });
 
-            toast.dismiss();
             toast.success("Order placed successfully!");
 
             // Clear cart
             await clearCart();
+
+            toast.dismiss();
 
             // Redirect to order confirmation page
             router.push(`/order-confirmed/${firestoreOrder.orderId}`);
@@ -253,7 +276,7 @@ export default function CheckoutPage() {
           contact: address.phoneNumber,
         },
         theme: {
-          color: "#7e22ce", // Primary Purple
+          color: "#6D28D9", // Primary color
         },
       };
 

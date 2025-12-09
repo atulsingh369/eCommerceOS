@@ -143,9 +143,9 @@ export default function OrdersPage() {
 
             return (
               <Link key={order.orderId} href={`/orders/${order.orderId}`}>
-                <Card className="group overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 cursor-pointer flex flex-row md:flex-col border-2 hover:border-primary/50">
+                <Card className="group overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-row md:flex-col border-2 hover:border-primary/50">
                   {/* Image Container */}
-                  <div className="relative h-[140px] w-[140px] md:aspect-square md:w-full md:h-auto bg-gradient-to-br from-muted to-muted/50 flex-shrink-0">
+                  <div className="relative h-[140px] overflow-hidden w-[140px] md:aspect-video md:w-full md:h-auto bg-gradient-to-br from-muted to-muted/50 flex-shrink-0">
                     {firstItem?.image ? (
                       <>
                         <Image

@@ -58,7 +58,6 @@ export function subscribeToCart(
                 id: doc.id,
                 ...doc.data()
             } as CartItem));
-            console.log(`Real-time update: ${items.length} cart items`);
             callback(items);
         },
         (error) => {
