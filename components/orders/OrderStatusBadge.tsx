@@ -26,12 +26,12 @@ export function OrderStatusBadge({ status, className }: OrderStatusBadgeProps) {
     delivered: {
       label: "Delivered",
       variant: "default" as const,
-      className: "bg-green-500 hover:bg-green-600",
+      className: "bg-green-500 hover:bg-green-600 tracking-tighter px-2 ",
     },
     cancelled: {
       label: "Cancelled",
       variant: "destructive" as const,
-      className: "bg-red-500 hover:bg-red-600",
+      className: "bg-red-500 hover:bg-red-600 tracking-tighter px-2 ",
     },
   };
 

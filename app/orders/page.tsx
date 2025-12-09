@@ -143,16 +143,16 @@ export default function OrdersPage() {
 
             return (
               <Link key={order.orderId} href={`/orders/${order.orderId}`}>
-                <Card className="group overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-row md:flex-col border-2 hover:border-primary/50">
+                <Card className="mx-2 md:mx-0 group overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-row md:flex-col border-2 hover:border-primary/50">
                   {/* Image Container */}
-                  <div className="relative h-[140px] overflow-hidden w-[140px] md:aspect-video md:w-full md:h-auto bg-gradient-to-br from-muted to-muted/50 flex-shrink-0">
+                  <div className="relative h-auto overflow-hidden w-[140px] md:aspect-video md:w-full bg-gradient-to-br from-muted to-muted/50 flex-shrink-0">
                     {firstItem?.image ? (
                       <>
                         <Image
                           src={firstItem.image}
                           alt={firstItem.name || "Product"}
                           fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-300"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
                           sizes="(max-width: 768px) 140px, (max-width: 1200px) 50vw, 33vw"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -171,7 +171,7 @@ export default function OrdersPage() {
 
                   {/* Content */}
                   <CardContent className="p-4 md:p-5 flex-1 flex flex-col">
-                    <div className="flex items-start justify-between mb-3 gap-2">
+                    <div className="flex items-start justify-between mb-3 gap-2 flex-wrap">
                       <div className="flex-1 min-w-0">
                         <p className="font-mono text-[10px] md:text-xs text-muted-foreground mb-1 truncate">
                           {order.orderId}
