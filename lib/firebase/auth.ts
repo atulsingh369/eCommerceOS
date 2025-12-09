@@ -143,24 +143,35 @@ export async function loginWithEmailPassword(email: string, password: string): P
     }
 }
 
+
 /**
  * Log in with Google OAuth
+ * Uses signInWithPopup for desktop and signInWithRedirect for mobile.
  */
-export async function loginWithGoogle(): Promise<User> {
+export async function loginWithGoogle(): Promise<User | null> {
     try {
         const provider = new GoogleAuthProvider();
-        const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-        let results;
 
-        if (mobile) {
-            results = await signInWithRedirect(auth, provider);
+        // Simple mobile detection
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            // For mobile, use redirect. This doesn't return a user immediately.
+            // The result will be handled by getRedirectResult() in AuthContext.
+            await signInWithRedirect(auth, provider);
+            return null;
         } else {
-            results = await signInWithPopup(auth, provider);
+            // For desktop, use popup. This returns the user immediately.
+            const result = await signInWithPopup(auth, provider);
+            return result.user;
         }
-        // Ensure Firestore document is created/updated
-        await createOrUpdateUserDocument(results.user);
-        return results.user;
     } catch (error) {
+        // If the user closes the popup, we don't need to throw a massive error
+        const authError = error as AuthError;
+        if (authError.code === 'auth/popup-closed-by-user') {
+            throw new Error('Sign-in cancelled by user');
+        }
+
         const friendlyMessage = logAndGetFriendlyError(error, "Google Login");
         throw new Error(friendlyMessage);
     }

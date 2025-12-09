@@ -35,6 +35,7 @@ export default function RootLayout({
     <html lang="en" className="dark h-full no-scrollbar">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen no-scrollbar flex flex-col bg-background text-foreground`}
