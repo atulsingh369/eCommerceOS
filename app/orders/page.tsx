@@ -23,6 +23,8 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState<OrderStatus | "all">("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const LIMIT = 6;
 
   useEffect(() => {
     if (authLoading) return;
@@ -42,6 +44,11 @@ export default function OrdersPage() {
     return () => unsubscribe();
   }, [user, authLoading, router]);
 
+  // Reset to page 1 when status filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [statusFilter]);
+
   if (authLoading || loading) {
     return (
       <div className="flex items-center justify-center min-h-[calc(100vh-140px)]">
@@ -51,10 +58,18 @@ export default function OrdersPage() {
   }
 
   // Filter orders by status
-  const filteredOrders =
+  const allFilteredOrders =
     statusFilter === "all"
       ? orders
       : orders.filter((order) => order.status === statusFilter);
+
+  // Pagination logic
+  const totalOrders = allFilteredOrders.length;
+  const totalPages = Math.ceil(totalOrders / LIMIT);
+  const startIndex = (currentPage - 1) * LIMIT;
+  const endIndex = startIndex + LIMIT;
+  const filteredOrders = allFilteredOrders.slice(startIndex, endIndex);
+  const hasMore = currentPage < totalPages;
 
   const statusTabs: { value: OrderStatus | "all"; label: string }[] = [
     { value: "all", label: "All" },
@@ -68,12 +83,24 @@ export default function OrdersPage() {
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">My Orders</h1>
-        {orders.length > 0 && (
-          <p className="text-muted-foreground">
-            {orders.length} order{orders.length !== 1 ? "s" : ""} in total
-          </p>
-        )}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">My Orders</h1>
+            {orders.length > 0 && (
+              <p className="text-muted-foreground">
+                {totalOrders} order{totalOrders !== 1 ? "s" : ""} in total
+              </p>
+            )}
+          </div>
+          {/* Only show page number if there are multiple pages */}
+          {(currentPage > 1 || hasMore) && (
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">
+                Page {currentPage}
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Status Filter Tabs */}
@@ -221,6 +248,32 @@ export default function OrdersPage() {
               </Link>
             );
           })}
+        </div>
+      )}
+
+      {/* Pagination - Only show if there are multiple pages */}
+      {totalOrders > 0 && (currentPage > 1 || hasMore) && (
+        <div className="flex justify-center mt-12 space-x-2">
+          <Button
+            variant="outline"
+            disabled={currentPage <= 1}
+            onClick={() => {
+              setCurrentPage((prev) => Math.max(1, prev - 1));
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            disabled={!hasMore}
+            onClick={() => {
+              setCurrentPage((prev) => prev + 1);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          >
+            Next
+          </Button>
         </div>
       )}
     </div>
