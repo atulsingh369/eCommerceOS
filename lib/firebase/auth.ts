@@ -149,16 +149,14 @@ export async function loginWithEmailPassword(email: string, password: string): P
 export async function loginWithGoogle(): Promise<User> {
     try {
         const provider = new GoogleAuthProvider();
-
         const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        let results;
+
         if (mobile) {
             provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
-        }
-        let results;
-        if (mobile) {
-            results = await signInWithPopup(auth, provider);
-        } else {
             results = await signInWithRedirect(auth, provider);
+        } else {
+            results = await signInWithPopup(auth, provider);
         }
         // Ensure Firestore document is created/updated
         await createOrUpdateUserDocument(results.user);
