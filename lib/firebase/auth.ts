@@ -153,7 +153,6 @@ export async function loginWithGoogle(): Promise<User> {
         let results;
 
         if (mobile) {
-            provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
             results = await signInWithRedirect(auth, provider);
         } else {
             results = await signInWithPopup(auth, provider);
@@ -167,22 +166,6 @@ export async function loginWithGoogle(): Promise<User> {
     }
 }
 
-/**
- * Send password reset email
- *
- * @param email - The email address to send the reset link to
- * @throws Error with user-friendly message if operation fails
- *
- * @example
- * ```typescript
- * try {
- *   await resetPassword('user@example.com');
- *   toast.success('Password reset email sent!');
- * } catch (error) {
- *   toast.error((error as Error).message);
- * }
- * ```
- */
 export async function resetPassword(email: string): Promise<void> {
     try {
         await sendPasswordResetEmail(auth, email);
@@ -192,9 +175,6 @@ export async function resetPassword(email: string): Promise<void> {
     }
 }
 
-/**
- * Log out current user
- */
 export async function logout(): Promise<void> {
     try {
         await signOut(auth);

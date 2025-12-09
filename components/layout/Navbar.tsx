@@ -247,101 +247,98 @@ const Navbar = () => {
             }`}
           >
             <div className="flex flex-col h-full">
-              {/* Top Section: Logo + Search + Nav Items */}
-              <div className="flex-1 overflow-y-auto">
-                {/* Logo */}
-                <div className="p-6 border-b border-border">
-                  <Link
-                    href="/"
-                    onClick={closeMenu}
-                    className="flex items-center space-x-2"
-                  >
-                    <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
-                      CommerceOS
-                    </span>
-                  </Link>
-                </div>
-
-                {/* Search Bar */}
-                <div className="p-4 border-b border-border">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      type="search"
-                      placeholder="Search products..."
-                      className="pl-9 w-full"
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          const target = e.target as HTMLInputElement;
-                          if (target.value.trim()) {
-                            window.location.href = `/products?search=${encodeURIComponent(
-                              target.value
-                            )}`;
-                            closeMenu();
-                          }
-                        }
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* Navigation Items */}
-                <nav className="p-4 space-y-1">
-                  {mobileNavItems.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={closeMenu}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                          isActive(item.href)
-                            ? "bg-primary/10 text-primary"
-                            : "text-foreground/70 hover:bg-muted hover:text-foreground"
-                        }`}
-                      >
-                        <Icon className="h-5 w-5" />
-                        <span>{item.label}</span>
-                      </Link>
-                    );
-                  })}
-
-                  {/* Conditional: Orders (if logged in) */}
-                  {user && (
-                    <Link
-                      href="/orders"
-                      onClick={closeMenu}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                        isActive("/orders")
-                          ? "bg-primary/10 text-primary"
-                          : "text-foreground/70 hover:bg-muted hover:text-foreground"
-                      }`}
-                    >
-                      <Package className="h-5 w-5" />
-                      <span>Orders</span>
-                    </Link>
-                  )}
-
-                  {/* Conditional: Profile (if logged in) */}
-                  {user && (
-                    <Link
-                      href="/profile"
-                      onClick={closeMenu}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                        isActive("/profile")
-                          ? "bg-primary/10 text-primary"
-                          : "text-foreground/70 hover:bg-muted hover:text-foreground"
-                      }`}
-                    >
-                      <User className="h-5 w-5" />
-                      <span>Profile</span>
-                    </Link>
-                  )}
-                </nav>
+              {/* Logo */}
+              <div className="p-6 border-b border-border">
+                <Link
+                  href="/"
+                  onClick={closeMenu}
+                  className="flex items-center space-x-2"
+                >
+                  <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+                    CommerceOS
+                  </span>
+                </Link>
               </div>
 
+              {/* Search Bar */}
+              <div className="p-4 border-b border-border">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="search"
+                    placeholder="Search products..."
+                    className="pl-9 w-full"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        const target = e.target as HTMLInputElement;
+                        if (target.value.trim()) {
+                          window.location.href = `/products?search=${encodeURIComponent(
+                            target.value
+                          )}`;
+                          closeMenu();
+                        }
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Navigation Items */}
+              <nav className="p-4 flex-1 overflow-y-auto space-y-1">
+                {mobileNavItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeMenu}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                        isActive(item.href)
+                          ? "bg-primary/10 text-primary"
+                          : "text-foreground/70 hover:bg-muted hover:text-foreground"
+                      }`}
+                    >
+                      <Icon className="h-5 w-5" />
+                      <span>{item.label}</span>
+                    </Link>
+                  );
+                })}
+
+                {/* Conditional: Orders (if logged in) */}
+                {user && (
+                  <Link
+                    href="/orders"
+                    onClick={closeMenu}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                      isActive("/orders")
+                        ? "bg-primary/10 text-primary"
+                        : "text-foreground/70 hover:bg-muted hover:text-foreground"
+                    }`}
+                  >
+                    <Package className="h-5 w-5" />
+                    <span>Orders</span>
+                  </Link>
+                )}
+
+                {/* Conditional: Profile (if logged in) */}
+                {user && (
+                  <Link
+                    href="/profile"
+                    onClick={closeMenu}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                      isActive("/profile")
+                        ? "bg-primary/10 text-primary"
+                        : "text-foreground/70 hover:bg-muted hover:text-foreground"
+                    }`}
+                  >
+                    <User className="h-5 w-5" />
+                    <span>Profile</span>
+                  </Link>
+                )}
+              </nav>
+
               {/* Bottom Section: Auth Actions */}
-              <div className="p-4 border-t border-border">
+              <div className="sticky bg-background bottom-0 w-full p-4 border-t border-border">
                 {user ? (
                   <Button
                     variant="ghost"
