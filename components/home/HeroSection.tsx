@@ -17,7 +17,7 @@ export function HeroSection() {
           transition={{ duration: 0.5 }}
         >
           <Badge className="mb-2" variant="secondary">
-            New Collection Arrived
+            AI-Powered Demo Store - Fully Customizable
           </Badge>
         </motion.div>
 
@@ -27,7 +27,7 @@ export function HeroSection() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          Elevate Your Lifestyle
+          Build Your Next-Gen AI <br />Commerce Store
         </motion.h1>
 
         <motion.p
@@ -36,8 +36,8 @@ export function HeroSection() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Discover our curated selection of premium electronics, fashion, and
-          home essentials. Designed for the modern aesthetic.
+          Super-fast, scalable storefronts powered by Next.js, Firebase & AI
+          automation.
         </motion.p>
 
         <motion.div
@@ -47,17 +47,17 @@ export function HeroSection() {
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <Link href="/products">
-            <Button size="lg" className="px-8 transition-all hover:scale-105">
-              Shop Now
+            <Button size="full" className="px-8 transition-all hover:scale-105">
+              Launch Demo
             </Button>
           </Link>
-          <Link href="/categories">
+          <Link href="/about">
             <Button
               variant="outline"
-              size="lg"
+              size="full"
               className="px-8 transition-all hover:scale-105 hover:bg-background"
             >
-              Browse Categories
+              View Features
             </Button>
           </Link>
         </motion.div>

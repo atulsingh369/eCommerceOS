@@ -1,9 +1,21 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Card } from "@/components/ui/Card";
-import { categories } from "@/lib/mockData";
+import { Category, subscribeToCategories } from "@/lib/db/products";
+import { useState, useEffect } from "react";
 
 export default function CategoriesPage() {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToCategories((categories) => {
+      setCategories(categories);
+    });
+    return () => unsubscribe();
+  }, []);
+
   return (
     <div className="container mx-auto px-4 md:px-6 py-10">
       <h1 className="text-3xl font-bold mb-8 text-center">Browse Categories</h1>

@@ -373,9 +373,8 @@ export default function ContactPage() {
           © {new Date().getFullYear()} DevStudios. All rights reserved.
         </p>
         <p className="text-xs text-muted-foreground/70 max-w-2xl mx-auto mb-4">
-          This e-commerce platform is owned & operated by DevStudios.
-          Unauthorized reproduction or distribution or commercial deployment
-          without written permission is strictly prohibited.
+          This e-commerce platform is owned & operated by DevStudios. Usage,
+          distribution, or reproduction requires written permission
         </p>
         <div className="flex flex-wrap flex-col justify-center gap-3">
           <Link

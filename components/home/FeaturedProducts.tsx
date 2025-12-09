@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/Badge";
 import { ArrowRight } from "lucide-react";
 import { Product } from "@/lib/db/products";
 import { motion } from "framer-motion";
+import { formatPrice } from "@/lib/utils";
 
 const container = {
   hidden: { opacity: 0 },
@@ -27,13 +28,22 @@ const item = {
 export function FeaturedProducts({ products }: { products: Product[] }) {
   return (
     <section className="container mx-auto px-4 md:px-6">
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="text-3xl font-bold tracking-tight">Featured Products</h2>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">
+            Product Display Showcase
+          </h2>
+          <p className="text-muted-foreground text-sm sm:text-base mt-1">
+            A clean, high-conversion product grid built with Firestore data and
+            real-time filtering.
+          </p>
+        </div>
+
         <Link
           href="/products"
-          className="text-primary hover:underline flex items-center gap-1 transition-colors"
+          className="text-primary hover:underline flex items-center gap-1 self-end sm:self-auto text-sm font-medium"
         >
-          View All <ArrowRight className="h-4 w-4" />
+          View All Products <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
       <motion.div
@@ -75,7 +85,7 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
               </CardContent>
               <CardFooter className="p-4 pt-0 flex items-center justify-between mt-auto">
                 <span className="font-bold text-lg">
-                  ${product.price.toFixed(2)}
+                  {formatPrice(product.price)}
                 </span>
                 <Button
                   size="sm"

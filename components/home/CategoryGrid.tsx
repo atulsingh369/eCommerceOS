@@ -24,9 +24,13 @@ export function CategoryGrid({ categories }: { categories: Category[] }) {
   return (
     <section className="bg-slate-50 dark:bg-slate-900/50 py-16">
       <div className="container mx-auto px-4 md:px-6">
-        <h2 className="text-3xl font-bold tracking-tight mb-8 text-center">
+        <h2 className="text-3xl font-bold tracking-tight mb-6 text-center">
           Shop by Category
         </h2>
+        <p className="text-muted-foreground text-center mb-6">
+          Beautiful, image-driven category browsing designed for clarity and
+          conversions.
+        </p>
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           variants={container}
