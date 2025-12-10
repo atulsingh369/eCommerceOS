@@ -8,6 +8,7 @@ import AIAssistant from "@/components/layout/AIAssistant";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,6 +46,7 @@ export default function RootLayout({
             <Navbar />
             <main className="flex-1">{children}</main>
             <SpeedInsights />
+            <Analytics />
             <AIAssistant />
             <Footer />
             <Toaster position="bottom-right" />

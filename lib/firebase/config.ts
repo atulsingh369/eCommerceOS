@@ -4,9 +4,7 @@ import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBDVmQORbns-oQ1RCgycl0sHEEqa-Qk2zU",
-    // Use the current domain for auth to support the reverse proxy (bypasses 3rd party cookie blocking)
-    // Fallback to the firebaseapp domain for server-side rendering or non-browser environments
-    authDomain: typeof window !== "undefined" ? window.location.hostname : "ecom-web-25008.firebaseapp.com",
+    authDomain: "ecom-web-25008.firebaseapp.com",
     projectId: "ecom-web-25008",
     storageBucket: "ecom-web-25008.firebasestorage.app",
     messagingSenderId: "501798015178",
