@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardFooter } from "@/components/ui/Card";
 import { Separator } from "@/components/ui/Separator";
 import { Badge } from "@/components/ui/Badge";
-import { getProducts, getCategories, Category } from "@/lib/db/products";
+import { getProducts, getCategories, Category, Product } from "@/lib/db/products";
 import { ProductFilters } from "@/components/product/ProductFilters";
 import { formatPrice } from "@/lib/utils";
 
@@ -121,7 +121,7 @@ export default async function ProductsPage(props: ProductsPageProps) {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
+            {products.map((product: Product) => (
               <Card key={product.id} className="overflow-hidden group relative">
                 {/* ... Existing Card Content ... */}
                 <Link

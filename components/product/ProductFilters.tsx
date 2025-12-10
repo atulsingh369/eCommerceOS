@@ -70,7 +70,7 @@ export function ProductFilters() {
         {loading && (
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Loader2 className="h-3 w-3 animate-spin" />
-            <span>Updating...</span>
+            <span>Filtering...</span>
           </div>
         )}
       </div>
