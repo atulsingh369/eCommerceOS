@@ -1,5 +1,28 @@
 export const categories = [
-
+    {
+        name: "Tech Essentials",
+        slug: "tech-essentials",
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8",
+        description: "Premium gadgets built for speed, productivity, and everyday performance."
+    },
+    {
+        name: "Lifestyle & Fashion",
+        slug: "lifestyle-fashion",
+        image: "https://images.unsplash.com/photo-1521336575822-6da63fb45455?auto=format&fit=crop&w=800&q=80",
+        description: "Minimal, modern pieces crafted for comfort and timeless style."
+    },
+    {
+        name: "Home & Décor",
+        slug: "home-decor",
+        image: "https://images.unsplash.com/photo-1507089947368-19c1da9775ae",
+        description: "A curated collection of lighting, decor, and organization accessories."
+    },
+    {
+        name: "Productivity Gear",
+        slug: "productivity-gear",
+        image: "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc",
+        description: "Workspace upgrades designed to help you focus and perform at your best."
+    }
 ];
 
 export const products = [

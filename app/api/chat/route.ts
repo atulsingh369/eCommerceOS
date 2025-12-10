@@ -1,6 +1,6 @@
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { convertToModelMessages, streamText, tool } from 'ai';
-import { z } from 'zod';
+import { number, string, z } from 'zod';
 import { Product, searchProducts } from '@/lib/db/products';
 
 const google = createGoogleGenerativeAI({
@@ -48,6 +48,39 @@ const compareProductsReturn = z.object({
 });
 
 
+// Define types for better type inference
+type SearchResult = {
+    products: {
+        id: string;
+        name: string;
+        price: number;
+        rating: number;
+        reviews: number;
+        image: string;
+    }[];
+    message: string;
+};
+
+type CompareResult = {
+    message: string;
+    ranked?: {
+        id: string;
+        name: string;
+        price: number;
+        rating: number;
+        reviews: number;
+        score: number;
+    }[];
+    best?: {
+        id: string;
+        name: string;
+        price: number;
+        rating: number;
+        reviews: number;
+        score: number;
+    };
+};
+
 // Main POST handler for chat
 export async function POST(req: Request) {
     const { messages } = await req.json();
@@ -89,8 +122,10 @@ Respond: “Please specify what product you want to compare.”
         tools: {
             searchProducts: tool({
                 description: "Search products",
-                parameters: searchParams,
-                execute: async ({ query }: z.infer<typeof searchParams>) => {
+                parameters: z.object({
+                    query: z.string(),
+                }),
+                execute: async ({ query }: { query: string }): Promise<SearchResult> => {
                     console.log("TOOL RECEIVED QUERY:", query);
                     if (!query || !query.trim()) {
                         return { products: [], message: "Please specify a product name." };
@@ -119,12 +154,12 @@ Respond: “Please specify what product you want to compare.”
             compareProducts: tool({
                 description: "Compare products by rating, reviews, and price.",
                 parameters: compareProductsParams,
-                execute: async ({ products }: z.infer<typeof compareProductsParams>) => {
+                execute: async ({ products }: z.infer<typeof compareProductsParams>): Promise<CompareResult> => {
                     if (!products || products.length < 2) {
                         return {
                             message: "Need at least 2 products to compare.",
                             ranked: [],
-                            best: null,
+                            best: undefined,
                         };
                     }
 
@@ -145,9 +180,7 @@ Respond: “Please specify what product you want to compare.”
                         best: sorted[0],
                     };
                 },
-            }),
-
-
+            } as any),
         },
     });
 
