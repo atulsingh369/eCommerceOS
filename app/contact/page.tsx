@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import emailjs from "@emailjs/browser";
 import {
   Mail,
   MessageCircle,
@@ -16,11 +17,42 @@ import {
   Palette,
 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function ContactPage() {
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert("Form submitted! (Demo only - integrate with your backend)");
+    setLoading(true);
+
+    const form = e.currentTarget;
+    const name = (form.querySelector("#name") as HTMLInputElement).value;
+    const email = (form.querySelector("#email") as HTMLInputElement).value;
+    const message = (form.querySelector("#message") as HTMLTextAreaElement)
+      .value;
+
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          name,
+          email,
+          message,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      );
+
+      toast.success("Message sent successfully!");
+      form.reset();
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      toast.error("Failed to send message. Try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -56,7 +88,7 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* WhatsApp */}
           <a
-            href="https://wa.me/YOUR_PHONE_NUMBER"
+            href="https://wa.me/917518299883"
             target="_blank"
             rel="noopener noreferrer"
             className="group"
@@ -77,7 +109,7 @@ export default function ContactPage() {
           </a>
 
           {/* Email */}
-          <a href="mailto:contact@devstudios.com" className="group">
+          <a href="mailto:atulsingh.0369@gmail.com" className="group">
             <div className="relative overflow-hidden rounded-xl border border-border bg-gradient-to-br from-background to-muted/20 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/50 hover:-translate-y-1">
               <div className="flex items-center gap-4">
                 <div className="p-3 rounded-lg bg-blue-500/10 group-hover:bg-blue-500/20 transition-colors">
@@ -95,7 +127,7 @@ export default function ContactPage() {
 
           {/* Portfolio */}
           <a
-            href="https://your-portfolio.com"
+            href="https://atulsingh369.netlify.app"
             target="_blank"
             rel="noopener noreferrer"
             className="group"
@@ -115,7 +147,7 @@ export default function ContactPage() {
 
           {/* LinkedIn */}
           <a
-            href="https://linkedin.com/in/YOUR_PROFILE"
+            href="https://linkedin.com/in/atulsingh369"
             target="_blank"
             rel="noopener noreferrer"
             className="group"
@@ -137,7 +169,7 @@ export default function ContactPage() {
 
           {/* GitHub */}
           <a
-            href="https://github.com/YOUR_USERNAME"
+            href="https://github.com/atulsingh369"
             target="_blank"
             rel="noopener noreferrer"
             className="group"
@@ -157,7 +189,7 @@ export default function ContactPage() {
 
           {/* Gumroad (Optional) */}
           <a
-            href="https://gumroad.com/YOUR_STORE"
+            href="https://gumroad.com/atulsingh369"
             target="_blank"
             rel="noopener noreferrer"
             className="group"
@@ -340,7 +372,7 @@ export default function ContactPage() {
               />
             </div>
             <Button type="submit" className="w-full" size="lg">
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </Button>
           </form>
         </div>

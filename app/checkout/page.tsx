@@ -5,11 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
-import {
-  getUserProfile,
-  updateUserProfile,
-  UserProfile,
-} from "@/lib/firebase/index";
+import { getUserProfile } from "@/lib/firebase/index";
 import { Input } from "@/components/ui/Input";
 import {
   Card,
@@ -23,7 +19,6 @@ import { Loader2, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 import { formatPrice } from "@/lib/utils";
 import { createOrder } from "@/lib/firebase/orders";
-import { metadata } from "../layout";
 
 interface RazorpayOptions {
   key: string | undefined;
