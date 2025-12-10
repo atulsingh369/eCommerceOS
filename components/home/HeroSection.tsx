@@ -27,7 +27,7 @@ export function HeroSection() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          Build Your Next-Gen AI <br />Commerce Store
+          Build Your Next-Gen AI Commerce Store
         </motion.h1>
 
         <motion.p
