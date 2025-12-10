@@ -11,6 +11,43 @@ const searchParams = z.object({
     query: z.string(),
 });
 
+const compareProductsParams = z.object({
+    products: z.array(z.object({
+        id: z.string(),
+        name: z.string(),
+        price: z.number(),
+        rating: z.number(),
+        reviews: z.number(),
+    }))
+});
+
+const compareProductsReturn = z.object({
+    message: z.string().optional(),
+    ranked: z
+        .array(
+            z.object({
+                id: z.string(),
+                name: z.string(),
+                price: z.number(),
+                rating: z.number(),
+                reviews: z.number(),
+                score: z.number(),
+            })
+        )
+        .optional(),
+    best: z
+        .object({
+            id: z.string(),
+            name: z.string(),
+            price: z.number(),
+            rating: z.number(),
+            reviews: z.number(),
+            score: z.number(),
+        })
+        .optional(),
+});
+
+
 // Main POST handler for chat
 export async function POST(req: Request) {
     const { messages } = await req.json();
@@ -21,17 +58,32 @@ export async function POST(req: Request) {
         system: `
 You are an AI shopping assistant.
 
-When the user asks about a product, ALWAYS call the searchProducts tool.
-FIRST, you MUST extract only the key product name or keyword from the user's message.
+Your responsibilities:
+1. When the user searches for a product, ALWAYS call searchProducts.
+2. Extract ONLY the product keyword(s) from the message.
+3. If the user asks:
+   - “which one is better”
+   - “compare these”
+   - “best among them”
+   - “which is cheaper”
+   - “highest rated”
+   THEN:
+      After retrieving products from searchProducts, call compareProducts.
 
-ALWAYS call searchProducts with a single short keyword string, never undefined.
-Example tool call: { "query": "watch" }
+Rules:
+- NEVER compare by yourself. Only compare using the compareProducts tool.
+- ALWAYS keep product comparison objective: rating, reviews, and price.
+- If fewer than 2 products are found, explain that more data is needed.
+- If user gives too many words, extract only the product keyword.
 
-If the user mentions extra words like "best", "price", "show me", or "can you", IGNORE them and extract only the actual product name.
-Never call the tool with undefined, empty string, or full sentence text.
+Example:
+User: “Compare DSLR and mirrorless camera”
+→ Extract "camera"
+→ Call searchProducts({query: "camera"})
+→ Then call compareProducts({products: [...]})
 
-If there is nothing to search for, say: "Please specify a product name."
-Do NOT answer with product lists yourself — only send the tool call when needed.
+If no valid product keyword exists:
+Respond: “Please specify what product you want to compare.”
 `,
         toolChoice: "auto",
         tools: {
@@ -53,12 +105,8 @@ Do NOT answer with product lists yourself — only send the tool call when neede
                         id: p.id,
                         name: p.name,
                         price: p.price,
-                        category: p.category,
                         rating: p.rating,
-                        features: p.features,
-                        isNew: p.isNew,
                         reviews: p.reviews,
-                        description: p.description,
                         image: p.image,
                     }));
 
@@ -67,29 +115,39 @@ Do NOT answer with product lists yourself — only send the tool call when neede
                         message: `Found ${result.length} result(s).`
                     };
                 },
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } as any),
+            compareProducts: tool({
+                description: "Compare products by rating, reviews, and price.",
+                parameters: compareProductsParams,
+                execute: async ({ products }: z.infer<typeof compareProductsParams>) => {
+                    if (!products || products.length < 2) {
+                        return {
+                            message: "Need at least 2 products to compare.",
+                            ranked: [],
+                            best: null,
+                        };
+                    }
 
-            // similarProducts: tool({
-            //     description: "Find similar products based on category or price range",
-            //     parameters: z.object({
-            //         id: z.string(),
-            //     }),
-            //     execute: async ({ id }) => {
-            //         const product = await getProductById(id);
-            //         if (!product) return { products: [] };
+                    const scored = products.map((p) => {
+                        const score =
+                            p.rating * 2 +
+                            p.reviews * 0.02 -
+                            p.price * 0.001;
 
-            //         const all = await getAllProducts();
-            //         const filtered = all.filter(
-            //             (p) =>
-            //                 p.id !== id &&
-            //                 (p.category === product.category ||
-            //                     p.name.toLowerCase().includes(product.name.split(" ")[1]?.toLowerCase()))
-            //         );
+                        return { ...p, score };
+                    });
 
-            //         return { products: filtered.slice(0, 6) };
-            //     },
-            // })
+                    const sorted = scored.sort((a, b) => b.score - a.score);
+
+                    return {
+                        message: "Comparison complete.",
+                        ranked: sorted,
+                        best: sorted[0],
+                    };
+                },
+            }),
+
+
         },
     });
 
