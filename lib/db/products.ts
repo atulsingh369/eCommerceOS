@@ -199,6 +199,7 @@ export const searchProducts = async (queryText: string) => {
         const filtered = allProducts.filter(product => {
             return (
                 product.name.toLowerCase().includes(lowerQuery) ||
+                product.slug.toLowerCase().includes(lowerQuery) ||
                 product.category.toLowerCase().includes(lowerQuery)
             );
         });
@@ -207,11 +208,13 @@ export const searchProducts = async (queryText: string) => {
             const aScore =
                 (a.name.toLowerCase().startsWith(lowerQuery) ? 3 : 0) +
                 (a.name.toLowerCase().includes(lowerQuery) ? 2 : 0) +
+                (a.slug.toLowerCase().includes(lowerQuery) ? 2 : 0) +
                 (a.category.toLowerCase().includes(lowerQuery) ? 1 : 0);
 
             const bScore =
                 (b.name.toLowerCase().startsWith(lowerQuery) ? 3 : 0) +
                 (b.name.toLowerCase().includes(lowerQuery) ? 2 : 0) +
+                (b.slug.toLowerCase().includes(lowerQuery) ? 2 : 0) +
                 (b.category.toLowerCase().includes(lowerQuery) ? 1 : 0);
 
             return bScore - aScore;

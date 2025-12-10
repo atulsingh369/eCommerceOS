@@ -97,6 +97,13 @@ const AIAssistant = () => {
 
   return (
     <>
+      {/* Overlay */}
+      <div
+        className={`${isOpen ? "block" : "hidden"} fixed h-screen inset-0 z-0 transition-opacity duration-300 ease-out`}
+        onClick={() => setIsOpen(false)}
+        aria-hidden="true"
+      />
+
       <Button
         className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50 transition-transform hover:scale-110"
         size="icon"
