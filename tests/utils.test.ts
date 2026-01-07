@@ -21,7 +21,7 @@ describe('utils', () => {
             // Based on utils.ts it uses en-US and INR.
             const price = 1000
             const formatted = formatPrice(price)
-            expect(formatted).toContain('INR')
+            expect(formatted).toContain('₹')
             expect(formatted).toContain('1,000.00')
         })
 
