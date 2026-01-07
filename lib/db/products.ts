@@ -101,10 +101,10 @@ export const getProducts = async (userInfo?: {
         if (userInfo?.search) {
             const lowerQuery = userInfo.search.toLowerCase();
             results = results.filter(product =>
-                product.name.toLowerCase().includes(lowerQuery) ||
-                product.slug.toLowerCase().includes(lowerQuery) ||
-                product.description.toLowerCase().includes(lowerQuery) ||
-                product.category.toLowerCase().includes(lowerQuery)
+                (product.name?.toLowerCase() ?? "").includes(lowerQuery) ||
+                (product.slug?.toLowerCase() ?? "").includes(lowerQuery) ||
+                (product.description?.toLowerCase() ?? "").includes(lowerQuery) ||
+                (product.category?.toLowerCase() ?? "").includes(lowerQuery)
             );
         }
 
