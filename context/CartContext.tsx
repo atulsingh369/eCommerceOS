@@ -67,6 +67,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const updateQuantity = async (productId: string, quantity: number) => {
     if (!user) return;
 
+    if (quantity < 1) return; // Prevent invalid quantity
+
     try {
       await apiUpdateCartQuantity(user.uid, productId, quantity);
     } catch (error) {
