@@ -19,6 +19,7 @@ import { Loader2, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 import { formatPrice } from "@/lib/utils";
 import { createOrder } from "@/lib/firebase/orders";
+import { calculateCartTotals } from "@/lib/cart";
 
 interface RazorpayOptions {
   key: string | undefined;
@@ -71,13 +72,8 @@ export default function CheckoutPage() {
   });
 
   // Calculate totals
-  const subtotal = cart.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
-  const tax = subtotal * 0.08;
   const shipping = 0; // Free shipping
-  const total = subtotal + tax + shipping;
+  const { subtotal, tax, total } = calculateCartTotals(cart);
 
   useEffect(() => {
     // Load Razorpay Script
