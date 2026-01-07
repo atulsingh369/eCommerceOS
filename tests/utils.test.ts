@@ -24,5 +24,17 @@ describe('utils', () => {
             expect(formatted).toContain('₹')
             expect(formatted).toContain('1,000.00')
         })
+
+        it('handles undefined input gracefully', () => {
+            expect(formatPrice(undefined)).toContain('0.00');
+        });
+
+        it('handles null input gracefully', () => {
+            expect(formatPrice(null)).toContain('0.00');
+        });
+
+        it('handles NaN gracefully', () => {
+            expect(formatPrice(NaN)).toContain('0.00');
+        });
     })
 })
