@@ -3,13 +3,13 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBDVmQORbns-oQ1RCgycl0sHEEqa-Qk2zU",
-    authDomain: "ecom-web-25008.firebaseapp.com",
-    projectId: "ecom-web-25008",
-    storageBucket: "ecom-web-25008.firebasestorage.app",
-    messagingSenderId: "501798015178",
-    appId: "1:501798015178:web:85198757b01aecd57ae433",
-    measurementId: "G-Y84VNCPLFP"
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase (Singleton pattern for Next.js)

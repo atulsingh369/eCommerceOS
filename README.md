@@ -20,6 +20,16 @@ A modular, AI-powered e-commerce platform built for modern retail.
 - Node.js 20+
 - npm
 
+### Environment Variables
+
+To run this project, you will need to add the following environment variables to your `.env.local` file. Use `env.example` as a reference.
+
+1. Copy the example file:
+   ```bash
+   cp env.example .env.local
+   ```
+2. Fill in the values from your Firebase Console and other service providers.
+
 ### Installation
 
 ```bash
