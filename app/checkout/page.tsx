@@ -1,5 +1,6 @@
-import { z } from "zod";
+"use client";
 
+import { z } from "zod";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
