@@ -15,6 +15,7 @@ import { Trash2, Plus, Minus, ArrowRight, Loader2 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/utils";
+import { calculateCartTotals } from "@/lib/cart";
 
 export default function CartPage() {
   const { user, loading: authLoading } = useAuth();
@@ -33,12 +34,7 @@ export default function CartPage() {
     await removeFromCart(id);
   };
 
-  const subtotal = items.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
-  const tax = subtotal * 0.08; // 8% tax
-  const total = subtotal + tax;
+  const { subtotal, tax, total } = calculateCartTotals(items);
 
   if (authLoading || cartLoading) {
     return (
