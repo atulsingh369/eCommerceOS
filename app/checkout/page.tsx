@@ -19,6 +19,7 @@ import { Loader2, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 import { formatPrice } from "@/lib/utils";
 import { createOrder } from "@/lib/firebase/orders";
+import { checkoutSchema } from "@/lib/checkoutSchema";
 
 interface RazorpayOptions {
   key: string | undefined;
@@ -134,25 +135,11 @@ export default function CheckoutPage() {
   const handlePayment = async () => {
     if (!user) return;
 
-    // Simple validation
-    // Zod Schema for validation
-    const checkoutSchema = z.object({
-      displayName: z.string().min(1, "Full Name is required"),
-      email: z.string().email("Please enter a valid email address"),
-      line1: z.string().min(1, "Street Address is required"),
-      city: z.string().min(1, "City is required"),
-      state: z.string().min(1, "State is required"),
-      pincode: z.string().regex(/^\d{6}$/, "Pincode must be exactly 6 digits"),
-      phoneNumber: z
-        .string()
-        .regex(/^\d{10}$/, "Phone number must be exactly 10 digits"),
-    });
-
     try {
       checkoutSchema.parse(address);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        toast.error(error.errors[0].message);
+        toast.error(error.issues[0].message);
         return;
       }
     }
