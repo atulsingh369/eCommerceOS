@@ -1,4 +1,4 @@
-"use client";
+import { z } from "zod";
 
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
@@ -68,6 +68,7 @@ export default function CheckoutPage() {
     pincode: "",
     phoneNumber: "",
     country: "",
+    email: "",
   });
 
   // Calculate totals
@@ -134,34 +135,26 @@ export default function CheckoutPage() {
     if (!user) return;
 
     // Simple validation
-    if (
-      !address.displayName ||
-      !address.line1 ||
-      !address.city ||
-      !address.pincode
-    ) {
-      toast.error("Please fill in shipping address");
-      return;
-    }
+    // Zod Schema for validation
+    const checkoutSchema = z.object({
+      displayName: z.string().min(1, "Full Name is required"),
+      email: z.string().email("Please enter a valid email address"),
+      line1: z.string().min(1, "Street Address is required"),
+      city: z.string().min(1, "City is required"),
+      state: z.string().min(1, "State is required"),
+      pincode: z.string().regex(/^\d{6}$/, "Pincode must be exactly 6 digits"),
+      phoneNumber: z
+        .string()
+        .regex(/^\d{10}$/, "Phone number must be exactly 10 digits"),
+    });
 
-    if (!containsOnlyDigits(address.phoneNumber)) {
-      toast.error("Phone number must contain only digits");
-      return;
-    }
-
-    if (!containsOnlyDigits(address.pincode)) {
-      toast.error("Pincode must contain only digits");
-      return;
-    }
-
-    if (address.phoneNumber.length !== 10) {
-      toast.error("Phone number must be 10 digits");
-      return;
-    }
-
-    if (address.pincode.length !== 6) {
-      toast.error("Pincode must be 6 digits");
-      return;
+    try {
+      checkoutSchema.parse(address);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast.error(error.errors[0].message);
+        return;
+      }
     }
 
     setLoading(true);
@@ -321,6 +314,12 @@ export default function CheckoutPage() {
                 name="name"
                 placeholder="Full Name"
                 value={address.displayName}
+                onChange={handleInputChange}
+              />
+              <Input
+                name="email"
+                placeholder="Email Address"
+                value={address.email}
                 onChange={handleInputChange}
               />
               <Input
