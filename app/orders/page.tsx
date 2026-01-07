@@ -30,7 +30,7 @@ export default function OrdersPage() {
     if (authLoading) return;
 
     if (!user) {
-      router.push("/login");
+      router.push("/login?redirect=/orders");
       return;
     }
 
