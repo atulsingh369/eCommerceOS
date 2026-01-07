@@ -1,5 +1,6 @@
 "use client";
 
+import { z } from "zod";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
@@ -19,6 +20,7 @@ import { Loader2, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 import { formatPrice } from "@/lib/utils";
 import { createOrder } from "@/lib/firebase/orders";
+import { checkoutSchema } from "@/lib/checkoutSchema";
 import { calculateCartTotals } from "@/lib/cart";
 
 interface RazorpayOptions {
@@ -69,6 +71,7 @@ export default function CheckoutPage() {
     pincode: "",
     phoneNumber: "",
     country: "",
+    email: "",
   });
 
   // Calculate totals
@@ -129,35 +132,13 @@ export default function CheckoutPage() {
   const handlePayment = async () => {
     if (!user) return;
 
-    // Simple validation
-    if (
-      !address.displayName ||
-      !address.line1 ||
-      !address.city ||
-      !address.pincode
-    ) {
-      toast.error("Please fill in shipping address");
-      return;
-    }
-
-    if (!containsOnlyDigits(address.phoneNumber)) {
-      toast.error("Phone number must contain only digits");
-      return;
-    }
-
-    if (!containsOnlyDigits(address.pincode)) {
-      toast.error("Pincode must contain only digits");
-      return;
-    }
-
-    if (address.phoneNumber.length !== 10) {
-      toast.error("Phone number must be 10 digits");
-      return;
-    }
-
-    if (address.pincode.length !== 6) {
-      toast.error("Pincode must be 6 digits");
-      return;
+    try {
+      checkoutSchema.parse(address);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast.error(error.issues[0].message);
+        return;
+      }
     }
 
     setLoading(true);
@@ -317,6 +298,12 @@ export default function CheckoutPage() {
                 name="name"
                 placeholder="Full Name"
                 value={address.displayName}
+                onChange={handleInputChange}
+              />
+              <Input
+                name="email"
+                placeholder="Email Address"
+                value={address.email}
                 onChange={handleInputChange}
               />
               <Input
