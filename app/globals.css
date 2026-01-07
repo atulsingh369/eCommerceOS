@@ -80,3 +80,5 @@
     scrollbar-width: none; /* Firefox */
   }
 }
+
+/* Remove scrollbar for IE, Edge and Firefox */
