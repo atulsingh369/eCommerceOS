@@ -62,13 +62,26 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-20 text-center space-y-4">
-        <h1 className="text-2xl font-bold">Your cart is empty</h1>
-        <p className="text-muted-foreground">
-          Looks like you haven&apos;t added anything yet.
+      <div className="container mx-auto px-4 py-20 text-center space-y-6 animate-in fade-in duration-500">
+        <div className="flex justify-center">
+          <div className="relative w-64 h-64 opacity-80">
+            <Image
+              src="https://illustrations.popsy.co/amber/surr-shopping-cart.svg"
+              alt="Empty Cart"
+              fill
+              className="object-contain"
+            />
+          </div>
+        </div>
+        <h1 className="text-3xl font-bold tracking-tight">
+          Your cart feels lonely
+        </h1>
+        <p className="text-muted-foreground text-lg max-w-md mx-auto">
+          It looks like you haven&apos;t added any items yet. Explore our
+          collection to find something you love.
         </p>
         <Link href="/products">
-          <Button size="lg" className="mt-4">
+          <Button size="lg" className="mt-4 px-8">
             Start Shopping
           </Button>
         </Link>
