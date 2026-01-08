@@ -1,5 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 import path from 'path';
+import dotenv from 'dotenv';
+import fs from 'fs';
+
+// Load .env.local if it exists
+if (fs.existsSync('.env.local')) {
+    dotenv.config({ path: '.env.local' });
+}
 
 /**
  * See https://playwright.dev/docs/test-configuration.
