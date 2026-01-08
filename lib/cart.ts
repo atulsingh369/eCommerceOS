@@ -1,23 +1,4 @@
-import { Product } from "./db/products";
-
-export interface CartItem extends Product {
-    quantity: number;
-}
-
-interface CartTotals {
-    subtotal: number;
-    tax: number;
-    total: number;
-    discountAmount: number;
-}
-
-interface CalculationOptions {
-    taxRate?: number;
-    discountDetails?: {
-        type: 'fixed' | 'percentage';
-        value: number;
-    }
-}
+import { CartItem, CartTotals, CalculationOptions } from "./types";
 
 export function calculateCartTotals(items: CartItem[], options: CalculationOptions = {}): CartTotals {
     const { taxRate = 0.08, discountDetails } = options;
@@ -39,14 +20,14 @@ export function calculateCartTotals(items: CartItem[], options: CalculationOptio
     // Ensure discount doesn't exceed subtotal
     discountAmount = Math.min(discountAmount, subtotal);
 
-    const taxableAmount = subtotal - discountAmount;
+    const taxableAmount = Math.max(0, subtotal - discountAmount);
     const tax = taxableAmount * taxRate;
     const total = taxableAmount + tax;
 
     return {
-        subtotal,
-        tax,
-        total,
-        discountAmount
+        subtotal: Number(subtotal.toFixed(2)),
+        tax: Number(tax.toFixed(2)),
+        total: Number(total.toFixed(2)),
+        discountAmount: Number(discountAmount.toFixed(2))
     };
 }

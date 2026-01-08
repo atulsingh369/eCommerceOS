@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { MAX_CART_QUANTITY } from "@/lib/constants";
 
 interface AddToCartButtonProps {
   product: Product;
@@ -30,6 +31,10 @@ export const AddToCartButton = ({ product }: AddToCartButtonProps) => {
   };
 
   const increaseQuantity = async () => {
+    if (quantity >= MAX_CART_QUANTITY) {
+      toast.error(`Maximum limit of ${MAX_CART_QUANTITY} items reached`);
+      return;
+    }
     await updateQuantity(product.id, quantity + 1);
   };
 

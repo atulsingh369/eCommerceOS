@@ -16,6 +16,8 @@ import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/utils";
 import { calculateCartTotals } from "@/lib/cart";
+import { MAX_CART_QUANTITY } from "@/lib/constants";
+import toast from "react-hot-toast";
 
 export default function CartPage() {
   const { user, loading: authLoading } = useAuth();
@@ -27,6 +29,10 @@ export default function CartPage() {
   } = useCart();
 
   const handleUpdateQuantity = async (id: string, newQuantity: number) => {
+    if (newQuantity > MAX_CART_QUANTITY) {
+      toast.error(`Maximum limit of ${MAX_CART_QUANTITY} items reached`);
+      return;
+    }
     await updateQuantity(id, newQuantity);
   };
 
