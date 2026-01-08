@@ -16,6 +16,7 @@ import { loginWithEmailPassword, resetPassword } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import GoogleSignInButton from "@/components/GoogleSignInButton";
+import { LoginSchema, ResetPasswordSchema } from "@/lib/validations/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -31,6 +32,13 @@ export default function LoginPage() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
+    const validationResult = LoginSchema.safeParse({ email, password });
+    if (!validationResult.success) {
+      toast.error(validationResult.error.issues[0].message);
+      setLoading(false);
+      return;
+    }
+
     try {
       await loginWithEmailPassword(email, password);
       toast.success("Logged in successfully!");
@@ -43,10 +51,11 @@ export default function LoginPage() {
     }
   };
 
-  const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!resetEmail.trim()) {
-      toast.error("Please enter your email address");
+    const validationResult = ResetPasswordSchema.safeParse({ email: resetEmail });
+    
+    if (!validationResult.success) {
+      toast.error(validationResult.error.issues[0].message);
       return;
     }
 

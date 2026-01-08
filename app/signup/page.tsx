@@ -16,6 +16,7 @@ import { signupWithEmailPassword } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import GoogleSignInButton from "@/components/GoogleSignInButton";
+import { RegisterSchema } from "@/lib/validations/auth";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -29,6 +30,19 @@ export default function SignupPage() {
     const lastName = formData.get("lastName") as string;
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+
+    const validationResult = RegisterSchema.safeParse({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
+
+    if (!validationResult.success) {
+      toast.error(validationResult.error.issues[0].message);
+      setLoading(false);
+      return;
+    }
 
     try {
       // Our new function handles profile update, Firestore document creation, AND account linking
